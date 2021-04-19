@@ -1,0 +1,46 @@
+.LoginPage {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background: url('https://bom.to/yGQd22TGBjtoX') no-repeat;
+   height: 100vh;
+   // overflow: hidden;
+   background-size: 100% 100%;
+   .wrap-logginPage {
+      width: 400px;
+      height: 500px;
+      h1 {
+         color: white;
+         font-weight: 600;
+      }
+      form {
+         .wrap-input {
+            margin: 40px 0px;
+            position: relative;
+            input {
+               width: 100%;
+               padding: 7px 20px;
+               font-size: 20px;
+               // outline: 1px solid red;
+            }
+            .error {
+               color: red;
+               position: absolute;
+               left: 0;
+               bottom: -30px;
+            }
+         }
+         button {
+            padding: 5px 24px;
+            font-size: 18px;
+            font-weight: 600;
+         }
+      }
+      .link-Register {
+         margin-top: 10px;
+         a {
+            text-decoration: blue;
+         }
+      }
+   }
+}

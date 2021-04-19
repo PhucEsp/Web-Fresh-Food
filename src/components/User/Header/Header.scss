@@ -1,0 +1,46 @@
+
+
+li.dropdown {
+    text-align: left !important ;
+    &:hover {
+        cursor: pointer;
+    }
+    &::after {
+        position: absolute;
+        content: '';
+        height: 45px;
+        width: 110px;
+        background-color: transparent;
+        bottom: -35px;
+        left: 0;
+       
+    }
+    >a {
+        position: relative;
+    }
+
+    >.dropdown-content {
+        // position: absolute;
+        
+        >a {
+            padding: 8px 22px;
+        }
+    }
+}
+
+.nav-link {
+    i {
+        font-size: 16px;
+
+    }
+}
+
+@keyframes dropdown-animation {
+    0% {
+
+    }
+    100% {
+
+    }
+}
+

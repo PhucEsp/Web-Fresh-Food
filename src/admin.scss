@@ -1,0 +1,336 @@
+
+$background-color: #003c2d;
+$footer-color: #BED747;
+$color-blue: #1a73e8;
+.container {
+    max-width: 1200px;
+}
+.Header-basic{
+    .head{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $background-color;
+        position: relative;
+        max-height: 90px;
+        .logo{
+            img {
+                height: 100px;
+                width: 100px;
+            }
+        }  
+        .admin-account {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 120px;
+            div {   
+                i {
+                    font-size: 20px;
+                    color: white;
+                }
+            }
+            a {
+                color: white;
+                font-size: 18px;
+                display: block;
+                margin-right: 10px;
+                text-decoration: none;
+                transition: .4s all;
+                &:hover {
+                    color: $color-blue;
+                    transition: .4s all;
+                }
+            }
+        }
+    }
+    .header_middle{
+        border: 3px solid $footer-color;
+        border-radius: 50px;
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        img {
+            margin-left: 30px;
+            height: 62px;
+        }
+        .search-products {
+            display: flex;
+            justify-content: center;
+            width: 500px;
+            margin-right: 40px;
+            input {
+                width: 100%;
+                padding: 10px 20px;
+                border-radius: 12px 0px 0px 12px;
+                outline: none;
+                border: 1px solid $footer-color;
+            }
+            button {
+                border-radius: 0px 5px 5px 0px;
+                border: 1px solid $footer-color;
+                width: 50px;
+                i {
+                    font-size: 18px;
+                    color: #777;
+                    transition: .4s all;
+                    &:hover {
+                        color: $color-blue;
+                        transition: .4s all;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.navbar {
+    display: flex;
+    align-items: flex-start;
+        .wrap-navbar {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            position: relative;
+            top: 40px;
+            left: 0px;
+            // border: 1px solid rgb(158, 158, 158);
+            padding: 10px;
+            margin-top: -50px;
+            padding: 7px 0px;
+            .title-nav {
+                background-color: rgb(175, 175, 175);;
+                font-size: 25px;
+              
+               
+                // border: 1px solid;
+            
+            }
+            .dropright {
+                margin: 6px 0px;
+                .btn-secondary {
+                    background-color: rgba(216, 216, 216, 0.452);
+                    border: none;
+                    color: #333;
+                    text-align: left;
+                    &::after {
+                        // right: 0 !important;
+                        // martop: 5px !important;
+                        margin-top: 7px;
+                        float: right;
+                    }
+                }
+                .dropdown-menu {
+                    margin-left: 16px;
+                    a {
+                        border-bottom: 1px solid rgba(0,0,0,.15);
+                        &:last-child{
+                            border-bottom: none;
+                        }
+                    }
+                    
+                }
+            }
+        }
+}
+
+.Main-Controll {
+    min-height: 250px;
+    padding: 10px 15px;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 6fr;
+    background-color: rgba(216, 216, 216, 0.452);
+    .header-products {
+        display: grid;
+        grid-template-columns: 5fr 1fr;
+        // display: flex;
+        // justify-content: space-around;
+        align-items: center;
+        margin-bottom: 12px;
+        margin-top: -18px;
+        h1 {
+            text-align: center;
+            svg {
+                position: relative !important;
+                top: 21px;
+            }
+        }
+        .button-link {
+            margin-top: 32px;
+            i {
+                margin-left: 10px;
+            }
+        }
+        .add-new {
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 105px;
+            transition: .3s all;
+            text-decoration: none;
+            margin-top: 30px;
+            &:hover {
+                color: $color-blue;
+                cursor: pointer;
+                p {
+                    transform: scale(1.1);
+                    transition: .3s all;
+                }
+                i {
+                    transform: scale(1.1);
+                    transition: .3s all;
+                }
+            }
+            p {
+                margin: 0px 25px 0px 0px;
+                font-size: 18px;
+                font-weight: 500;
+            }
+            i {
+                font-size: 26px;
+            }
+        }
+        
+    }
+
+    .table{
+        thead {
+            .id {
+                width: 20px;
+            }
+            .img {
+                overflow: hidden;
+            }
+            .categories {
+                width: 90px;
+            }
+            .ProductName {
+                width: 150px;
+            }
+            .description {
+                width: 380px;
+            }
+            .address {
+                width: 20% !important; 
+            }
+        }
+        tbody {
+            img {
+                width: 100px;
+                // height: 100px;
+            }
+            
+           tr {
+               &:first-child {
+                border-left: 1px solid #dee2e6 !important;
+               }
+            border: 1px solid #dee2e6 !important;
+            border-bottom: 2px solid#dee2e6 !important;
+            .desc {
+                width: 330px;
+                height: 70px;
+                overflow: auto;
+            }
+            td {
+                border: 1px solid #dee2e6 !important;
+                border-bottom: 2px solid #dee2e6 !important;
+                button {
+                    background: #3f51b5;
+                    color: white;
+                    border: none;
+                    padding: 7px 14px;
+                    transition: 0.3s;
+                    border-radius: 4px;
+                    &:hover {
+                        background: $color-blue;
+                        transition: .3s all;
+                    }
+                }
+            }
+           }
+        }
+    }
+}
+
+// modal
+.form-select{
+    width: 200px !important;
+    padding: 5px 10px;
+    margin: 5px 0px;
+    outline: none;
+}
+
+#btn-formEdit {
+    margin-top: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button {
+        padding: 7px 30px !important;
+        background: $color-blue;
+        color: white;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        font-weight: 500;
+    }
+}
+
+#modal-form {
+    width: 560px;
+    height: 620px;
+}
+
+.wrap-input {
+    margin-top: 10px;
+}
+
+.modal-head {
+    display: flex;
+    justify-content: space-between;
+    h1 {
+        text-align: center !important;
+    }
+}
+.btn-close {
+    display: block;
+    transition: .3 all;
+    &:hover {
+        cursor: pointer;
+        color: $color-blue;
+        transition: .3 all;
+    }
+    i {
+        font-size: 36px;
+        transition: .3 all;
+    }
+}
+#modal-form {
+    padding: 10px 20px;
+    border: 1px solid #333;
+    box-shadow: 0px 0px 25px 5px rgb(155, 154, 154);
+    
+}
+
+.merge-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 80px;
+}
+
+.ReactModal__Content  {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    // background: red !important;
+}
+
+.over-scroll {
+    height: 50vh;
+    overflow: scroll;
+}

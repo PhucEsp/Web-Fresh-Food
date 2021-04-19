@@ -1,0 +1,30 @@
+#send-email {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .contend {
+        width: 50%; 
+        margin-right: 20px;
+    }
+    .form_DK {
+        width: 50%;
+        display: flex !important;
+        justify-content: space-between;
+        .form {
+            width: 100%;
+            margin-right: 20px;
+            input {
+                width: 100%;
+            }
+        }
+        button {
+            padding: 0px 40px !important;
+            margin-top: 0;
+        } 
+    }
+}
+
+.send-for-gmail {
+    width: 100%;
+}

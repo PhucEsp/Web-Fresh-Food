@@ -1,0 +1,97 @@
+$green-color: #BED747;
+
+.listproducts {
+    margin-top: 40px;
+    .items {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-gap: 25px;
+
+        .card {
+            position: relative;
+            margin-bottom: 10px;
+            border: 1px solid $green-color;
+
+            &:hover {
+                .card-img1 {
+                    visibility: inherit;
+                    opacity: 1;
+                    transition: .4s all;
+                    span{
+                        transform: scale(1);
+                        transition: .6s all;
+                    }
+                }
+            }
+            .img {
+                height: 250px;
+                a {
+                    display: block;
+                    overflow: hidden;
+                    .img-a {
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+                button {
+
+                }
+            }
+            .card-img1 {
+                visibility: hidden;
+                z-index: 10;
+                z-index: 10;
+                opacity: 0;
+                transition: .4s all;
+                position: relative;
+                button {
+                    position: absolute;
+                    top: 45%;
+                    left: 50%;
+                    border: none;
+                    transform: translateX(-50%) !important;
+                    // transform: translateY(-50%) !important;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 50px;
+                    width: 50px;
+                    background-color: white;
+                    border-radius: 50%;
+                    color: #333;
+                    transform: scale(0);
+                    transition: 0.6 all;
+                     i {
+                         font-size: 22px;
+                         font-weight: 900;
+                     }
+                    &:hover {
+                        cursor: pointer;
+                        color: white;
+                        background-color: #333;
+                        transition: .4s all;
+                    }
+                }
+
+            }
+            .card-img2 {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            
+        }
+        .card-info {
+            a {
+                text-decoration: none;
+                &:hover{
+                    color: $green-color !important;
+                }
+            }
+            p {
+                font-weight: 700;
+            }
+        }
+    }
+}
+
