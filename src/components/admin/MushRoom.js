@@ -31,8 +31,9 @@ function MushRoom() {
     useEffect(() => {
         const fetchProductsList = async () => {
             try {
-                const responds = await productsApi.getMushroom();
-                setListProducts(responds);
+                const responds = await productsApi.getAll();
+                const newList = responds.filter(val => val.MADM == 3)
+                setListProducts(newList);
             } catch (error) {
                 console.log(error.message)
             }
@@ -44,7 +45,7 @@ function MushRoom() {
         setModalIsOpen(true)
         setID(product.ID)
         setTenSp(product.TENSP)
-        setLoaiSp(product.LOAISP)
+        setLoaiSp(product.MADM)
         setGia(product.GIA)
         setDonViTinh(product.DONVITINH)
         setSoLuong(product.SOLUONG)
@@ -76,13 +77,17 @@ function MushRoom() {
     }
 
     const handleDelete = (id) => {
-        setFlag(!flag)
+        let agree = window.confirm(` Bạn có chắc chắn muốn xóa sản phẩm ${id} ?` );
+        if(!agree) return;
+        else {
+            setFlag(!flag)
             try {
                 productsApi.delete(id);
                 setFlag(!flag)
             } catch (error) {
                 console.log(error.message);
             }
+        }
     }
 
     const textAreaStyle = {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react'
 import {Redirect, Link, useHistory} from 'react-router-dom'
+import accountApi from '../../api/AccountApi';
 import axiosClient from '../../api/axiosClient';
 import LoginAdminApi from '../../api/LoginAdminApi';
 import './Register.scss'
@@ -15,24 +16,22 @@ function Register() {
     const [errors,setErrors] = useState('');
     const [errMessage,setErrMessage] = useState('');
     const history = useHistory();
-    const [listAdminAccount, setListAdminAccount] = useState(null);
+    const [listAdminAccount, setListAccount] = useState(null);
     const [successful, setSuccessful] = useState('');
     const searchInput = useRef(null)
     const [flag, setFlag] = useState(false);
 
     useEffect(() => {
-        try {
-            axios.get(url_listAccount)
-            .then(res => {
-                setListAdminAccount(res.data);
-            })
-        } catch (error) {
-            console.log(error.message);
-            setErrors(error.message);
+        const fetchListAccount = async () => {
+            try {
+                const respone = await accountApi.getAll();
+                setListAccount(respone);
+            } catch (error) {
+                console.log(error.message);
+            }
         }
+        fetchListAccount();
     },[flag])
-
-    console.log(listAdminAccount)
 
     const UserExist = () => {
         setErrors("");
@@ -98,7 +97,6 @@ function Register() {
             MATKHAU: password,
             MAQUYEN: 1
         }
-        console.log(UserExist())
         if(UserExist() === true) {
             // setSuccessful("Tài khoản đã tồn tại !");
             alert('Tài khoản đã tồn tại !!!')
@@ -127,7 +125,6 @@ function Register() {
     }
     
     const token = localStorage.getItem('token');
-    console.log('token ---',token);
     if(token != null ){
        return <Redirect to="/admin" ></Redirect>
     }

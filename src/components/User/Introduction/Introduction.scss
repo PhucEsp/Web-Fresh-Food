@@ -1,0 +1,39 @@
+
+
+.intro-content {
+    margin-top: 10px;
+    p {
+        text-align: start !important; 
+    }
+
+    .danh_muc {
+        h2 {
+            text-align: center !important;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        text-align: start;
+        border: 2px solid #BED747;
+        border-radius: 30px;
+        font-weight: 800;
+        padding: 20px;
+        ul {
+            li {
+                a {
+                    display: block;
+                    padding: 10px 0px !important;
+                }
+            }
+        }
+    }
+    .hinh_sp {
+        margin-top: 40px;
+        a {
+            display: block;
+            img {
+                width: 100%;
+                height: 220px;
+            }
+        }
+    }
+}

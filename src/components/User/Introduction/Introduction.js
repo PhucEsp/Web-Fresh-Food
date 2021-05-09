@@ -1,12 +1,42 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import Footer from '../Footer/Footer'
 import Header from '../Header/Header'
 import HeaderCrumb from '../HeaderCrumb/HeaderCrumb'
+import SendGmail from '../SendGmail/SendGmail'
 import TitleProducts from '../TitleProducts/TitleProducts'
+import cartApi from '../../../api/CartApi'
+import accountApi from '../../../api/AccountApi'
+import './Introduction.scss'
 
 function Introduction() {
+    const [listCartRender, setListCartRender] = useState([]);
+    const [infoUser, setInfoUser] = useState({})
+    const [flag,setFlag] = useState(false)
+    const acc = localStorage.getItem('account')
+    useEffect( async() => {
+            try {
+                const respone = await accountApi.getUser(acc);
+                setInfoUser(respone);
+                setFlag(!flag)
+            } catch (error) {
+                console.log(error.message)
+            }
+    }, [])
+
+    useEffect(() => {
+      const fetchListCart = async () => {
+          try {
+              const respone = await cartApi.getCartUser(infoUser.MAKH);
+              setListCartRender(respone)
+          } catch (error) {
+                  console.log(error.message);
+          }
+      }
+      fetchListCart()
+    }, [flag])
     return (
         <div className='Introduction'>
-            <Header></Header>
+           <Header listCartRender={listCartRender}></Header>
             <HeaderCrumb category='Giới thiệu'></HeaderCrumb>
             <TitleProducts title='GIỚI THIỆU' ></TitleProducts>
 
@@ -16,10 +46,15 @@ function Introduction() {
                     <p>
                         <strong>
                             PREMIUM QUALITY
-                            <br></br>
+                        </strong>
+                    </p> 
+                    <p>
+                        <strong>
                             HEALTHY.NUTURAL.FRESH
                         </strong>
                     </p>
+
+                   
                     <p>
                         <strong>Suni green farm</strong>
                         được thành lập với phương châm đặt sức khoẻ của người tiêu dùng lên hàng đầu. 
@@ -59,10 +94,10 @@ function Introduction() {
                         <h2>DANH MỤC TRANG</h2>
                         <hr  width="100%" size="5px" color="#BED747 !important" />
                         <ul>
-                            <li><a href="introduce.html">Giới thiệu</a></li>
-                            <li><a href="chinh_sachDT.html">Chính sách đổi trả</a></li>
-                            <li><a href="chinhSachBM.html">Chính sách bảo mật</a></li>
-                            <li><a href="DieuKhoanDV.html">Điều khoản dịch vụ</a></li>
+                            <li><a href="#">Giới thiệu</a></li>
+                            <li><a href="#">Chính sách đổi trả</a></li>
+                            <li><a href="#">Chính sách bảo mật</a></li>
+                            <li><a href="#">Điều khoản dịch vụ</a></li>
                         </ul>
                     </div>
 
@@ -74,7 +109,11 @@ function Introduction() {
                 </div>
             </div>
             </div>
+        
+            <SendGmail></SendGmail>
+            <Footer></Footer>
         </div>
+            
     )
 }
 

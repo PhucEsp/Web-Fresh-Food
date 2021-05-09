@@ -30,13 +30,16 @@ function AccountAdmin() {
     }, [flag] )
 
     const handleDelete = (TAIKHOAN) => {
-        setFlag(!flag);
-        console.log(flag , " ========= flag ne ")
-            try {
-                accountApi.deleteNhanVien(TAIKHOAN);
-                loginAdminApi.delete(TAIKHOAN);
-            } catch (e) {
-                console.log(e.message);
+            let agree = window.confirm(` Bạn có chắc chắn muốn xóa tài khoản?` );
+            if(!agree) return;
+            else {
+                try {
+                    accountApi.deleteNhanVien(TAIKHOAN);
+                    loginAdminApi.delete(TAIKHOAN);
+                    setFlag(!flag);
+                } catch (e) {
+                    alert(`${e.message}`)
+                }
             }
     }
 

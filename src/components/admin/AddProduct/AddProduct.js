@@ -57,7 +57,7 @@ const BootstrapInput = withStyles((theme) => ({
 
 function AddProduct() {
 
-    const [id, setID] = useState('');
+    // const [id, setID] = useState('');
     const [tensp, setTenSp] = useState('');
     const [loaisp, setLoaiSp] = useState('');
     const [gia, setGia] = useState(0);
@@ -65,6 +65,7 @@ function AddProduct() {
     const [soluong, setSoLuong] = useState(0);
     const [mota, setMoTa] = useState('');
     const [hinhanh,SetHinhAnh] = useState('');
+    const [hinhanh1,SetHinhAnh1] = useState('');
     const [success, setSuccess] = useState(false)
 
     const history = useHistory();
@@ -92,8 +93,8 @@ function AddProduct() {
 
     const checkIdProduct = () => {
         for(let i = 0; i < listProducts.length; i++) {
-            if(id == listProducts[i].ID || tensp.trim() == listProducts[i].TENSP.trim()){
-                alert('Mã hoặc tên sản phẩm đã tồn tại')
+            if( tensp.trim() == listProducts[i].TENSP.trim()){
+                alert('Tên sản phẩm đã tồn tại')
                 return true;
             }
         }
@@ -103,13 +104,14 @@ function AddProduct() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const product = {
-            ID: id,
             TENSP: tensp,
             MADM: loaisp,
             GIA: gia,
+            GIAMGIA: 0,
             DONVITINH: donvitinh,
             SOLUONG: soluong,
             HINHANH: hinhanh,
+            HINHANH1: hinhanh1,
             MOTA: mota,
         }
         if(gia === 0 || soluong === 0) {
@@ -122,6 +124,9 @@ function AddProduct() {
         }
         else if(donvitinh === '') {
             alert('Vui lòng chọn đơn vị tính')
+        }
+        else if(loaisp === '') {
+            alert('Vui lòng chọn loại sản phẩm')
         }
         else {
             try {
@@ -151,47 +156,48 @@ function AddProduct() {
            <div className="form-control">
             <form className="form-add" onSubmit={handleSubmit}>
 
-                <div className="input-username wrap-input col-md-12" >
-                    <label for="validationCustom03" class="form-label">Mã Sản Phẩm</label>
+                {/* <div className="input-username wrap-input col-md-12" >
+                    <label for="validationCustom03" className="form-label">Mã Sản Phẩm</label>
                     <div>
-                        <input type="number" class="form-control" id="validationCustom03"
+                        <input type="number" className="form-control" id="validationCustom03"
                          required
                         name="tensp"
                         value={id}
-                        onChange={(e) => {setID(e.target.value)}} />                         </div>
-                    <div class="invalid-feedback">
+                        onChange={(e) => {setID(e.target.value)}} />
+                    </div>
+                    <div className="invalid-feedback">
                         Vui lòng điền thông tin
                     </div>        
-                 </div>
+                 </div> */}
 
                 <div className="input-username wrap-input col-md-12" >
-                    <label for="validationCustom03" class="form-label">Tên Sản Phẩm</label>
+                    <label for="validationCustom03" className="form-label">Tên Sản Phẩm</label>
                     <div>
-                        <input type="text" class="form-control" id="validationCustom03"
+                        <input type="text" className="form-control" id="validationCustom03"
                          required
                         name="tensp"
                         value={tensp}
                         onChange={(e) => {setTenSp(e.target.value)}} />                         </div>
-                    <div class="invalid-feedback">
+                    <div className="invalid-feedback">
                         Vui lòng điền thông tin
                     </div>        
                  </div>
                         <div className=" wrap-input" >
-                            <div class="col-md-3">
-                                <label for="validationCustom04" class="form-label">Loại Sản Phẩm</label>
+                            <div className="col-md-3">
+                                <label for="validationCustom04" className="form-label">Loại Sản Phẩm</label>
                                <div>
-                               <select class="form-select" id="validationCustom04" required  
+                               <select className="form-select" id="validationCustom04" required  
                                value={loaisp}
                                onChange={(e) => {setLoaiSp(e.target.value)}}
                                >
-                                
+                                <option value='1'>---</option>
                                 <option value='1'>Trái Cây</option>
                                 <option value='2'>Rau Củ Quả</option>
                                 <option value='12'>Nấm Tươi</option>
                                 <option value='4'>Thực Phẩm Sức Khỏe</option>
                                 </select>
                                </div>
-                                <div class="invalid-feedback">
+                               <div className="invalid-feedback">
                                     Vui lòng điền thông tin
                                 </div>
                             </div>
@@ -199,49 +205,36 @@ function AddProduct() {
 
                         <div className="merge-input col-md-12" >
                             <div className="wrap-input"  >
-                                <label for="validationCustom03" class="form-label">Số Lượng</label>
+                                <label for="validationCustom03" className="form-label">Số Lượng</label>
                                 <div>
-                                    <input type="number" class="form-control" id="validationCustom03"
+                                    <input type="number" className="form-control" id="validationCustom03"
                                      required
                                     name="soluong" value={soluong}
                                     onChange={(e) => {setSoLuong(e.target.value)}} /> 
                                 </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
                                     Vui lòng điền thông tin
                                 </div>
                             </div>
 
                             <div className=" wrap-input" >
-                                <label for="validationCustom02" class="form-label">Giá</label>
+                                <label for="validationCustom02" className="form-label">Giá</label>
                                 <div>
-                                    <input type="number" class="form-control" id="validationCustom02"
+                                    <input type="number" className="form-control" id="validationCustom02"
                                     required
                                     name="gia" value={gia}
                                     onChange={(e) => {setGia(e.target.value)}} /> 
                                 </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
                                     Vui lòng điền thông tin
                                 </div>
                             </div>
 
-                            {/* <div className=" wrap-input" >
-                                <label for="validationCustom01" class="form-label">Đơn Vị Tính</label>
-                                <div>
-                                    <input type="text" class="form-control" id="validationCustom01" 
-                                    required 
-                                    value={donvitinh} name="donvitinh" 
-                                    onChange={(e) => {setDonViTinh(e.target.value)}}/> 
-                                </div>
-                                <div class="invalid-feedback">
-                                    Vui lòng điền thông tin
-                                </div>
-                            </div> */}
-
 
                                 <div className=" wrap-input" > 
-                                <label for="validationCustom04" class="form-label">Đơn Vị Tính</label>
+                                <label for="validationCustom04" className="form-label">Đơn Vị Tính</label>
                                <div>
-                               <select class="form-select" id="validationCustom04" required  
+                               <select className="form-select" id="validationCustom04" required  
                                value={donvitinh}
                                onChange={(e) => {setDonViTinh(e.target.value)}}
                                >
@@ -253,27 +246,39 @@ function AddProduct() {
                                 <option value='Hủ'>Hủ</option>
                                 </select>
                                </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
                                     Vui lòng điền thông tin
                                 </div>
                             </div>
                         </div>
                         
                         <div className=" wrap-input col-md-12" >
-                                <label for="validationCustom06" class="form-label">Hình Ảnh</label>
+                                <label for="validationCustom06" className="form-label">Hình Ảnh 1</label>
                                 <div>
-                                    <input type="text" class="form-control" id="validationCustom06" 
+                                    <input type="text" className="form-control" id="validationCustom06" 
                                     required 
                                     value={hinhanh} name="donvitinh" 
                                     onChange={(e) => {SetHinhAnh(e.target.value)}}/> 
                                 </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
+                                Vui lòng điền thông tin
+                                </div>    
+                        </div>
+                        <div className=" wrap-input col-md-12" >
+                                <label for="validationCustom06" className="form-label">Hình Ảnh 2</label>
+                                <div>
+                                    <input type="text" className="form-control" id="validationCustom06" 
+                                    required 
+                                    value={hinhanh1} name="donvitinh" 
+                                    onChange={(e) => {SetHinhAnh1(e.target.value)}}/> 
+                                </div>
+                                <div className="invalid-feedback">
                                 Vui lòng điền thông tin
                                 </div>    
                         </div>
 
                         <div className=" wrap-input col-md-12" >
-                            <label for="validationCustom07" class="form-label">Mô Tả</label>
+                            <label for="validationCustom07" className="form-label">Mô Tả</label>
                             <div>
                                 <textarea style={textAreaStyle } type="text" name="mota" 
                                 value={mota}
@@ -282,7 +287,7 @@ function AddProduct() {
                                 />
                                 
                             </div>
-                            <div class="invalid-feedback">
+                            <div className="invalid-feedback">
                             Vui lòng điền thông tin
                             </div>
                         </div>

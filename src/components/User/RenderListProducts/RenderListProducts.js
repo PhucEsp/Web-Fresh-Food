@@ -13,7 +13,7 @@ function RenderListProducts({listProducts, handleOnclick}) {
                             <div className='item' key={product.ID}>
                                 <div className="card">
                                     <div className="card-img1 img">
-                                        <a href="product.html">
+                                        <a href={'/home/chi-tiet-san-pham/' + product.ID}>
                                             <img className="img-a" src={product.HINHANH} alt="img-product"/>
                                         </a>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"

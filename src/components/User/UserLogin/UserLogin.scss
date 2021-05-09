@@ -1,0 +1,46 @@
+.login {
+    position: relative;
+    h1 {
+        margin: 10px 0px 40px 0px;
+        position: relative;
+        &::after {
+            position: absolute;
+            content: '';
+            width: 190px;
+            height: 3px;
+            background-color: #666;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+    .form-login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        form {
+            width: 500px;
+            button {
+                width: fit-content !important;
+                background-color: #BED747;
+                margin-top: 10px;
+                &:hover {
+                    background-color: rgba(153, 205, 50, 0.774);
+                }
+            }
+        }
+
+        
+        .form {
+            display: flex !important;
+            flex-direction: column !important;
+            input {
+                margin: 10px 0px;
+            }
+        }
+    }
+    >
+    p {
+        margin-top: 40px;
+    }
+}

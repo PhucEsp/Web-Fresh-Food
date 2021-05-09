@@ -15,7 +15,7 @@ function Login() {
     const [isLogin,setIsLogin] = useState(false);
     const [checkSubmit, setCheckSubmit] = useState(false);
     const history = useHistory();
-    const URL_Login = 'http://localhost:8081/dangnhap/nhanvien'
+    const URL_Login = 'http://localhost:8081/dangnhap/admin'
 
     useEffect(()=> {
         let account = {

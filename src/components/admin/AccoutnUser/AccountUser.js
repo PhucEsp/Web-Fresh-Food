@@ -31,15 +31,18 @@ function AccountUser() {
     }, [flag] )
 
     const handleDelete = (TAIKHOAN) => {
-        setFlag(!flag);
-        console.log(flag , " ========= flag ne ")
-        
+        let agree = window.confirm(` Bạn có chắc chắn muốn xóa tài khoản?` );
+        if(!agree) return;
+        else {
             try {
                 accountApi.deleteKhachHang(TAIKHOAN);
                 loginAdminApi.delete(TAIKHOAN);
+                setFlag(!flag);
             } catch (e) {
                 console.log(e.message);
             }
+        }
+            
     }
 
     const setOpenModal = () => {

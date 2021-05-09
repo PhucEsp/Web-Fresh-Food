@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import { createLogger } from 'redux-logger'
 import { fetchProducts } from '../../../actions/ProductActions'
+import accountApi from '../../../api/AccountApi'
+import cartApi from '../../../api/CartApi'
 import productsApi from '../../../api/ProductsApi'
 import Banner from '../BannerHome/Banner'
 import Footer from '../Footer/Footer'
@@ -12,38 +14,49 @@ import RenderListProducts from '../RenderListProducts/RenderListProducts'
 import TitleProducts from '../TitleProducts/TitleProducts'
 import VideoHome from '../VideoHome/VideoHome'
 
-
 import './Home.scss'
 
 function Home({productsData, fetchProducts}) {
 
-  // const [listProducts, setListProducts] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [detailProduct, setDetailProduct] = useState({});
 
-//   useEffect(() => {
-//     const fetchProductsList = async () => {
-//         try {
-//             const responds = await productsApi.getAll();
-//             setListProducts(responds);
-//         } catch (error) {
-//             console.log(error.message)
-//         }
-//     }
-//     fetchProductsList();
-//  }, [])
+  const [listCartRender, setListCartRender] = useState([]);
+  const [infoUser, setInfoUser] = useState({})
+  const [flag,setFlag] = useState(false)
 
-// fetch list Products using Action Creator 'fetchProducts'
+
     useEffect(() => {
         fetchProducts()
     }, [])
 
+    const acc = localStorage.getItem('account')
+    useEffect( async() => {
+            try {
+                const respone = await accountApi.getUser(acc);
+                setInfoUser(respone);
+                setFlag(!flag)
+            } catch (error) {
+                console.log(error.message)
+            }
+    }, [])
+
+    useEffect(() => {
+      const fetchListCart = async () => {
+          try {
+              const respone = await cartApi.getCartUser(infoUser.MAKH);
+              setListCartRender(respone)
+          } catch (error) {
+                  console.log(error.message);
+          }
+      }
+      fetchListCart()
+    }, [flag])
+
     const listProducts = productsData.data.filter(val => val.MADM == 2)
-    // setListProducts(productsData);
-    // console.log('data ne ',productsData)
-    
 
   const setOpenModal = (product) => {
+    setFlag(!flag)
     setDetailProduct({
       ID: product.ID,
       TENSP: product.TENSP,
@@ -56,7 +69,9 @@ function Home({productsData, fetchProducts}) {
   const setCloseModal = () => {
     setModalIsOpen(false);
   }
-
+  const changeFlag = () => {
+    setFlag(!flag)
+}
   const handleChange = (e) => {
     setDetailProduct({
       ...detailProduct,
@@ -72,7 +87,7 @@ function Home({productsData, fetchProducts}) {
       ) :
 
        ( <div>
-          <Header></Header>
+          <Header listCartRender={listCartRender}></Header>
           <Carousel></Carousel>
 
           {/* list new Products */}
@@ -90,14 +105,12 @@ function Home({productsData, fetchProducts}) {
           <Banner></Banner>
 
           {/* Modal detail product */}
-          <ModalProduct show={modalIsOpen} product={detailProduct} handleChange = {handleChange}   ></ModalProduct>
+          <ModalProduct changeFlag={changeFlag} show={modalIsOpen} product={detailProduct} handleChange = {handleChange}   ></ModalProduct>
           <VideoHome></VideoHome>
           <Footer> </Footer>
         </div> )
     )
 }
-
-
 
 const mapStateToProps = state => {
   return {

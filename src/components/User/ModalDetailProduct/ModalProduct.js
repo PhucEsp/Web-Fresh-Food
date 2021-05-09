@@ -1,13 +1,47 @@
-import { Input } from '@material-ui/core';
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect,useState} from 'react'
+import accountApi from '../../../api/AccountApi';
+import cartApi from '../../../api/CartApi';
 import "./ModalProduct.scss";
-function ModalProduct({product, handleChange}) {
+function ModalProduct({product, handleChange, changeFlag}) {
+
+  const [infoUser, setInfoUser] = useState({})
+  const [flag, setFlag] = useState(false)
+
+  const account = localStorage.getItem('account')
+  
+  useEffect(() => {
+    const fetchUserInfo = async (account) => {
+      try {
+        const respone = await accountApi.getUser(account);
+        setInfoUser(respone);
+      } catch (error) {
+          console.log(error.message)
+      }
+    }
+    fetchUserInfo(account);
+ }, [flag]) 
+  
+
+  const handleAddToCart = async (event) => {
+    event.preventDefault();
+    setFlag(!flag)
+    const data = {
+       MASP : product.ID,
+       MAKH : infoUser.MAKH,
+       SOLUONG : product.SOLUONG,
+    }
+    try {
+      cartApi.addToCart(data);
+    } catch (error) {
+      alert("Lỗi hệ thống. Vui lòng thử lại")
+    }
+  }
 
     return (
         <div className="modal fade" id="myModal">
           <div id="modal-log" className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
-
               <div className="modal-img content-left">
                   <img src={product.HINHANH}></img>
               </div>
@@ -18,8 +52,9 @@ function ModalProduct({product, handleChange}) {
                 </div>
                 {/* <br></br> */}
                 <div className="modal-body">
-                  <span>ID: {product.ID}</span>
-                  <h5>Price: {product.GIA}</h5>
+                  <span className="id-product">ID: {product.ID}</span>
+                  <span>{product.DONVITINH}</span>
+                  <h5>Giá: {product.GIA}</h5>
                   <p>Tiêu Đề: <span> {product.MOTA}</span> </p>
                   <div className="choise">
                     <div className="cre-number">
@@ -30,7 +65,14 @@ function ModalProduct({product, handleChange}) {
                      
                     </div>
                     <div className="add-to-card">
-                        <button>THÊM VÀO GIỎ</button>
+                        <button 
+                          onClick={(e)=> {
+                          handleAddToCart(e);
+                          changeFlag();
+                        }}>
+                          THÊM VÀO GIỎ
+                          </button>
+                       
                     </div>
                   </div>
                 </div>

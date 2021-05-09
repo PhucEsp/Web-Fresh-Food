@@ -10,6 +10,10 @@ const productsApi = {
         const url = '/sanpham/traicay';
         return axiosClient.get(url);
     },
+    getRamdom: (madm) => {
+        const url = `sanpham/random10/${madm}`
+        return axiosClient.get(url)
+    },
     getVegetable: () => {
         const url = '/sanpham/raucuqua';
         return axiosClient.get(url);
@@ -33,6 +37,10 @@ const productsApi = {
     add: (product) => {
         const url ='/sanpham';
         return axiosClient.post(url, product);
+    },
+    detail: (id) => {
+        const url = `/sanpham/${id}`;
+        return axiosClient.get(url);
     }
 }
 

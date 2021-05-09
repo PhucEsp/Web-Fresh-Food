@@ -14,9 +14,6 @@ function HeaderCrumb(props) {
                     </ol>
                 </nav>
             </div>
-            <div class="container-fluid mt-5">
-                <img id="image" src="//theme.hstatic.net/200000240163/1000672133/14/collection_banner.jpg?v=426"/>
-            </div>
         </div>
     )
 }

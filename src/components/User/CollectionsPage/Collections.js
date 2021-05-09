@@ -10,6 +10,8 @@ import RenderListProducts from '../RenderListProducts/RenderListProducts'
 import ModalProduct from '../ModalDetailProduct/ModalProduct'
 import SendGmail from '../SendGmail/SendGmail'
 import Footer from '../Footer/Footer'
+import cartApi from '../../../api/CartApi'
+import accountApi from '../../../api/AccountApi'
 
 
 
@@ -18,6 +20,9 @@ function Collections({productsData, fetchProducts}) {
     const [listProducts, setListProducts] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [detailProduct, setDetailProduct] = useState({});
+    const [listCartRender, setListCartRender] = useState([]);
+    const [infoUser, setInfoUser] = useState({})
+    const [flag,setFlag] = useState(false)
 
     //  ============= Fetch api cách 1 =============
     // useEffect(() => {
@@ -37,16 +42,46 @@ function Collections({productsData, fetchProducts}) {
       fetchProducts();
     }, [])
 
+    const acc = localStorage.getItem('account')
+    useEffect( async() => {
+            try {
+                const respone = await accountApi.getUser(acc);
+                setInfoUser(respone);
+            } catch (error) {
+                console.log(error.message)
+            }
+    }, [flag])
+
+    useEffect(() => {
+      const fetchListCart = async () => {
+          try {
+              const respone = await cartApi.getCartUser(infoUser.MAKH);
+              setListCartRender(respone)
+              setFlag(!flag)
+          } catch (error) {
+                  console.log(error.message);
+          }
+      }
+      fetchListCart()
+    }, [flag])
+
     const newList = productsData.data.filter(val => val.MADM == 2);
     // const newList = list.filter(val => val.MADM != 2)
 
     const setCloseModal = () => {
         setModalIsOpen(false);
-      }
+    }
+
+    const changeFlag = () => {
+      setFlag(!flag)
+  }
+
     const setOpenModal = (product) => {
+    setFlag(!flag)
     setDetailProduct({
       ID: product.ID,
       TENSP: product.TENSP,
+      DONVITINH: product.DONVITINH,
       GIA: product.GIA,
       MOTA: product.MOTA,
       HINHANH: product.HINHANH,
@@ -61,8 +96,11 @@ function Collections({productsData, fetchProducts}) {
       }
     return (
         <div className="collections">
-            <Header ></Header>
+            <Header listCartRender={listCartRender} ></Header>
             <HeaderCrumb category = 'Danh Mục' productName = 'Rau Củ Quả Tươi'></HeaderCrumb>
+            <div class="container-fluid mt-5">
+                <img id="image" src="//theme.hstatic.net/200000240163/1000672133/14/collection_banner.jpg?v=426"/>
+            </div>
             <TitleProducts  title='Rau Củ Quả Tươi' 
             description='Mỗi ngày chúng tôi đều đưa đến cho bạn những sản phẩm tươi và sạch nhất' 
             ></TitleProducts>
@@ -71,7 +109,7 @@ function Collections({productsData, fetchProducts}) {
             <SendGmail></SendGmail>
             <Footer></Footer>
 
-            <ModalProduct show={modalIsOpen} product={detailProduct} handleChange = {handleChange}   ></ModalProduct>
+            <ModalProduct changeFlag={changeFlag} show={modalIsOpen} product={detailProduct} handleChange = {handleChange}   ></ModalProduct>
         </div>
     )
 }

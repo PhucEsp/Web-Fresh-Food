@@ -36,6 +36,19 @@ const accountApi = {
         const url = `nhanvien/${taikhoan}`;
         return axiosClient.delete(url);
     },
+    createUserAccount: (UserAccount) => {
+        const url = 'taikhoan/khachhang'
+        return axiosClient.post(UserAccount);
+    },
+    LoginKH: (account) => {
+        const url = '/dangnhap/khachhang';
+        return axiosClient.post(url,account);
+    },
+    // lay thong tin cua 1 khach hang theo tai khoan
+    getUser: (TAIKHOAN) => {
+        const url = `/khachhang/${TAIKHOAN}`;
+        return axiosClient.get(url);
+    }
 }
 
 export default accountApi;

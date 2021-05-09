@@ -12,6 +12,18 @@ import Register from './components/Register/Register';
 import Home from './components/User/HomePage/Home';
 import Collections from './components/User/CollectionsPage/Collections';
 import Introduction from './components/User/Introduction/Introduction';
+import Contact from './components/User/Contact/Contact';
+import Address from './components/User/Address/Address';
+import BlogPage from './components/User/Blog/BlogPage';
+import Fruit from './components/User/PageFruit/Fruit';
+import Mushroom from './components/User/PageMushroom/Mushroom';
+import Healthy from './components/User/PageHealthy/Healthy';
+import DetailProduct from './components/User/DetailProduct/DetailProduct';
+import UserRegister from './components/User/UserRegister/Register'
+import UserLogin from './components/User/UserLogin/UserLogin';
+import CartDetail from './components/User/CartDetail/CartDetail';
+import Payment from './components/User/Payment/Payment';
+// import Fruit from './components/PageFruit/Fruit';
 
 function App() {  
   return (
@@ -83,10 +95,21 @@ function App() {
           </Route>
 
 
-
+         
           <Route exact path ='/home' component={Home}></Route>
           <Route exact path ='/home/collections/rau-sach' component={Collections}></Route>
+          <Route exact path ='/home/collections/trai-cay' component={Fruit}></Route>
+          <Route exact path ='/home/collections/nam-tuoi' component={Mushroom}></Route>
+          <Route exact path ='/home/collections/cham-soc-suc-khoe' component={Healthy}></Route>
           <Route exact path ='/home/gioi-thieu' component={Introduction}></Route>
+          <Route exact path ='/home/lien-he' component={Contact}></Route>
+          <Route exact path ='/home/dia-chi' component={Address}></Route>
+          <Route exact path ='/home/blogs' component={BlogPage}></Route>
+          <Route exact path ='/home/chi-tiet-san-pham/:ID' component={DetailProduct}></Route>
+          <Route exact path ='/home/dang-ki' component={UserRegister}></Route>
+          <Route exact path ='/home/dang-nhap' component={UserLogin}></Route>
+          <Route exact path ='/home/gio-hang' component={CartDetail}></Route>
+          <Route exact path ='/home/thanh-toan' component={Payment}></Route>
           <Route exact path="*">
           </Route>
 

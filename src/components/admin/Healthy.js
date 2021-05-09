@@ -30,8 +30,9 @@ function ProductsPage() {
     useEffect(() => {
        const fetchProductsList = async () => {
            try {
-               const responds = await productsApi.getHealthy();
-               setListProducts(responds);
+            const responds = await productsApi.getAll();
+            const newList = responds.filter(val => val.MADM == 4)
+            setListProducts(newList);
            } catch (error) {
                console.log(error.message)
            }
@@ -43,7 +44,7 @@ function ProductsPage() {
         setModalIsOpen(true)
         setID(product.ID)
         setTenSp(product.TENSP)
-        setLoaiSp(product.LOAISP)
+        setLoaiSp(product.MADM)
         setGia(product.GIA)
         setDonViTinh(product.DONVITINH)
         setSoLuong(product.SOLUONG)
@@ -75,13 +76,17 @@ function ProductsPage() {
     }
 
     const handleDelete = (id) => {
-        setFlag(!flag)
+        let agree = window.confirm(` Bạn có chắc chắn muốn xóa sản phẩm ${id} ?` );
+        if(!agree) return;
+        else {
+            setFlag(!flag)
             try {
                 productsApi.delete(id);
                 setFlag(!flag)
             } catch (error) {
                 console.log(error.message);
             }
+        }
     }
 
     const textAreaStyle = {
@@ -121,10 +126,10 @@ function ProductsPage() {
                 </h1>
                 {/* <Link to="/admin/themoisanpham" className="add-new" >
                     <p>Thêm</p>
-                    <i class="fas fa-plus"></i>      
+                    <i className="fas fa-plus"></i>      
                 </Link> */}
                 <Button className="button-link" variant="contained" color="primary" href="/admin/themoisanpham">
-                 Thêm Mới <i class="fas fa-plus"></i> 
+                 Thêm Mới <i className="fas fa-plus"></i> 
                 </Button>
             </div>
             <RenderListProducts listProducts={listProducts} setOpenModal={setOpenModal} handleDelete={handleDelete}></RenderListProducts>
@@ -134,29 +139,29 @@ function ProductsPage() {
             <div className="modal-head">
                 <h2>Chỉnh sửa sản phẩm</h2>
                 <span className="btn-close" onClick={() => {setModalIsOpen(false)}}>
-                <i class="fas fa-times"></i>
+                <i className="fas fa-times"></i>
                 </span>
             </div>
                 <div className="form-edit">
                     <form id="form" > 
                         <div className="input-username wrap-input" >
-                            <label for="validationCustom03" class="form-label">Tên Sản Phẩm</label>
+                            <label for="validationCustom03" className="form-label">Tên Sản Phẩm</label>
                             <div>
-                                <input type="text" class="form-control" id="validationCustom03" required
+                                <input type="text" className="form-control" id="validationCustom03" required
                                 name="tensp"
                                 value={tensp}
                                 onChange={(e) => {setTenSp(e.target.value)}} /> 
                             </div>
-                            <div class="invalid-feedback">
+                            <div className="invalid-feedback">
                             Please provide a valid city.
                             </div>
                         </div>
 
                         <div className=" wrap-input" >
-                            <div class="">
-                                <label for="validationCustom04" class="form-label">Loại Sản Phẩm </label>
+                            <div className="">
+                                <label for="validationCustom04" className="form-label">Loại Sản Phẩm </label>
                                <div>
-                               <select class="form-select" id="validationCustom04" required  
+                               <select className="form-select" id="validationCustom04" required  
                                value={loaisp}
                                onChange={(e) => {setLoaiSp(e.target.value)}}
                                >
@@ -167,7 +172,7 @@ function ProductsPage() {
                                 <option value='4'>Thực Phẩm Sức Khỏe</option>
                                 </select>
                                </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
                                 Please select a valid state.
                                 </div>
                             </div>
@@ -175,58 +180,58 @@ function ProductsPage() {
 
                         <div className="merge-input" >
                             <div className="wrap-input" >
-                                <label for="validationCustom03" class="form-label">Số Lượng</label>
+                                <label for="validationCustom03" className="form-label">Số Lượng</label>
                                 <div>
-                                    <input type="text" class="form-control" id="validationCustom03" required
+                                    <input type="text" className="form-control" id="validationCustom03" required
                                     name="soluong" value={soluong}
                                     onChange={(e) => {setSoLuong(e.target.value)}} /> 
                                 </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
                                 Please provide a valid city.
                                 </div>
                             </div>
 
                             <div className=" wrap-input" >
-                                <label for="validationCustom02" class="form-label">Giá</label>
+                                <label for="validationCustom02" className="form-label">Giá</label>
                                 <div>
-                                    <input type="text" class="form-control" id="validationCustom02" required
+                                    <input type="text" className="form-control" id="validationCustom02" required
                                     name="gia" value={gia}
                                     onChange={(e) => {setGia(e.target.value)}} /> 
                                 </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
                                 Please provide a valid city.
                                 </div>
                             </div>
 
                             <div className=" wrap-input" >
-                                <label for="validationCustom01" class="form-label">Đơn Vị Tính</label>
+                                <label for="validationCustom01" className="form-label">Đơn Vị Tính</label>
                                 <div>
-                                    <input type="text" class="form-control" id="validationCustom01" required 
+                                    <input type="text" className="form-control" id="validationCustom01" required 
                                     value={donvitinh} name="donvitinh" 
                                     onChange={(e) => {setDonViTinh(e.target.value)}}/> 
                                 </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
                                 Please provide a valid city.
                                 </div>
                             </div>
                         </div>
                         
                         <div className=" wrap-input" >
-                                <label for="validationCustom06" class="form-label">Hình Ảnh</label>
+                                <label for="validationCustom06" className="form-label">Hình Ảnh</label>
                                 <div>
-                                    <input type="text" class="form-control" id="validationCustom06" required 
+                                    <input type="text" className="form-control" id="validationCustom06" required 
                                     value={hinhanh} name="donvitinh" 
                                     onChange={(e) => {SetHinhAnh(e.target.value)}}/> 
                                 </div>
-                                <div class="invalid-feedback">
+                                <div className="invalid-feedback">
                                 Please provide a valid city.
                                 </div>    
                         </div>
                        
                         <div className=" wrap-input" >
-                            <label for="validationCustom07" class="form-label">Mô Tả</label>
+                            <label for="validationCustom07" className="form-label">Mô Tả</label>
                             <div>
-                                {/* <input type="text" class="form-control" id="validationCustom03" required
+                                {/* <input type="text" className="form-control" id="validationCustom03" required
                                 name="mota" value={mota} />  */}
                                 <textarea style={textAreaStyle } type="text" name="mota" value={mota}
                                 id="validationCustom07"
@@ -234,7 +239,7 @@ function ProductsPage() {
                                 />
                                 
                             </div>
-                            <div class="invalid-feedback">
+                            <div className="invalid-feedback">
                             Please provide a valid city.
                             </div>
                         </div>

@@ -1,11 +1,10 @@
-import axios from "axios";
 import axiosClient from "./axiosClient"
 
 const loginAdminApi = {
-    login: (account) => {
+   login: (account) => {
         const url = `/dangnhap/nhanvien`;
         return axiosClient.post(url, account);
-    },
+    }, 
 
     // đăng kí 1 tài khoảng
     register: (account) => {

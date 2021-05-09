@@ -1,0 +1,224 @@
+
+.payment {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    *{
+        margin: 0;
+        padding: 0;
+        text-align: start;
+    }
+    
+    *p{
+        color: black;
+        font-size: 14px;
+    }
+    .content {
+        padding-right: 10px;
+    }
+    
+    .header_left h1 a{
+        color: black !important;
+        text-decoration: none !important;
+        font-weight: normal;
+        font-size: 2rem;
+    }
+    
+    .content .header_content h2{
+        font-size: 20px;
+        font-weight: 500;
+
+    }
+    
+    .header_content {
+        margin: 20px 0px;
+    }
+    .pay_cart_left{
+        display: block;
+        text-align: left;
+        line-height: 1.5;
+        padding-right: 20px !important;
+    }
+    
+    .Breadc{
+        padding: 0px 0px !important;
+    }
+    
+    .content_info .text_box input{
+        outline: none;
+        height: 50px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        padding: 0px 20px;
+        border: 2px solid #e6e6e6;
+    }
+    .radio_box {
+        text-align: start !important;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .title-box {
+        margin-bottom: 15px;
+    }
+
+    label {
+        margin-top: 10px;
+    }
+    
+    .content_info .radio_box input{
+       margin: 15px 0px;
+    }
+    
+    .funtion{
+        margin: 10px 0;
+        display: flex;
+    }
+    
+    .funtion a{
+        text-align: left;
+        text-decoration: none; 
+        margin-right: 120px;
+    }
+    
+    .funtion .funtion_success{
+        justify-content: center;
+        text-align: center;
+        width: 200px;
+        padding: 5px;
+        border-radius: 5px;
+        color: white;
+        background-color: #0d6efd;
+    }
+    
+    
+    
+    .table_card{
+        margin-bottom: 30px;
+        width: 100%;
+        border-spacing: 0;
+        margin-top: 20px;
+    }
+    
+    .image img{
+        max-width: 100px;
+        border: 3px solid #BED747;
+        border-radius: 15px;
+    }
+    
+    .image{
+        text-align: center;
+        width: 110px;
+        padding-left: 0;
+    }
+    
+    .item{
+        padding-left: 15px;
+        position: relative;
+    }
+    
+    .item h3{
+        margin: 0 0 10px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    .variant_title{
+        margin-bottom: 5px;
+    }
+    
+    .item input{
+        border: 2px solid #bed747;
+        border-radius: 15px;
+        width: 100px;
+        text-align: center;
+        margin-right: 10px;
+        padding: 5px;   
+    }
+    
+    .price{
+        margin: 0;
+        float: right;
+        position: absolute;
+        right: -280px;
+        top: 50px;
+    }
+    
+    .price span{
+        font-size: 16px;
+        padding-right: 0;
+        font-weight: 700;
+        display: inline-block;
+        color: #003C2D;
+        vertical-align: middle;
+    }
+    
+    .line-item-container{
+        display: flex;
+        padding-bottom: 50px;
+    }
+    
+    .info_item{
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #number_pro{
+        border: none;
+        background-color: #e6e6e6;
+        width: 26px;
+        text-align: center;
+        border-radius: 50%;
+        position: absolute;
+        transform: translateX(-30px);
+    }
+
+    .discount {
+        display: flex;
+
+        input {
+        
+        }
+        button {
+            padding: 5px 20px;
+            text-decoration: none;
+        }
+    }
+    
+    #discount_code{
+        width: 400px;
+        height: 38px;
+        outline: none;
+        padding: 0 20px;
+        border-radius: 5px;
+        border: 2px solid #e1e3e4;
+    }
+    
+    .detail_price{
+        font-size: 16px;
+        padding-bottom: 10px;
+        border-top: 1px dotted #e1e3e4;
+        border-bottom: 1px dotted #e1e3e4;
+        padding-top: 15px;
+        font-weight: bold;
+    }
+    
+    .detail_price p{
+        margin: 0 0 10px;
+        font-size: 20px;
+        color: black;
+    }
+    
+    .detail_price p span{
+        font-weight: bold;
+        float: right;
+        color: black;
+        font-size: 20px;
+    }
+    
+    .pay_cart_right{
+        background-color: #fafafa;
+        padding: 0px 8px;
+    }
+
+}
