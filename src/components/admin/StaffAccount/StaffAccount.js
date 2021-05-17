@@ -29,7 +29,6 @@ function StaffAccount() {
 
     const handleDelete = (TAIKHOAN) => {
         setFlag(!flag);
-        console.log(flag , " ========= flag ne ")
             try {
                 accountApi.deleteNhanVien(TAIKHOAN);
                 loginAdminApi.delete(TAIKHOAN);

@@ -1,15 +1,12 @@
 import React, {useEffect, useState} from 'react'
-
+import NumberFormat from 'react-number-format';
 import './CartDetail.scss'
 
-import productsApi from '../../../api/ProductsApi'
 import accountApi from '../../../api/AccountApi'
 import cartApi from '../../../api/CartApi'
 import Header from '../Header/Header'
-import TitleProducts from '../TitleProducts/TitleProducts'
 import Footer from '../Footer/Footer'
 import SendGmail from '../SendGmail/SendGmail'
-import { Input, Link } from '@material-ui/core'
 
 
 function CartDetail() {
@@ -83,10 +80,7 @@ function CartDetail() {
                     <div class="col-sm-8 mt-4 ">
                         <div class="time_number_card">
                             <p class="count-cart">
-                                Bạn đang có
-                                <span>
-                                    4 sản phẩm
-                                </span>
+                                Bạn đang có {listCartRender.length} sản phẩm
                                 trong giỏ hàng
                             </p>
                         </div>
@@ -107,8 +101,8 @@ function CartDetail() {
                                                 </div>
                                             </div>
                                             
-                                            <p class="price">
-                                            <span>₫</span><span>{val.GIA}</span>
+                                            <p class="price-item">
+                                            <span><NumberFormat value={val.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ  '} /></span>
                                                 <button class="remove_card" title="Xóa sản phẩm này" onClick={()=>{onDelete(val.ID)}}>
                                                     <i class="fas fa-times-circle"></i>
                                                 </button>
@@ -145,7 +139,7 @@ function CartDetail() {
                             <div class="order_price">
                                 <p>
                                     Tổng tiền: 
-                                    <span> {totalPrice()}₫</span><span></span>
+                                    <NumberFormat value={totalPrice()} displayType={'text'} thousandSeparator={true} prefix={'vnđ  '} />
                                 </p>
                             </div>
                             <p class="order_note">

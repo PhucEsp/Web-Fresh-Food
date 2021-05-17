@@ -13,24 +13,28 @@ const accountApi = {
         return axiosClient.get(url);
     },
     getAccountAdmin: () => {
-        const url='/admin/taikhoan';
+        const url='/taikhoan/admin';
         return axiosClient.get(url);
     },
     getAccountNhanVien: () => {
-        const url = '/nhanvien/taikhoan';
+        const url = '/taikhoan/nhanvien';
         return axiosClient.get(url);
+    },
+    addTaiKhoan: (account) =>{
+        const url ='/dangnhap';
+        return axiosClient.post(account);
+    },
+    addKhachHang: (account) =>{
+        const url ='/dangnhap';
+        return axiosClient.post(account);
+    },
+    addNhanVien: (nhanvien) =>{
+        const url ='/nhanvien';
+        return axiosClient.post(nhanvien);
     },
     deleteKhachHang: (taikhoan) => {
         const url = `khachhang/${taikhoan}`;
         return axiosClient.delete(url);
-    },
-    addKhachHang: (account) =>{
-        const url ='/khachhang';
-        return axiosClient.post(account);
-    },
-    addKhachHang: (account) =>{
-        const url ='/nhanvien';
-        return axiosClient.post(account);
     },
     deleteNhanVien: (taikhoan) => {
         const url = `nhanvien/${taikhoan}`;

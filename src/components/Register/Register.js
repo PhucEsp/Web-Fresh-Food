@@ -2,8 +2,6 @@ import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react'
 import {Redirect, Link, useHistory} from 'react-router-dom'
 import accountApi from '../../api/AccountApi';
-import axiosClient from '../../api/axiosClient';
-import LoginAdminApi from '../../api/LoginAdminApi';
 import './Register.scss'
 function Register() {
     const url_listAccount = 'http://localhost:8081/dangnhap/admin';

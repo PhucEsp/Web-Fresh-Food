@@ -40,19 +40,12 @@
         line-height: 1.5;
         padding-right: 20px !important;
     }
-    
+   
     .Breadc{
         padding: 0px 0px !important;
     }
     
-    .content_info .text_box input{
-        outline: none;
-        height: 50px;
-        margin-bottom: 20px;
-        border-radius: 10px;
-        padding: 0px 20px;
-        border: 2px solid #e6e6e6;
-    }
+ 
     .radio_box {
         text-align: start !important;
         margin-top: 10px;
@@ -65,10 +58,7 @@
     label {
         margin-top: 10px;
     }
-    
-    .content_info .radio_box input{
-       margin: 15px 0px;
-    }
+  
     
     .funtion{
         margin: 10px 0;
@@ -127,22 +117,18 @@
         margin-bottom: 5px;
     }
     
-    .item input{
-        border: 2px solid #bed747;
-        border-radius: 15px;
-        width: 100px;
-        text-align: center;
-        margin-right: 10px;
-        padding: 5px;   
+
+    .item {
+        
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        p {
+            font-weight: 500;
+        }
     }
     
-    .price{
-        margin: 0;
-        float: right;
-        position: absolute;
-        right: -280px;
-        top: 50px;
-    }
     
     .price span{
         font-size: 16px;
@@ -219,6 +205,28 @@
     .pay_cart_right{
         background-color: #fafafa;
         padding: 0px 8px;
+    }
+    .MuiButton-containedPrimary {
+        background-color: #bed747 !important;
+        color: #333 !important;
+    }
+
+    #order {
+        padding: 8px 20px;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    #back-to-cart {
+        font-size: 20px;
+        margin-right: 30px;
+        i {
+            margin-right: 8px;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
     }
 
 }

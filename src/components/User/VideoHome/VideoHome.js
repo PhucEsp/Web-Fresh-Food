@@ -7,9 +7,9 @@ function VideoHome() {
             <div class="col-sm-6 send_email">
               <h3> Đăng kí nhận tin</h3>
               <p> Đăng ký Email để theo dõi những sản phẩm được giảm giá của chúng tôi</p>
-              <div class="form_DK">
+              <div class="form_DK " id='form-video'>
                 <div>
-                <input type="text" placeholder="Nhập email của bạn"/>
+                <input id="input-video" type="text" placeholder="Nhập email của bạn"/>
                 </div>
                 <button id="btn-subcribe" type="button" class="btn btn-outline-success">Gửi</button>
               </div>

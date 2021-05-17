@@ -1,25 +1,109 @@
 
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import NumberFormat from 'react-number-format';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import { Button, TextField } from '@material-ui/core';
+import { ValidatorForm} from 'react-material-ui-form-validator';
+
+import accountApi from '../../../api/AccountApi'
+import cartApi from '../../../api/CartApi'
 import './Payment.scss'
+
+import { useHistory } from 'react-router';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
         margin: theme.spacing(1),
-        width: '25ch',
+        width: "100%"
       },
     },
+    TextField: {
+        "& > *": {
+          margin: theme.spacing(1),
+          height: "55px",
+          width: "614px"
+        }
+      }
   }));
 
 function Payment() {
+
+    const history = useHistory();
     const classes = useStyles();
     const [value, setValue] = React.useState('female');
+    const [listCartRender, setListCartRender] = useState([]);
+    const [infoUser, setInfoUser] = useState({})
+    const [flag,setFlag] = useState(false)
+    const [isOrderSuccess, setIsOrderSuccess] = useState(false)
+    // input form value
+    const [name,setName] = useState('')
+    const [mail,setMail] = useState('')
+    const [phoneNumber,setPhoneNumber] = useState("")
+    const [address,setAddress] = useState('')
+
+    const acc = localStorage.getItem('account')
+    useEffect( async() => {
+            try {
+                const respone = await accountApi.getUser(acc);
+                console.log(respone)
+                setInfoUser(respone);
+                setFlag(!flag)
+                setName(respone.HOTEN)
+                setMail(respone.MAIL)
+                setPhoneNumber(respone.SDT)
+                setAddress(respone.DIACHI)
+            } catch (error) {
+                console.log(error.message)
+            }
+            
+    }, [])
+    useEffect(() => {
+      const fetchListCart = async () => {
+          try {
+              const respone = await cartApi.getCartUser(infoUser.MAKH);
+              setListCartRender(respone)
+          } catch (error) {
+                  console.log(error.message);
+          }
+      }
+      fetchListCart()
+    },[flag])
+
+    const totalPrice = () => {
+        return listCartRender.reduce((acc,val) => {
+            return acc + (parseInt(val.SOLUONG,10) * parseInt(val.GIA,10));
+        },0)
+    }
+
+    const handleSubmit = async () => {
+        const data = {
+            MAKH : infoUser.MAKH,
+            DIACHI: address,
+            HOTEN: name,
+            SDT: phoneNumber,
+            MAIL: mail 
+        }
+
+        try {
+            await cartApi.order(data)
+            setIsOrderSuccess(true)
+            history.push("/home/dat-hang-thanh-cong");
+        } catch (error) {
+            setIsOrderSuccess(false)
+            console.log(error.message)
+        }
+        
+
+    }
+
     const handleChange = (event) => {
         setValue(event.target.value);
       };
@@ -41,9 +125,6 @@ function Payment() {
                             <li class="breadcrumb-item" aria-current="page">
                                 Thông tin giao hàng
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Phương thức thanh toán
-                            </li>
                             </ol>
                         </nav>
                     </div>
@@ -59,85 +140,102 @@ function Payment() {
                     </div>
                     
                     <div class="content_info">
-                        <form action="">
-                            <div class="text_box">
-                                <input className="name" type="text" placeholder="Họ và tên" style={{width: "100%"}}/>
-                                <input className="email" type="email" placeholder="Email" style={{width: "100%"}}/>
-                                <input className="phonenumber" type="number" placeholder="Số điện thoại" style={{width: "30%"}}/>
-                                <input type="text" placeholder="Địa chỉ" style={{width: "100%"}}/>
-                              
-                            </div>
-                            <div class="radio_box">
-                            <FormControl  component="fieldset">
-                                <FormLabel className="title-box" component="legend">Chọn Phương Thức Nhận Hàng</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                                    <FormControlLabel value="female" control={<Radio />} label="Giao hàng tận nơi" />
-                                    <FormControlLabel value="male" control={<Radio />} label="Nhận tại cửa hàng" />
-                                </RadioGroup>
-                            </FormControl>
-                            </div>
-                            <div class="radio_box">
-                            <FormControl component="fieldset">
-                                <FormLabel className="title-box" component="legend">Chọn Phương Thức Nhận Hàng</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                                    <FormControlLabel value="female" control={<Radio />} label="Giao hàng tận nơi" />
-                                    <FormControlLabel value="male" control={<Radio />} label="Nhận tại cửa hàng" />
-                                </RadioGroup>
-                            </FormControl>
-                            </div>
+                    
+                    <ValidatorForm className={classes.root}
+                    onSubmit={(e) => handleSubmit(e)}
+                    >
 
-                            <div class="funtion">
-                                <a href="/home/gio-hang">
-                                    <i class="fa fa-reply"></i>
-                                    Giỏ hàng
-                                </a>
-                                <a class="funtion_success" href="success.html">
-                                    Đặt hàng
-                                </a>
-                                
+                        <TextField
+                            className={classes.TextField}
+                            id="outlined-basic"
+                            label="Họ Tên"
+                            variant="outlined"
+                            type="text"
+                            required
+                            onChange={(e) => {setName(e.target.value)}}
+                            value={name}
+                        />
+
+                        <TextField
+                            className={classes.TextField}
+                            id="outlined-basic"
+                            label="Số điện thoại"
+                            variant="outlined"
+                            type="number"
+                            required
+                            validators={['minNumber:0', 'maxNumber:10', 'matchRegexp:^[0-9]$']}
+                            onChange={(e) => {setPhoneNumber(e.target.value)}}
+                            value={phoneNumber}
+                        />
+                        <TextField
+                            className={classes.TextField}
+                            id="outlined-basic"
+                            label="Email"
+                            variant="outlined"
+                            type="email"
+                            required
+                            onChange={(e) => {setMail(e.target.value)}}
+                            value={mail}
+                        />
+                        <TextField
+                            className={classes.TextField}
+                            id="outlined-basic"
+                            label="Địa Chỉ"
+                            variant="outlined"
+                            type="text"
+                            required
+                            onChange={(e) => {setAddress(e.target.value)}}
+                            value={address}
+                        />
+
+                       
+
+                        <FormLabel className="title-box" component="legend">Chọn Phương Thức Nhận Hàng</FormLabel>
+                                    <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+                                        <FormControlLabel value="atHome" control={<Radio />} label="Giao hàng tận nơi" />
+                                        <FormControlLabel value="atStore" control={<Radio />} label="Nhận tại cửa hàng" />
+                                    </RadioGroup>
+                        <div>
+                        <a id='back-to-cart' href="/home/gio-hang">
+                            <i class="fa fa-reply"></i>
+                            Giỏ hàng
+                       </a>
+                        <Button id="order" variant="contained" color="primary" type='submit'>
+                           Đặt Hàng
+                        </Button>
+                        </div>
+                    </ValidatorForm>
+                       
                             </div>
-                            
-                        </form>
-                    </div>
-                </div>
+                               
+                            </div>
 
             </div>
 
             <div class="col-sm-6 pay_cart_right">
                 <div class="table_card">
-                    <div class="line-item-container">
-                        <div class="image">
-                            <img src="https://product.hstatic.net/200000240163/product/bapnep_4e9e92dae68641b396e4ce2e1aa57945_medium.jpg" alt=""/>
-                        </div>
-                        <div class="item">
-                            <div class="info_item">
-                                <h3>Bắp nếp</h3>
-                                <span class="variant_title">Trái</span>
-                                <span id="number_pro">1</span>
+                    {
+                        listCartRender && listCartRender.map(item => (
+                            <div class="line-item-container">
+                                <div class="image">
+                                    <img src={item.HINHANH} alt=""/>
+                                </div>
+                                <div class="item">
+                                    <div class="info_item">
+                                        <h3>{item.TENSP}</h3>
+                                        <span class="variant_title">{item.DONVITINH}</span>
+                                        <span id="number_pro">{item.SOLUONG}</span>
+                                        <p class="price_product">
+                                        <NumberFormat value={item.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} />
+                                            {/* <span>{item.GIA}₫</span> */}
+                                         </p>
+                                    </div>
+                                    
+                                    
+                                </div>
                             </div>
-                            
-                            <p class="price">
-                                <span>₫</span><span>28,800</span>
-                            </p>
-                        </div>
-                    </div>
-
-                      <div class="line-item-container">
-                        <div class="image">
-                            <img src="https://product.hstatic.net/200000240163/product/bapnep_4e9e92dae68641b396e4ce2e1aa57945_medium.jpg" alt=""/>
-                        </div>
-                        <div class="item">
-                            <div class="info_item">
-                                <h3>Bắp nếp</h3>
-                                <span class="variant_title">Trái</span>
-                                <span id="number_pro">1</span>
-                            </div>
-                            
-                            <p class="price">
-                                <span>₫</span><span>28,800</span>
-                            </p>
-                        </div>
-                    </div>
+                        ))
+                    }
                 </div>
 
                 <div class="discount">
@@ -149,12 +247,12 @@ function Payment() {
                     <div class="detail_price">
                         <p>
                             Tạm tính: 
-                            <span>₫</span><span>0</span>
+                            <NumberFormat value={totalPrice()} displayType={'text'} thousandSeparator={true} prefix={'vnd '} />
                         </p>
 
                         <p>
                             Phí vận chuyển: 
-                            <span>₫</span><span>0</span>
+                            <span>0₫</span>
                         </p>
                     </div>
                 </div>
@@ -162,7 +260,7 @@ function Payment() {
                 <div class="detail_price">
                     <p>
                         Tổng tiền:  
-                        <span>₫</span><span>28,800</span>
+                        <NumberFormat value={totalPrice()} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} />
                     </p>
                 </div>
             </div>

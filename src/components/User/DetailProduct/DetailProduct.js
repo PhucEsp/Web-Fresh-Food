@@ -21,6 +21,7 @@ import Button from '@material-ui/core/Button';
 import ModalProduct from '../ModalDetailProduct/ModalProduct';
 import accountApi from '../../../api/AccountApi';
 import cartApi from '../../../api/CartApi';
+import NumberFormat from 'react-number-format';
 
  //style UI
  const useStyles = makeStyles((theme) => ({
@@ -65,7 +66,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
        }
        fetchDetailProduct();
        
-    }, [])
+    }, [ ])
 
     const acc = localStorage.getItem('account')
     useEffect( async() => {
@@ -149,7 +150,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                         <div className="content-body">
                             <span className="id-product">ID: {product.ID}</span>
                             <span>{product.DONVITINH} <i class="fas fa-check-circle"></i></span>
-                            <h5>Giá: {product.GIA} ₫</h5>
+                            <h5>Giá: <NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ  '} /></h5>
                             <div className="choise">
                                 <div className="cre-number">
                                 <input type="number" id="quantity" name="quantity" min="1" value = {quanty}

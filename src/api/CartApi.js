@@ -22,6 +22,16 @@ const cartApi = {
         const url = `giohang/${id}`
         return axiosClient.put(url,data)
     },
+    order: (data) => {
+        const url = `dathang/khachhang`
+        return axiosClient.post(url,data)
+    },
+    // order
+    getAllOrder: () => {
+        const url = '/dathang'
+        return axiosClient.get(url)
+    },
+    
     
 }
 

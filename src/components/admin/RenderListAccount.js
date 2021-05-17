@@ -2,8 +2,6 @@ import RenderListProducts from "./RenderListProducts"
 
 const RenderListAccount = ({listUsers, setOpenModal, handleDelete}) => {
 
-    const check = listUsers[0];
-
     return (
         <div className='listAccount'>
             <table className="table table-account" >

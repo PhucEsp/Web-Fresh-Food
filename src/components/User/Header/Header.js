@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
+import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
 import accountApi from '../../../api/AccountApi';
 import cartApi from '../../../api/CartApi';
@@ -95,6 +96,10 @@ function Header(props) {
             return acc + (parseInt(val.SOLUONG,10) * parseInt(val.GIA,10));
         },0)
        }
+    }
+     
+    const handleLogout = () => {
+        localStorage.removeItem("account")
     }
     
     return (
@@ -192,7 +197,7 @@ function Header(props) {
                                                         </div>
                                                         <div className="content">
                                                             <p>{product.TENSP}</p>
-                                                            <span>{product.GIA} ₫</span>
+                                                            <span><NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} /></span>
                                                         </div>
                                                     </a>
                                                 </li>
@@ -219,9 +224,9 @@ function Header(props) {
                                                 <p>{infoUser.HOTEN}</p> 
                                             </div>
                                             <ul>
-                                                <li><Link>Thong tin tai khoan</Link></li>
-                                                <li><Link>Don Hang cua toi</Link></li>
-                                                <li><Link>Dang Xuat</Link></li>
+                                                <li><Link to="/home/tai-khoan">Thông Tin Tài Khoản</Link></li>
+                                                <li><Link>Đơn Hàng Của Tôi</Link></li>
+                                                <li onClick={handleLogout}><Link to="/home/dang-nhap">Đăng Xuất</Link></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -240,14 +245,12 @@ function Header(props) {
                                                                 <img src={val.HINHANH}></img>
                                                             </div>
                                                             <div className="info-product">
-                                                                <p id="head-info"><a>{val.TENSP}</a> 
-                                                                <span id="close-searchbar"
-                                                                 onClick={() => { onDeleteItemCart(val.ID) }} 
-                                                                 >
-                                                                    <i class="fas fa-times"></i></span></p>
+                                                                <p id="head-info"><a>{val.TENSP}</a> </p>
                                                                 <p>Trai</p>   
                                                                 <span className="quanty">{val.SOLUONG}</span>   
-                                                                <span className="price">{val.GIA}</span> 
+                                                                <span className="price">
+                                                                <NumberFormat value={val.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} />
+                                                                </span> 
                                                             </div>
                                                         </li>
                                                     ))
@@ -257,7 +260,7 @@ function Header(props) {
                                             </ul>
                                         </div>
                                         <div className='total-price'> 
-                                                <p className="title-price">Tổng Tiền: <i> {totalPrice()}đ</i> </p>
+                                                <p className="title-price">Tổng Tiền: <i> <NumberFormat value={totalPrice()} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} /></i> </p>
                                                
                                         </div>
                                         <div className='group-button'>

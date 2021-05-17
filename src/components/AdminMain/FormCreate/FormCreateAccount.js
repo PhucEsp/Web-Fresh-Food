@@ -59,7 +59,6 @@ function FormCreateAccount() {
         setPhoneNumber(null)
     }
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const account = {

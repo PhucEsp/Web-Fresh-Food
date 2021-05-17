@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect,useState} from 'react'
+import NumberFormat from 'react-number-format';
 import accountApi from '../../../api/AccountApi';
 import cartApi from '../../../api/CartApi';
 import "./ModalProduct.scss";
@@ -54,7 +55,7 @@ function ModalProduct({product, handleChange, changeFlag}) {
                 <div className="modal-body">
                   <span className="id-product">ID: {product.ID}</span>
                   <span>{product.DONVITINH}</span>
-                  <h5>Giá: {product.GIA}</h5>
+                  <h5 className='price'>Giá: <NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} /></h5>
                   <p>Tiêu Đề: <span> {product.MOTA}</span> </p>
                   <div className="choise">
                     <div className="cre-number">

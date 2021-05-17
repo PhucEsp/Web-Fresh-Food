@@ -1,0 +1,161 @@
+
+.persional {
+    .container {
+        >.wrap-persional {
+            * {
+                margin: 0;
+                padding: 0;
+              }
+              
+              a{
+                color: #003c2d !important;
+                text-decoration: none;
+                font-weight: 500;
+              }
+              
+              a:hover{
+                color: #FAA634 !important;
+              }
+              
+              .Breadc{
+                background: #003c2d;
+                height: 30px;
+              }
+            
+              #Breadc_nd{
+                padding-left: 105px;
+              }
+            
+              #Breadc_nd a{
+                  color: whitesmoke !important;
+                  text-decoration: none;
+              }
+            
+            #image{
+                width: 100%;
+                height: 216px;
+            }
+              
+            .content{
+                display: block;
+                justify-content: center;
+                text-align: left;
+            }
+            
+            .title_tk h1{ 
+                font-size: 27px;
+                font-family: inherit;
+                font-weight: 700;
+                padding: 25px;
+                text-align: center;
+            }
+            
+            .mini_menu{
+                background-color: #fafafa;
+                /* text-align: center; */
+                margin-left: 0;
+            }
+            
+            .mini_menu a{
+                width: 20%;
+                margin-right: 80px;
+                text-decoration: none;
+            }
+            
+            .col-sm-9{
+                text-align: left;
+            }
+            
+            .danh_muc_tk{
+                text-align: left;
+            }
+            
+            .danh_muc h3{
+                font-size: 14px;
+                text-transform: uppercase;
+                font-weight: 800;
+            }
+            
+            .danh_muc .danh_muc_content li{
+                font-size: 14px;
+            }
+            
+            .danh_muc .danh_muc_content{
+                padding: 0px 0px;
+            }
+            
+            .danh_muc ul, li{
+                text-align: left;
+            } 
+            
+            .danh_muc_content_info{
+                display: flex;
+            }
+            
+            
+            .danh_muc label{
+                margin-right: 20px;
+            }
+            
+            h1, h2, h3, h4, h5, h6{
+                font-weight: 300;
+                font-family: inherit;
+                color: #003c2d;
+            }
+            .order_list{
+                
+            }
+            
+            .order_list_tk table{
+                width: 100%;
+            }
+            
+            .order_list_tk{
+                // border: 10px solid #fafafa ;
+                margin-top: 20px !important;
+            }
+            
+            .order_list_tk tr{
+                font-weight: normal;
+                height: 50px;
+            }
+            
+            .order_list_tk tr td{
+                background-color: #fafafa;
+            
+            }
+            
+            .order_list_tk h3{
+                font-size: 14px;
+                font-weight: 800;
+            }
+            
+            .order_list tr th{
+                padding-right: 50px;
+                font-weight: 500;
+            }
+            
+            .end{
+                background-color: #BED747;
+                line-height: 2.5;
+            }
+              
+            li {
+                list-style-type: none;
+            }
+              
+            li a{
+                text-decoration: none;
+            }
+              
+            .company{
+                text-align: center;
+            }
+              
+            .company a{
+                text-decoration: none;
+            }
+              
+        }
+    }
+}

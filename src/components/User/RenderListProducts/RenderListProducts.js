@@ -1,4 +1,5 @@
 import React from 'react'
+import NumberFormat from 'react-number-format'
 import './RenderListProducts.scss'
 
 function RenderListProducts({listProducts, handleOnclick}) {
@@ -32,7 +33,7 @@ function RenderListProducts({listProducts, handleOnclick}) {
                                 <div className="card-info">
                                         <a href="product.html">{product.TENSP}</a>
                                         <p>
-                                        <span>{product.GIA} ₫</span>
+                                        <span className='price'><NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} /></span>
                                         </p>
                                 </div>
                             </div>

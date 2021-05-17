@@ -1,5 +1,6 @@
+import '../../admin.scss'
 import React , {component} from 'react'
-import { BrowserRouter as Router ,Switch,Route,Link, Redirect,useRouteMatch} from "react-router-dom";
+import { BrowserRouter as Router ,Switch,Route, Redirect} from "react-router-dom";
 import Login from '../Login/Login';
 import AccountUser from './AccoutnUser/AccountUser';
 import AddProduct from './AddProduct/AddProduct';
@@ -8,34 +9,55 @@ import FormCreateAccount from './FormCreateAccount/FormCreateAccount';
 import Healthy from './Healthy';
 import Mushroom from './MushRoom';
 import Navbar from './Navbar'
-import ProductsPage from './ProductsPage';
+import Order from './Order/Order';
+// import ProductsPage from './ProductsPage';
 import StaffAccount from './StaffAccount/StaffAccount';
 import UserPage from './UserPage';
 import Vegetable from './Vegetables';
+import ProductsPage from '../AdminMain/PageProducts/ProductsPage';
+import Createbar from './CreateBar/Createbar';
+import CreatebarUser from './CreateBar/CreateBarUser';
+import UserManagement from '../AdminMain/UserPage/UserManagement';
+import OrderManagement from '../AdminMain/OrderPage/OrderManagement';
+
+
 
 function MainControll() {
     
     return ( 
-        <div className="Main-Controll">
-           <Router>
+        <>
+            <div className="Main-Controll">
+            <Router>
+                <div>
                 <Navbar></Navbar>
-                <Switch>
-                    <Route exact path="/admin">
-                        <Redirect exact to="/traicay"></Redirect>
-                    </Route>
-                    <Route exact path="/traicay" component={ProductsPage}></Route>
-                    <Route exact path="/raucuqua" component={Vegetable}></Route>
-                    <Route exact path="/namtuoi" component={Mushroom}></Route>
-                    <Route exact path="/chamsocsuckhoe" component={Healthy}></Route>
-                    <Route exact path="/useraccount" component={AccountUser}></Route>
-                    <Route exact path="/adminaccount" component={AccountAdmin}></Route>
-                    <Route exact path="/staffaccount" component={StaffAccount}></Route>
-                    <Route exact path="/admin/themoisanpham" component={AddProduct}></Route>
-                    <Route exact path="/themtaikhoan" component={FormCreateAccount}></Route>
+                </div>
                     
-                </Switch>
-            </Router>
-        </div>
+                    <Switch>
+                        <Route exact path="/admin/products">
+                            <div>
+                                <Createbar></Createbar>
+                                <ProductsPage></ProductsPage>
+                            </div>
+                        </Route>
+
+                        <Route exact path="/admin/management">
+                            <div>
+                                <CreatebarUser ></CreatebarUser>
+                                <UserManagement></UserManagement>
+                            </div>
+                        </Route>
+
+                        <Route exact path="/admin/order">
+                            <div>
+                                <OrderManagement></OrderManagement>
+                            </div>
+                        </Route>
+                        
+                    </Switch>
+                </Router>
+            </div>
+        </>
+        
     )
 }
 

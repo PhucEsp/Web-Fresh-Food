@@ -2,6 +2,11 @@
 $background-color: #003c2d;
 $footer-color: #BED747;
 $color-blue: #1a73e8;
+
+
+button {
+    outline: none !important;
+}
 .container {
     max-width: 1200px;
 }
@@ -34,7 +39,7 @@ $color-blue: #1a73e8;
                 }
             }
             a {
-                color: white;
+                color: white !important;
                 font-size: 18px;
                 display: block;
                 margin-right: 10px;
@@ -92,6 +97,7 @@ $color-blue: #1a73e8;
 .navbar {
     display: flex;
     align-items: flex-start;
+    
         .wrap-navbar {
             display: flex;
             flex-direction: column;
@@ -140,197 +146,29 @@ $color-blue: #1a73e8;
 }
 
 .Main-Controll {
-    min-height: 250px;
-    padding: 10px 15px;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    height: 100vh;
     margin-top: 40px;
-    display: grid;
-    grid-template-columns: 1fr 6fr;
-    background-color: rgba(216, 216, 216, 0.452);
-    .header-products {
-        display: grid;
-        grid-template-columns: 5fr 1fr;
-        // display: flex;
-        // justify-content: space-around;
-        align-items: center;
-        margin-bottom: 12px;
-        margin-top: -18px;
-        h1 {
-            text-align: center;
-            svg {
-                position: relative !important;
-                top: 21px;
-            }
-        }
-        .button-link {
-            margin-top: 32px;
-            i {
-                margin-left: 10px;
-            }
-        }
-        .add-new {
-            display: flex;
-            justify-content: flex-end;
-            margin-right: 105px;
-            transition: .3s all;
-            text-decoration: none;
-            margin-top: 30px;
-            &:hover {
-                color: $color-blue;
-                cursor: pointer;
-                p {
-                    transform: scale(1.1);
-                    transition: .3s all;
-                }
-                i {
-                    transform: scale(1.1);
-                    transition: .3s all;
-                }
-            }
-            p {
-                margin: 0px 25px 0px 0px;
-                font-size: 18px;
-                font-weight: 500;
-            }
-            i {
-                font-size: 26px;
-            }
-        }
+    padding: 0px 10px;
+    .navbar {
+        // margin: 0 !important;
+        padding: 0 20px;
+        margin-top: 2px;
         
-    }
-
-    .table{
-        thead {
-            .id {
-                width: 20px;
-            }
-            .img {
-                overflow: hidden;
-            }
-            .categories {
-                width: 90px;
-            }
-            .ProductName {
-                width: 150px;
-            }
-            .description {
-                width: 380px;
-            }
-            .address {
-                width: 20% !important; 
-            }
-        }
-        tbody {
-            img {
-                width: 100px;
-                // height: 100px;
-            }
-            
-           tr {
-               &:first-child {
-                border-left: 1px solid #dee2e6 !important;
-               }
-            border: 1px solid #dee2e6 !important;
-            border-bottom: 2px solid#dee2e6 !important;
-            .desc {
-                width: 330px;
-                height: 70px;
-                overflow: auto;
-            }
-            td {
-                border: 1px solid #dee2e6 !important;
-                border-bottom: 2px solid #dee2e6 !important;
-                button {
-                    background: #3f51b5;
+        .wrap-navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 28px;
+            a {
+                text-decoration: none;
+                font-size: 20px;
+                &:hover {
                     color: white;
-                    border: none;
-                    padding: 7px 14px;
-                    transition: 0.3s;
-                    border-radius: 4px;
-                    &:hover {
-                        background: $color-blue;
-                        transition: .3s all;
-                    }
                 }
             }
-           }
         }
     }
 }
 
-// modal
-.form-select{
-    width: 200px !important;
-    padding: 5px 10px;
-    margin: 5px 0px;
-    outline: none;
-}
-
-#btn-formEdit {
-    margin-top: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    button {
-        padding: 7px 30px !important;
-        background: $color-blue;
-        color: white;
-        border-radius: 5px;
-        border: none;
-        font-size: 16px;
-        font-weight: 500;
-    }
-}
-
-#modal-form {
-    width: 560px;
-    height: 620px;
-}
-
-.wrap-input {
-    margin-top: 10px;
-}
-
-.modal-head {
-    display: flex;
-    justify-content: space-between;
-    h1 {
-        text-align: center !important;
-    }
-}
-.btn-close {
-    display: block;
-    transition: .3 all;
-    &:hover {
-        cursor: pointer;
-        color: $color-blue;
-        transition: .3 all;
-    }
-    i {
-        font-size: 36px;
-        transition: .3 all;
-    }
-}
-#modal-form {
-    padding: 10px 20px;
-    border: 1px solid #333;
-    box-shadow: 0px 0px 25px 5px rgb(155, 154, 154);
-    
-}
-
-.merge-input {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 80px;
-}
-
-.ReactModal__Content  {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    // background: red !important;
-}
-
-.over-scroll {
-    height: 50vh;
-    overflow: scroll;
-}

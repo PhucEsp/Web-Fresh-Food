@@ -41,7 +41,12 @@ const productsApi = {
     detail: (id) => {
         const url = `/sanpham/${id}`;
         return axiosClient.get(url);
-    }
+    },
+    getCategories: () => {
+        const url = '/danhmuc';
+        return axiosClient.get(url);
+    },
+    
 }
 
 export default productsApi;

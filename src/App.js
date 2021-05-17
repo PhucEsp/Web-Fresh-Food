@@ -1,6 +1,6 @@
 // import css
 import './index.scss'
-import './admin.scss'
+// import './admin.scss'
 import './App.css';
 import './components/admin/AccoutnUser/AccountUser.scss'
 
@@ -23,7 +23,8 @@ import UserRegister from './components/User/UserRegister/Register'
 import UserLogin from './components/User/UserLogin/UserLogin';
 import CartDetail from './components/User/CartDetail/CartDetail';
 import Payment from './components/User/Payment/Payment';
-// import Fruit from './components/PageFruit/Fruit';
+import Persional from './components/User/Personal/Persional';
+import OrderSuccess from './components/User/OrderSuccess/OrderSuccess';
 
 function App() {  
   return (
@@ -37,64 +38,7 @@ function App() {
             <HeaderAdmin></HeaderAdmin>
             <MainControll></MainControll>
           </Route>
-          {/* return page in MainControl */}
-          <Route exact path="/admin/themoisanpham">
-            <HeaderAdmin></HeaderAdmin>
-            <MainControll>
-            <Redirect to="/admin/themoisanpham" ></Redirect>
-            </MainControll>
-          </Route>
-
-          <Route exact path="/traicay">
-            <HeaderAdmin></HeaderAdmin>
-            <MainControll>
-            <Redirect to="/traicay" ></Redirect>
-            </MainControll>
-          </Route>
-
-          <Route exact path="/raucuqua">
-            <HeaderAdmin></HeaderAdmin>
-            <MainControll>
-            <Redirect to="/raucuqua" ></Redirect>
-            </MainControll>
-          </Route>
-
-          <Route exact path="/namtuoi">
-            <HeaderAdmin></HeaderAdmin>
-            <MainControll>
-            <Redirect to="/namtuoi" ></Redirect>
-            </MainControll>
-          </Route>
-
-          <Route exact path="/chamsocsuckhoe">
-            <HeaderAdmin></HeaderAdmin>
-            <MainControll>
-            <Redirect to="/chamsocsuckhoe" ></Redirect>
-            </MainControll>
-          </Route>
-
-          <Route exact path="/useraccount">
-            <HeaderAdmin></HeaderAdmin>
-            <MainControll>
-            <Redirect to="/useraccount" ></Redirect>
-            </MainControll>
-          </Route>
-
-          <Route exact path="/staffaccount">
-            <HeaderAdmin></HeaderAdmin>
-            <MainControll>
-            <Redirect to="/staffaccount" ></Redirect>
-            </MainControll>
-          </Route>
-
-          <Route exact path="/themtaikhoan">
-            <HeaderAdmin></HeaderAdmin>
-            <MainControll>
-            <Redirect to="/themtaikhoan" ></Redirect>
-            </MainControll>
-          </Route>
-
-
+        
          
           <Route exact path ='/home' component={Home}></Route>
           <Route exact path ='/home/collections/rau-sach' component={Collections}></Route>
@@ -110,13 +54,10 @@ function App() {
           <Route exact path ='/home/dang-nhap' component={UserLogin}></Route>
           <Route exact path ='/home/gio-hang' component={CartDetail}></Route>
           <Route exact path ='/home/thanh-toan' component={Payment}></Route>
+          <Route exact path ='/home/tai-khoan' component={Persional}></Route>
+          <Route exact path ='/home/dat-hang-thanh-cong' component={OrderSuccess}></Route>
           <Route exact path="*">
           </Route>
-
-          
-         
-          
-          
         </Switch>
       </Router>
       
