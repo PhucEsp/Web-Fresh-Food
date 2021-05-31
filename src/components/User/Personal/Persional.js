@@ -5,11 +5,14 @@ import './Persional.scss'
 import Header from '../Header/Header';
 import HeaderCrumb from '../HeaderCrumb/HeaderCrumb';
 import Footer from '../Footer/Footer';
+import Moment from 'react-moment';
+import NumberFormat from 'react-number-format';
 
 function Persional() {
 
     const [listCartRender, setListCartRender] = useState([]);
     const [infoUser, setInfoUser] = useState({})
+    const [infoOrderForUser, setInfoOrderUser] = useState([])
     const [flag,setFlag] = useState(false)
     const acc = localStorage.getItem('account')
     useEffect( async() => {
@@ -33,9 +36,34 @@ function Persional() {
       }
       fetchListCart()
     }, [flag])
+    
+    useEffect(() => {
+        const fetchInfoOrderForUser = async () => {
+            try {
+                const respone = await cartApi.getUserOrder(infoUser.MAKH);
+                setInfoOrderUser(respone)
+            } catch (error) {
+                    console.log(error.message);
+            }
+        }
+        fetchInfoOrderForUser()
+    }, [flag])
+
+    console.log(`infoOrderUser`, infoOrderForUser)
 
     const handleLogout = () => {
         localStorage.removeItem("account")
+    }
+
+    const renderStateOrder = (value) => {
+        if(value.TRANGTHAI === 1 ||value.TRANGTHAI === 2 ) 
+            return <td>Đang xử lí</td>
+        else if(value.TRANGTHAI === 3)
+            return  <td>Đang giao hàng</td>
+        else if(value.TRANGTHAI === 4)
+            return  <td>Hoàn Thành</td>
+         else if(value.TRANGTHAI === 5)
+            return  <td>Đã Hủy</td>
     }
 
     return (
@@ -104,29 +132,34 @@ function Persional() {
                                            <th>Mã đơn hàng</th>
                                            <th>Ngày đặt</th>
                                            <th>Thành tiền</th>
-                                           <th>Trạng thái thanh toán</th>
-                                           <th>Vận chuyển</th>
+                                           <th>Trạng Thái</th>
                                        </tr>
                                    </thead>
 
                                    <hr  width="100%" size="3px"/>
 
                                    <tbody>
-                                       <tr>
-                                           <td>aaaaa</td>
-                                           <td>aaaaa</td>
-                                           <td>aaaaa</td>
-                                           <td>aaaaa</td>
-                                           <td>aaaaa</td>
-                                       </tr>
-
-                                       <tr>
-                                        <td>aaaaa</td>
-                                        <td>aaaaa</td>
-                                        <td>aaaaa</td>
-                                        <td>aaaaa</td>
-                                        <td>aaaaa</td>
-                                    </tr>
+                                   {/* import NumberFormat from 'react-number-format'; */}
+                                        
+                                        {
+                                            infoOrderForUser.length > 0 && infoOrderForUser.map(val => (
+                                                    <tr>
+                                                        <td>{val.ID}</td>
+                                                        <td>
+                                                            <Moment format="DD/MM/YYYY">
+                                                            {val.THOIGIAN}
+                                                            </Moment>
+                                                        </td>
+                                                    
+                                                        <td>
+                                                        <NumberFormat value={val.TONGTIEN} displayType={'text' } thousandSeparator={true} /> vnđ
+                                                        </td>
+                                                        {
+                                                            renderStateOrder(val)
+                                                        }
+                                                    </tr> 
+                                            ))
+                                        }  
                                    </tbody>
                                </table>
                             </div>

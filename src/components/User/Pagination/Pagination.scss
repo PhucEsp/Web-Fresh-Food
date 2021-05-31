@@ -1,0 +1,14 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    li {
+        outline: none;
+        margin: 5px;
+        &:hover {
+            cursor: pointer;
+            background-color: rgb(168, 168, 168);
+        }
+    }
+}

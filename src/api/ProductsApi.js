@@ -46,6 +46,15 @@ const productsApi = {
         const url = '/danhmuc';
         return axiosClient.get(url);
     },
+    addCommentForProduct: (data) => {
+        const url ='/binhluan';
+        return axiosClient.post(url, data);
+    },
+    getListCommentForProduct: (id) => {
+        const url = `/binhluan/sanpham/${id}`;
+        return axiosClient.get(url);
+    },
+    
     
 }
 

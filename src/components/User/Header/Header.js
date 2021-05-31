@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import NumberFormat from 'react-number-format';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import accountApi from '../../../api/AccountApi';
-import cartApi from '../../../api/CartApi';
+import PersonIcon from '@material-ui/icons/Person';
 import productsApi from '../../../api/ProductsApi';
 import './Header.scss'
 function Header(props) {
@@ -16,6 +16,8 @@ function Header(props) {
     const [listSearchProducts, setListSearchProducts] = useState([])
     const [listCartRender, setListCartRender] = useState([]);
     const [infoUser, setInfoUser] = useState({})
+
+    const history = useHistory()
     
     // get info user logged in
     const acc = localStorage.getItem('account')
@@ -96,6 +98,22 @@ function Header(props) {
             return acc + (parseInt(val.SOLUONG,10) * parseInt(val.GIA,10));
         },0)
        }
+    }
+
+    const account = localStorage.getItem("account")
+
+    const checkToCart = () => {
+        if(account ==  null) 
+        history.push("/home/dang-nhap")
+        else 
+        history.push("/home/gio-hang")
+    }
+
+    const checkToPayment = () => {
+        if(account ==  null) 
+        history.push("/home/dang-nhap")
+        else 
+        history.push("/home/thanh-toan")
     }
      
     const handleLogout = () => {
@@ -221,12 +239,24 @@ function Header(props) {
                                                 <h6>
                                                     <span id="close-searchbar" onClick={closeBar} ><i class="fas fa-times"></i></span>
                                                 </h6>
-                                                <p>{infoUser.HOTEN}</p> 
+                                                <p className="info-user">
+                                                <PersonIcon></PersonIcon>
+                                                <span>{infoUser.HOTEN}</span>
+                                                </p> 
                                             </div>
                                             <ul>
-                                                <li><Link to="/home/tai-khoan">Thông Tin Tài Khoản</Link></li>
-                                                <li><Link>Đơn Hàng Của Tôi</Link></li>
-                                                <li onClick={handleLogout}><Link to="/home/dang-nhap">Đăng Xuất</Link></li>
+                                                {
+                                                    account != null ?
+                                                    <>
+                                                        <li><Link to="/home/tai-khoan">Thông Tin Tài Khoản</Link></li>
+                                                        {/* <li><Link>Đơn Hàng Của Tôi</Link></li> */}
+                                                        <li onClick={handleLogout}><Link to="/home/dang-nhap">Đăng Xuất</Link></li>
+                                                    </> :
+                                                    <>
+                                                         <li>Bạn Chưa Đăng Nhập</li>
+                                                        <li onClick={handleLogout}>vui lòng <Link to="/home/dang-nhap">Đăng Nhập</Link></li>
+                                                    </> 
+                                                }
                                             </ul>
                                         </div>
                                     </div>
@@ -266,10 +296,10 @@ function Header(props) {
                                         <div className='group-button'>
                                             
                                             <button>
-                                                <Link to="/home/gio-hang" >Xem Giỏ Hàng</Link>
+                                                <p onClick={checkToCart}  >Xem Giỏ Hàng</p>
                                             </button>
                                             <button>
-                                                <Link to="/home/thanh-toan">Thanh Toán</Link>
+                                                <p onClick={checkToPayment}  >Thanh Toán</p>
                                             </button>
                                         </div>
                                     </div>

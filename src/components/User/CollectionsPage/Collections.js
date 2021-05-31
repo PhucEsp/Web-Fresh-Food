@@ -12,6 +12,7 @@ import SendGmail from '../SendGmail/SendGmail'
 import Footer from '../Footer/Footer'
 import cartApi from '../../../api/CartApi'
 import accountApi from '../../../api/AccountApi'
+import Pagination from '../Pagination/Pagination'
 
 
 
@@ -24,20 +25,10 @@ function Collections({productsData, fetchProducts}) {
     const [infoUser, setInfoUser] = useState({})
     const [flag,setFlag] = useState(false)
 
-    //  ============= Fetch api cách 1 =============
-    // useEffect(() => {
-    //     const fetchProductsList = async () => {
-    //         try {
-    //             const responds = await productsApi.getAll();
-    //             setListProducts(responds);
-    //         } catch (error) {
-    //             console.log(error.message)
-    //         }
-    //     }
-    //     fetchProductsList();
-    //  }, [])
-    
-    // fetch list Products using Action Creator 'fetchProducts'
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage] = useState(10);
+
     useEffect(() => {
       fetchProducts();
     }, [])
@@ -65,7 +56,6 @@ function Collections({productsData, fetchProducts}) {
       fetchListCart()
     }, [flag])
 
-    const newList = productsData.data.filter(val => val.MADM == 2);
     // const newList = list.filter(val => val.MADM != 2)
 
     const setCloseModal = () => {
@@ -94,6 +84,14 @@ function Collections({productsData, fetchProducts}) {
           SOLUONG: e.target.value,
         })
       }
+
+    const newList = productsData.data.filter(val => val.MADM == 2);
+    const indexOfLastPost = currentPage * productsPerPage;
+    const indexOfFirstPost = indexOfLastPost - productsPerPage;
+    const currentProductPage = newList.slice(indexOfFirstPost, indexOfLastPost);
+    
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
         <div className="collections">
             <Header listCartRender={listCartRender} ></Header>
@@ -106,6 +104,11 @@ function Collections({productsData, fetchProducts}) {
             ></TitleProducts>
 
             <RenderListProducts listProducts={newList} handleOnclick={setOpenModal}  ></RenderListProducts>
+            <Pagination
+            productsPerPage={productsPerPage}
+            totalProducts={newList.length}
+            paginate={paginate}
+            />
             <SendGmail></SendGmail>
             <Footer></Footer>
 

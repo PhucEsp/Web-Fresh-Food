@@ -14,7 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { Button, ListItemIcon, MenuItem } from '@material-ui/core';
 import ListIcon from '@material-ui/icons/List';
-
+import Moment from 'react-moment';
 
   
   const useStyles = makeStyles((theme) => ({
@@ -57,7 +57,7 @@ const StyledTableCell = withStyles((theme) => ({
     }
   }))(TableRow);
 
-function TableOrder({columns,rows,handleDetail}) {
+function TableOrder({columns,rows,handleDetail,handleUpdate}) {
     const classes = useStyles();
     return (
         <div>
@@ -83,22 +83,37 @@ function TableOrder({columns,rows,handleDetail}) {
                                 <StyledTableCell component="th" scope="row">
                                     {row.ID}
                                 </StyledTableCell>
-                                <StyledTableCell align="center">{row.MANV}</StyledTableCell>
-                                <StyledTableCell align="center">{row.THOIGIAN}</StyledTableCell>
+                                {/* <StyledTableCell align="center">{row.MANV}</StyledTableCell> */}
+                                <StyledTableCell align="center">
+                                <Moment format="DD/MM/YYYY">
+                                {row.THOIGIAN}
+                                </Moment>
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{row.HOTEN}</StyledTableCell>
                                 <StyledTableCell align="center">{row.DIACHI}</StyledTableCell>
                                 <StyledTableCell align="center">{row.SDT}</StyledTableCell>
                                 <StyledTableCell align="center">{row.MAIL}</StyledTableCell>
                                 <StyledTableCell align="center">{row.TONGTIEN}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <StyleSelect defaultValue={row.TRANGTHAI}>
-                                    <MenuItem value={1}>Chờ Xác Nhận</MenuItem>
-                                    <MenuItem value={2}>Đã Xác Nhận</MenuItem>
-                                    <MenuItem value={3}>Đang Giao Hàng</MenuItem>
-                                    <MenuItem value={4}>Hoàn Thành</MenuItem>
-                                    <MenuItem value={5}>Hủy</MenuItem>
-                                    </StyleSelect>
-                                </StyledTableCell>
+                                {
+                                  row.TRANGTHAI === 5 ? (
+                                    <StyledTableCell align="center">
+                                      <StyleSelect disabled={true} defaultValue={row.TRANGTHAI}>
+                                      <MenuItem value={5}>Hủy</MenuItem>
+                                      </StyleSelect>
+                                    </StyledTableCell>
+                                  ) : 
+                                  (
+                                    <StyledTableCell align="center">
+                                      <StyleSelect defaultValue={row.TRANGTHAI}  onChange={(e) => {handleUpdate(e,row.ID)}}>
+                                        <MenuItem value={1}>Chờ Xác Nhận</MenuItem>
+                                        <MenuItem value={2}>Đã Xác Nhận</MenuItem>
+                                        <MenuItem value={3}>Đang Giao Hàng</MenuItem>
+                                        <MenuItem value={4}>Hoàn Thành</MenuItem>
+                                        <MenuItem value={5}>Hủy</MenuItem>
+                                      </StyleSelect>
+                                    </StyledTableCell>
+                                  )
+                                }
                                 <StyledTableCell align="center">
                                    {
                                        row.TRANGTHAI == 5 ? (

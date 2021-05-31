@@ -52,6 +52,10 @@ const accountApi = {
     getUser: (TAIKHOAN) => {
         const url = `/khachhang/${TAIKHOAN}`;
         return axiosClient.get(url);
+    },
+    updateNV: (id,data) => {
+        const url = `nhanvien/${id}`
+        return axiosClient.put(url,data)
     }
 }
 

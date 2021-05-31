@@ -144,7 +144,8 @@ function CreatebarUser({ChangeFlag}) {
       resetState()
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => { 
+      console.log(`submit`)
         e.preventDefault();
         if(UserExist() === true) {
             setIsExistAccount(true)
@@ -189,14 +190,12 @@ function CreatebarUser({ChangeFlag}) {
                         setIsSuccess(true)
                         resetState()
                         setFlag(!flag)
+                        // ChangeFlag()
                         setTimeout(() => {
                             setIsSuccess(false)
                         }, 3000);
                     })
                 })
-                
-                // await accountApi.addNhanVien(User)
-               
                 
             } catch (error) {
                 console.log(error.message)
@@ -222,8 +221,8 @@ function CreatebarUser({ChangeFlag}) {
               <Typography variant="h6" className={classes.title}>
                 Thoát
               </Typography>
-              <Button autoFocus color="inherit" onClick={handleSubmit, ChangeFlag}>
-                Lưu
+              <Button autoFocus color="inherit" onClick={handleSubmit}>
+                Lưu 
               </Button>
             </Toolbar>
           </AppBar>
@@ -293,12 +292,9 @@ function CreatebarUser({ChangeFlag}) {
                       label="Mật Khẩu"
                       size='small'
                     >
-                        
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
                       <MenuItem value='1'>Admin</MenuItem>
                       <MenuItem value='2'>Nhân Viên</MenuItem>
+                      <MenuItem value='3'>Khách Hàng</MenuItem>
                   </Select>
                 
                 

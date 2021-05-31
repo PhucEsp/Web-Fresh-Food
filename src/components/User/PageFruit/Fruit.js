@@ -6,6 +6,7 @@ import RenderListProducts from '../RenderListProducts/RenderListProducts'
 import ModalProduct from '../ModalDetailProduct/ModalProduct'
 import SendGmail from '../SendGmail/SendGmail'
 import Footer from '../Footer/Footer'
+import Pagination from '../Pagination/Pagination'
 
 import './Fruit.scss'
 import productsApi from '../../../api/ProductsApi'
@@ -21,6 +22,10 @@ function Fruit() {
     const [listCartRender, setListCartRender] = useState([]);
     const [infoUser, setInfoUser] = useState({})
     const [flag,setFlag] = useState(false)
+
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage] = useState(10);
 
     const acc = localStorage.getItem('account')
     useEffect( async() => {
@@ -64,7 +69,6 @@ function Fruit() {
         setFlag(!flag)
     }
      
-    const newList = listProducts.filter(val => val.MADM == 1); 
     const setOpenModal = (product) => {
     setFlag(!flag)
     setDetailProduct({
@@ -84,6 +88,13 @@ function Fruit() {
         })
     }
 
+    const newList = listProducts.filter(val => val.MADM == 1); 
+    const indexOfLastPost = currentPage * productsPerPage;
+    const indexOfFirstPost = indexOfLastPost - productsPerPage;
+    const currentProductPage = newList.slice(indexOfFirstPost, indexOfLastPost);
+    
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
         <div className="collections">
         <Header listCartRender={listCartRender}></Header>
@@ -95,7 +106,12 @@ function Fruit() {
         description='Mỗi ngày chúng tôi đều đưa đến cho bạn những sản phẩm tươi và sạch nhất' 
         ></TitleProducts>
 
-        <RenderListProducts listProducts={newList} handleOnclick={setOpenModal}  ></RenderListProducts>
+        <RenderListProducts listProducts={currentProductPage} handleOnclick={setOpenModal}  ></RenderListProducts>
+        <Pagination
+            productsPerPage={productsPerPage}
+            totalProducts={newList.length}
+            paginate={paginate}
+        />
         <SendGmail></SendGmail>
         <Footer></Footer>
 

@@ -13,6 +13,7 @@ import Carousel from '../OwlCarousel/Carousel'
 import RenderListProducts from '../RenderListProducts/RenderListProducts'
 import TitleProducts from '../TitleProducts/TitleProducts'
 import VideoHome from '../VideoHome/VideoHome'
+import Pagination from '../Pagination/Pagination'
 
 import './Home.scss'
 
@@ -25,6 +26,9 @@ function Home({productsData, fetchProducts}) {
   const [infoUser, setInfoUser] = useState({})
   const [flag,setFlag] = useState(false)
 
+  // pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(10);
 
     useEffect(() => {
         fetchProducts()
@@ -53,8 +57,6 @@ function Home({productsData, fetchProducts}) {
       fetchListCart()
     }, [flag])
 
-    const listProducts = productsData.data.filter(val => val.MADM == 2)
-
   const setOpenModal = (product) => {
     setFlag(!flag)
     setDetailProduct({
@@ -78,8 +80,19 @@ function Home({productsData, fetchProducts}) {
       SOLUONG: e.target.value,
     })
   }
+  
+  const listProducts = productsData.data.filter((val,index) =>
+  { 
+    if(index < 10) 
+    return val.MADM == 2 
+  })
+  // get current page product
+  const indexOfLastPost = currentPage * productsPerPage;
+  const indexOfFirstPost = indexOfLastPost - productsPerPage;
+  const currentProductPage = productsData.data.slice(indexOfFirstPost, indexOfLastPost);
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    return (
+    return (  
       productsData.loading ? (
         <h2>Loading...</h2>
       ) : productsData.error ? (
@@ -97,11 +110,15 @@ function Home({productsData, fetchProducts}) {
           <RenderListProducts listProducts={listProducts} handleOnclick={setOpenModal}  ></RenderListProducts>
           
           {/* list sale products */}
-          <TitleProducts title='Sản phẩm khuyến mãi' 
+          <TitleProducts title='Sản phẩm' 
           description='Bão Sale Nhà Suni' 
           ></TitleProducts>
-          <RenderListProducts listProducts={productsData.data} handleOnclick={setOpenModal}  ></RenderListProducts>
-
+          <RenderListProducts listProducts={currentProductPage} handleOnclick={setOpenModal}  ></RenderListProducts>
+          <Pagination
+            productsPerPage={productsPerPage}
+            totalProducts={productsData.data.length}
+            paginate={paginate}
+          />
           <Banner></Banner>
 
           {/* Modal detail product */}

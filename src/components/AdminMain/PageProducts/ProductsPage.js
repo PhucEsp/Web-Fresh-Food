@@ -433,7 +433,7 @@ function ProductsPage() {
                     label="Mô Tả"
                     variant="outlined"
                     multiline
-                    rows={7}
+                    rows={5}
                     value={mota}
                     onChange={(e) => {setMoTa(e.target.value)}}
                   />

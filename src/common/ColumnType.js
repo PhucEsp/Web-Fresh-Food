@@ -117,54 +117,54 @@ export const columnsFruit = [
 
 
   export const columnsOrder = [
-    { id: 'madh', label: 'ID #', minWidth: 100 },
-    { id: 'manv', label: 'Mã Nhân Viên', minWidth: 100, align: 'center', },
+    { id: 'madh', label: 'ID #', maxWidth: 100 },
+    // { id: 'manv', label: 'Mã Nhân Viên', maxWidth: 150, align: 'center', },
     {
       id: 'ngay',
       label: 'Ngày',
-      minWidth: 170,
+      maxWidth: 170,
       align: 'center',
     },
     {
       id: 'hoten',
-      label: 'Họ Tên Khách Hàng',
-      minWidth: 250,
+      label: 'Khách Hàng',
+      minWidth: 150,
       align: 'center',
     },
     {
       id: 'diachi',
       label: 'Địa Chỉ',
-      minWidth: 320,
+      maxWidth: 320,
       align: 'center',
     },
     {
       id: 'sdt',
       label: 'SĐT',
-      minWidth: 200,
+      minWidth: 90,
       align: 'center',
     },
     {
       id: 'mail',
       label: 'Email',
-      minWidth: 250,
+      maxWidth: 250,
       align: 'center',
     },
     {
       id: 'tongtien',
       label: 'Tổng',
-      minWidth: 200,
+      maxWidth: 200,
       align: 'center',
     },
     {
       id: 'trangthai',
       label: 'Trạng Thái',
-      minWidth: 250,
+      maxWidth: 150,
       align: 'center',
     },
     {
       id: 'ctdh',
       label: 'Chi Tiết',
-      mminWidth: 250,
+      maxWidth: 100,
       align: 'center',
     },
   ];

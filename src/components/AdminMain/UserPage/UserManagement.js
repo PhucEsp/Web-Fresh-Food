@@ -158,19 +158,15 @@ function UserManagement() {
     const [listStaff, setListStaff] = useState([])
     const [listAdmin, setListAdmim] = useState([])
   
-     // set thong tin san pham -> edit 
-     const [MANV, setMANV] = useState('');
-     const [MAKH, setMAKH] = useState('');
+     // set thong tin Nhan vien -> edit 
+     const [MANV,setMANV] = useState('')
      const [HOTEN, setHOTEN] = useState('');
      const [DIACHI, setDIACHI] = useState('');
-     const [TAIKHOAN, setTAIKHOAN] = useState(0);
-     const [SDT, setSDT] = useState('');
-     const [MAIL, SETMAIL] = useState(0);
-
      const [open, setOpen] = React.useState(false);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        setFlag(!flag)
     };
 
     useEffect(() => {
@@ -218,8 +214,10 @@ function UserManagement() {
 
      const handleEdit = (user) => {
         setOpen(true);
-      
-    }
+        setMANV(user.MANV)
+        setHOTEN(user.HOTEN)
+        setDIACHI(user.DIACHI)
+      }
 
     const handleDelete = (TAIKHOAN) => {
         let agree = window.confirm(` Bạn có chắc chắn muốn xóa tài khoản?` );
@@ -235,10 +233,30 @@ function UserManagement() {
         }
       }
 
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
           e.preventDefault();
-          console.log('submit')
+          console.log(`object`, HOTEN.trim().length)
+          if(HOTEN.trim().length < 6 || DIACHI.trim().length < 6) {
+            alert('Thông tin ít nhất 6 kí tự')
+            return ;
+          } 
+          else {
+            const data = {
+              HOTEN: HOTEN,
+              DIACHI: DIACHI
+            }
+  
+            try {
+              await accountApi.updateNV(MANV,data)
+              setOpen(false)
+              setFlag(!flag);
+            } catch (error) {
+              console.log(error.message)
+            }
+          }
+          
       }
+
     return (
         <div className="namagement-user">
             <div className={classes.root}>
@@ -303,32 +321,32 @@ function UserManagement() {
                   <TextField
                     className={classes.Input}
                     id="outlined-basic"
-                    label="Tên Sản Phẩm"
+                    label="Họ Tên"
                     variant="outlined"
                     required
                     value={HOTEN}
                     onChange={(e) => {setHOTEN(e.target.value)}}
                   />
-                  <TextField
+                  {/* <TextField
                     required 
                     variant='outlined'
-                    label="Giá"
-                    value={SDT}
-                    onChange={(e) => {setSDT(e.target.value)}}
+                    label="Tài Khoản"
+                    value={TAIKHOAN}
+                    onChange={(e) => {setTAIKHOAN(e.target.value)}}
                     name="numberformat"
                     id="formatted-numberformat-input"
-                  />
+                  /> */}
                   
                   <TextField
                     required 
                     className={classes.Input}
                     id="outlined-basic"
-                    label="Đơn Vị Tính"
+                    label="Địa Chỉ"
                     variant="outlined"
                     value={DIACHI} name="donvitinh" 
                     onChange={(e) => {setDIACHI(e.target.value)}}
                   />
-                  <TextField
+                  {/* <TextField
                     required 
                     variant='outlined'
                     label="Số Lượng"
@@ -339,8 +357,7 @@ function UserManagement() {
                     InputProps={{
                       inputComponent: NumberFormatCustom,
                     }}
-                  />
-                
+                  /> */}
                 </form>
                 </div>
               </div>

@@ -32,7 +32,23 @@ const cartApi = {
         return axiosClient.get(url)
     },
     
+    getDetailOrder: (makh) => {
+        const url = `dathang/ctdh/${makh}`
+        return axiosClient.get(url)
+    },
+    updateDetailOrder: (id,data) => {
+        const url = `dathang/${id}`
+        return axiosClient.put(url,data)
+    },
     
+    cancelOrder: (data) => {
+        const url = 'dathang/huy'
+        return axiosClient.post(url,data)
+    },
+    getUserOrder: (makh) => {
+        const url = `dathang/khachhang/${makh}`
+        return axiosClient.get(url)
+    },
 }
 
 export default cartApi

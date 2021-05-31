@@ -14,6 +14,7 @@ function Login() {
     const [errMessage,setErrMessage] = useState('');
     const [isLogin,setIsLogin] = useState(false);
     const [checkSubmit, setCheckSubmit] = useState(false);
+    const [role, setRole] = useState(0)
     const history = useHistory();
     const URL_Login = 'http://localhost:8081/dangnhap/admin'
 
@@ -25,7 +26,8 @@ function Login() {
         try {
             axios.post(URL_Login,account)   
             .then(res => {
-                setCheckLogin(res.data)
+                setCheckLogin(res.data.message)
+                setRole(res.data.role)
             })
             .catch(err => {
             setCheckLogin(err.message)
@@ -87,6 +89,7 @@ function Login() {
         console.log(checkLogin)
         if(checkLogin === 'Valid'){
             localStorage.setItem('token',`admin`);
+            localStorage.setItem('role',role )
             history.push("/admin");
         }
          if(checkLogin === 'Wrong Password') {
@@ -132,7 +135,6 @@ function Login() {
                 </div>
             </div>
         </div>
-        
     )
 }
 

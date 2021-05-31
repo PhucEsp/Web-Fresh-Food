@@ -71,13 +71,12 @@
             }
             
             .danh_muc h3{
-                font-size: 14px;
                 text-transform: uppercase;
                 font-weight: 800;
             }
             
             .danh_muc .danh_muc_content li{
-                font-size: 14px;
+                font-size: 18px;
             }
             
             .danh_muc .danh_muc_content{
@@ -90,6 +89,10 @@
             
             .danh_muc_content_info{
                 display: flex;
+                font-size: 18px;
+                >p {
+                    margin-left: 10px;
+                }
             }
             
             

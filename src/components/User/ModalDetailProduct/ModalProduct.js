@@ -23,19 +23,23 @@ function ModalProduct({product, handleChange, changeFlag}) {
     fetchUserInfo(account);
  }, [flag]) 
   
-
+ 
   const handleAddToCart = async (event) => {
     event.preventDefault();
-    setFlag(!flag)
-    const data = {
-       MASP : product.ID,
-       MAKH : infoUser.MAKH,
-       SOLUONG : product.SOLUONG,
-    }
-    try {
-      cartApi.addToCart(data);
-    } catch (error) {
-      alert("Lỗi hệ thống. Vui lòng thử lại")
+    const account = localStorage.getItem("account")
+    if(account == null) return;
+    else {
+      const data = {
+        MASP : product.ID,
+        MAKH : infoUser.MAKH,
+        SOLUONG : product.SOLUONG,
+     }
+     try {
+       cartApi.addToCart(data);
+       setFlag(!flag)
+     } catch (error) {
+       alert("Lỗi hệ thống. Vui lòng thử lại")
+     }
     }
   }
 

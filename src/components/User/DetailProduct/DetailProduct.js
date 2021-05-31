@@ -22,7 +22,14 @@ import ModalProduct from '../ModalDetailProduct/ModalProduct';
 import accountApi from '../../../api/AccountApi';
 import cartApi from '../../../api/CartApi';
 import NumberFormat from 'react-number-format';
-
+import Alert from '@material-ui/lab/Alert';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Moment from 'react-moment';
  //style UI
  const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,6 +42,13 @@ import NumberFormat from 'react-number-format';
     },
     button: {
         margin: theme.spacing(1),
+    },
+    notifi: {
+        margin: theme.spacing(2),
+    },
+    list: {
+        maxWidth: 600,
+        marginBottom: 55
     },
 }));
 
@@ -49,6 +63,9 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
     const [listCartRender, setListCartRender] = useState([]);
     const [infoUser, setInfoUser] = useState({})
     const [flag,setFlag] = useState(false)
+    const [comment, setComment] = useState('')
+    const [listCommentForProduct,setListCommentForProduct] = useState([])
+    const [SuccesAddComment,setSuccesAddComment] = useState(false)
 
 
     const classes = useStyles();
@@ -87,7 +104,18 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                   console.log(error.message);
           }
       }
-      fetchListCart()
+      
+      const fetchListCommentForProduct = async () => {
+            try {
+                const respone = await productsApi.getListCommentForProduct(ID);
+                setListCommentForProduct(respone)
+            } catch (error) {
+                    console.log(error.message);
+            }
+        }
+        fetchListCart()
+        fetchListCommentForProduct()
+
     }, [flag])
 
     const changeFlag = () => {
@@ -122,18 +150,54 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
 
     const handleAddToCart = async (event) => {
         event.preventDefault();
-        setFlag(!flag)
-        const data = {
-           MASP : product.ID,
-           MAKH : infoUser.MAKH,
-           SOLUONG : quanty,
-        }
-        try {
-            cartApi.addToCart(data);
-        } catch (error) {
-            alert("Lỗi hệ thống. Vui lòng thử lại")
+        const account = localStorage.getItem("account")
+        if(account == null) return;
+        else {
+            const data = {
+                MASP : product.ID,
+                MAKH : infoUser.MAKH,
+                SOLUONG : quanty,
+            }
+            try {
+                cartApi.addToCart(data);
+                setFlag(!flag)
+     
+            } catch (error) {
+                alert("Lỗi hệ thống. Vui lòng thử lại")
+            }
         }
       }
+
+      const onSubmitComment = async (e) => {
+        if(comment === "")
+        {
+          return
+        }
+
+        e.preventDefault()
+        const today = new Date(),
+        date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
+        const data = {
+            MAKH: infoUser.MAKH,
+            MASP: ID,
+            NOIDUNG: comment,
+            THOIGIAN: date
+        }
+        try {
+            await productsApi.addCommentForProduct(data)
+            await setSuccesAddComment(true)
+            setTimeout(() => {
+                setSuccesAddComment(false)
+            }, 3000);
+            setFlag(!flag)
+            setComment("")
+        } catch (error) {
+            console.log(`error`, error.message)
+        }
+      }
+
+
+
     return (
         <div className="detail-product">
            <Header listCartRender={listCartRender}></Header>
@@ -168,25 +232,22 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             </div>
             
             {/* đánh giá sản phẩm  */}
-            <Box component="fieldset" mb={3} borderColor="transparent">
-                <Typography component="legend">Đánh Giá</Typography>
-                <Rating
-                name="simple-controlled"
-                value={valueRating}
-                onChange={(event, newValue) => {
-                    setValueRating(newValue);
-                }}
-                />
-            </Box>
-            
-            <TitleProducts title="Best Seller" 
-            description='Những sản phẩm bán chạy nhất' 
-            ></TitleProducts>
-            <RenderListProducts listProducts={newList} handleOnclick={setOpenModal}></RenderListProducts>
-
+            <div className="container" style={{padding: 10}}>
+                <Box component="fieldset" mb={6} borderColor="transparent" style={{textAlign: 'start'}}>
+                    <Typography component="legend">Đánh Giá</Typography>
+                    <Rating
+                    name="simple-controlled"
+                    value={valueRating}
+                    onChange={(event, newValue) => {
+                        setValueRating(newValue);
+                    }}
+                    />
+                </Box>
+            </div>
             <hr className="container"></hr>
             {/* bình luận sản phẩm */}
-            <form className={classes.root} Validate autoComplete="off">
+            <h2 style={{marginBottom : 40}}>Bình luận sản phẩm</h2>
+            <form className={classes.root} Validate autoComplete="off" >
                 <div className="container comment">
                     <TextField
                     id="outlined-multiline-static"
@@ -194,6 +255,8 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                     multiline
                     rows={6}
                     variant="outlined"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
                     />
                 </div>
                 <div className="container comment">
@@ -202,11 +265,68 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                     color="primary"
                     className={classes.button}
                     endIcon={<Icon>send</Icon>}
+                    onClick={onSubmitComment}
                 >
                     Gửi
                 </Button>
                 </div>
+                <div className={classes.notifi, "container"}>
+                   {
+                       SuccesAddComment && 
+                       <Alert severity="info">Thành công ! Nội dung không phù hợp sẽ bị xóa bỏ</Alert>
+                   }
+                </div>
             </form>
+
+            {/* danh sách các bình luận */}
+
+            <div className="container">
+            <List className={classes.list}>
+                { 
+                    listCommentForProduct.length > 0 && 
+                    listCommentForProduct.map(item => (
+                    <>
+                        <ListItem alignItems="flex-start">
+                            <ListItemAvatar>
+                            <Avatar alt="Img" src="/static/images/avatar/1.jpg" />
+                            </ListItemAvatar>
+                            <ListItemText
+                            primary={item.HOTEN}
+                            secondary={
+                                <React.Fragment>
+                                <Typography
+                                    component="span"
+                                    variant="body2"
+                                    className={classes.inline}
+                                    color="textPrimary"
+                                >
+                                </Typography>
+                                {` — ${item.NOIDUNG} `}
+                                <Typography 
+                                style={{marginTop: 10}}
+                                variant="body2"
+                                color="textPrimary"
+                                ><Moment format="DD/MM/YYYY">
+                                {item.THOIGIAN}
+                                </Moment></Typography>
+                                </React.Fragment>
+                            }
+                            />
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                    </>
+                    ))
+                }
+                
+                
+                </List>
+            </div>
+            
+            <TitleProducts title="Best Seller" 
+            description='Những sản phẩm bán chạy nhất' 
+            ></TitleProducts>
+            <RenderListProducts listProducts={newList} handleOnclick={setOpenModal}></RenderListProducts>
+           
             <SendGmail></SendGmail>
             <Footer ></Footer>
             <ModalProduct show={modalIsOpen} product={detailProduct} handleChange = {handleChange}   ></ModalProduct>

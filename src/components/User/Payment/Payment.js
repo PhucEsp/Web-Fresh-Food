@@ -84,6 +84,9 @@ function Payment() {
     }
 
     const handleSubmit = async () => {
+        if(totalPrice() == 0){
+            return;
+        }
         const data = {
             MAKH : infoUser.MAKH,
             DIACHI: address,
@@ -247,7 +250,7 @@ function Payment() {
                     <div class="detail_price">
                         <p>
                             Tạm tính: 
-                            <NumberFormat value={totalPrice()} displayType={'text'} thousandSeparator={true} prefix={'vnd '} />
+                            <NumberFormat value={totalPrice()} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} />
                         </p>
 
                         <p>

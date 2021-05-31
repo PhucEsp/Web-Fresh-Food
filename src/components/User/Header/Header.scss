@@ -239,7 +239,11 @@ li.dropdown {
                 }
             }
             p {
-
+                font-size: 18px;
+                text-align: start;
+                span {
+                    margin-left: 5px;
+                }
             }
         }
         ul {
@@ -359,7 +363,6 @@ li.dropdown {
             margin: 20px 15px 10px 0px;
             border: 1px solid #bed747;
             background-color: #bed747;
-            color: white !important;
             transition: .4s all;
             &:hover {
                 background-color: white;

@@ -6,6 +6,7 @@ import RenderListProducts from '../RenderListProducts/RenderListProducts'
 import ModalProduct from '../ModalDetailProduct/ModalProduct'
 import SendGmail from '../SendGmail/SendGmail'
 import Footer from '../Footer/Footer'
+import Pagination from '../Pagination/Pagination'
 
 import productsApi from '../../../api/ProductsApi'
 import cartApi from '../../../api/CartApi'
@@ -20,6 +21,10 @@ function Mushroom() {
     const [listCartRender, setListCartRender] = useState([]);
     const [infoUser, setInfoUser] = useState({})
     const [flag,setFlag] = useState(false)
+
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage] = useState(10);
 
 
     const acc = localStorage.getItem('account')
@@ -57,8 +62,6 @@ function Mushroom() {
         fetchProductsList();
      }, []) 
      
-     const newList = listProducts.filter(val => val.MADM == 3);
-    
     const setCloseModal = () => {
         setModalIsOpen(false);
     }
@@ -85,6 +88,12 @@ function Mushroom() {
         })
     }
 
+    const newList = listProducts.filter(val => val.MADM == 3);
+    const indexOfLastPost = currentPage * productsPerPage;
+    const indexOfFirstPost = indexOfLastPost - productsPerPage;
+    const currentProductPage = newList.slice(indexOfFirstPost, indexOfLastPost);
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
         <div className="collections">
         <Header listCartRender={listCartRender}></Header>
@@ -97,6 +106,11 @@ function Mushroom() {
         ></TitleProducts>
 
         <RenderListProducts listProducts={newList} handleOnclick={setOpenModal}  ></RenderListProducts>
+        <Pagination
+            productsPerPage={productsPerPage}
+            totalProducts={newList.length}
+            paginate={paginate}
+        />
         <SendGmail></SendGmail>
         <Footer></Footer>
 

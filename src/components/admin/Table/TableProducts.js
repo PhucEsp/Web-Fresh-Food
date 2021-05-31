@@ -58,6 +58,11 @@ const StyledTableCell = withStyles((theme) => ({
 
 function TableProducts({columns,rows,handleEdit, handleDelete}) {
     const classes = useStyles();
+
+    const configProductDescription = (text) => {
+     if(text.length > 50) return text.slice(0,50).concat('...')
+     return text
+    }
     return (
         <div>
             <TableContainer component={Paper}>
@@ -92,7 +97,7 @@ function TableProducts({columns,rows,handleEdit, handleDelete}) {
                                 <StyledTableCell align="center"><NumberFormat value={row.GIA} displayType={'text'} thousandSeparator={true}/> </StyledTableCell>
                                 <StyledTableCell align="center">{row.DONVITINH}</StyledTableCell>
                                 <StyledTableCell align="center"><NumberFormat value={row.SOLUONG} displayType={'text'} thousandSeparator={true}/></StyledTableCell>
-                                <StyledTableCell align="center">{row.MOTA}</StyledTableCell>
+                                <StyledTableCell align="center">{configProductDescription(row.MOTA)}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button onClick={(e) => {handleEdit(row)}} >
                                       <EditIcon ></EditIcon>
