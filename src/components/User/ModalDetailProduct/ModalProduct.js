@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect,useState} from 'react'
 import NumberFormat from 'react-number-format';
+import { useHistory } from 'react-router';
 import accountApi from '../../../api/AccountApi';
 import cartApi from '../../../api/CartApi';
 import "./ModalProduct.scss";
@@ -8,7 +9,7 @@ function ModalProduct({product, handleChange, changeFlag}) {
 
   const [infoUser, setInfoUser] = useState({})
   const [flag, setFlag] = useState(false)
-
+  const history = useHistory()
   const account = localStorage.getItem('account')
   
   useEffect(() => {
@@ -23,11 +24,13 @@ function ModalProduct({product, handleChange, changeFlag}) {
     fetchUserInfo(account);
  }, [flag]) 
   
- 
+ console.log(`infoUser`, infoUser)
   const handleAddToCart = async (event) => {
     event.preventDefault();
     const account = localStorage.getItem("account")
-    if(account == null) return;
+    if(account == null) {
+      return;
+    }
     else {
       const data = {
         MASP : product.ID,

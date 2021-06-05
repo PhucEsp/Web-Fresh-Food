@@ -38,6 +38,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Moment from 'react-moment';
 import { createLogger } from 'redux-logger';
+import { useHistory } from 'react-router';
  //style UI
  const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,6 +64,8 @@ import { createLogger } from 'redux-logger';
 
 function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
     
+    const history = useHistory()
+
     const [product, setProduct] = useState({})
     const [quanty, setQuanty] = useState(1);
     const [valueRating, setValueRating] = React.useState(0);
@@ -176,7 +179,11 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
     const handleAddToCart = async (event) => {
         event.preventDefault();
         const account = localStorage.getItem("account")
-        if(account == null) return;
+        // if(account == null) return;
+        if(account == null) {
+            history.push("/home/dang-nhap")
+            return;
+          }
         else {
             const data = {
                 MASP : product.ID,
