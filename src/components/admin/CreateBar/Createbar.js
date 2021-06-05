@@ -308,7 +308,7 @@ function Createbar() {
 
                 {
                   isValidate && (
-                    <Alert classes={classes.absolute} severity="error">
+                    <Alert id='error-createBar' classes={classes.absolute} severity="error">
                       <AlertTitle>Vui lòng điền thông tin đầy đủ</AlertTitle>
                     </Alert>
                   )

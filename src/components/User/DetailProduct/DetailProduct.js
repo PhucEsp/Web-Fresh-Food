@@ -11,8 +11,15 @@ import TitleProducts from '../TitleProducts/TitleProducts';
 import './Detail.scss'
 
 // meterial UI
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Rating from '@material-ui/lab/Rating';
-import { makeStyles } from '@material-ui/core/styles';
+import StarIcon from '@material-ui/icons/Star';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from "@material-ui/core/TextField";
@@ -30,6 +37,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Moment from 'react-moment';
+import { createLogger } from 'redux-logger';
  //style UI
  const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +58,7 @@ import Moment from 'react-moment';
         maxWidth: 600,
         marginBottom: 55
     },
+    progress: {}
 }));
 
 function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
@@ -66,7 +75,12 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
     const [comment, setComment] = useState('')
     const [listCommentForProduct,setListCommentForProduct] = useState([])
     const [SuccesAddComment,setSuccesAddComment] = useState(false)
+    const [rating,setRating] = useState(null)
 
+    // for rating product
+    const [open, setOpen] = React.useState(false);
+    const [value, setValue] = React.useState(0);
+    const [contentRating, setContentRating] = React.useState('');
 
     const classes = useStyles();
     const account = localStorage.getItem('account')
@@ -110,14 +124,25 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                 const respone = await productsApi.getListCommentForProduct(ID);
                 setListCommentForProduct(respone)
             } catch (error) {
-                    console.log(error.message);
+                console.log(error.message);
+            }
+        }
+
+        const fetchInfoRating = async () => {
+            try {
+                const respone = await productsApi.getInfoRating(ID)
+                setRating(respone)
+                console.log(`rating`, rating)
+            } catch (error) {
+                console.log(error.message);
             }
         }
         fetchListCart()
         fetchListCommentForProduct()
+        fetchInfoRating()
 
     }, [flag])
-
+    
     const changeFlag = () => {
         setFlag(!flag)
     }
@@ -196,6 +221,86 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
         }
       }
 
+      console.log(`rating`, rating)
+
+      const calPercentRangting = (numberRating) => {
+         if(rating === null || rating.length === 0) {
+            return 0
+         }
+         else {
+            const total = totalRating()
+            return (numberRating/total)*100
+         }
+      }
+
+      const totalRating = () => {
+        if(rating === null || rating.length === 0) {
+           return 0
+        }
+        else {
+            const propertyValues  = Object.values((rating[0]))
+            return  propertyValues.reduce((val,cal) => {
+                return val + cal
+            },0)
+           
+        }
+     }
+
+     const avegareRating = (rating) => {
+        const propertyValues  = Object.values((rating[0]))
+        console.log(`propertyValues`, propertyValues)
+        const number = 0
+        const total = 0
+        propertyValues.forEach((val, index) => {
+            if(val > 0){
+                number ++
+                total += (val * (index + 1))
+            }
+        })
+        if(number === 0){
+            return 0
+        }
+        else  return total/number
+        
+     }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    console.log(`infoUser`, infoUser)
+    const handleSubmit = async () => {
+        const data = {
+            MAKH: infoUser.MAKH,
+            MASP: ID,
+            NOIDUNG: contentRating,
+            SOSAO: value
+        }
+        try {
+            await productsApi.addRating(data)
+            setFlag(!flag)
+        } catch (error) {
+            alert("Hệ thống gặp sự cố, vui lòng thử lại")
+        }
+        setOpen(false);
+    }
+
+      const BorderLinearProgress = withStyles((theme) => ({
+        root: {
+          height: 10,
+          borderRadius: 5,
+        },
+        colorPrimary: {
+          backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+        },
+        bar: {
+          borderRadius: 5,
+          backgroundColor: '#1a90ff',
+        },
+      }))(LinearProgress);
 
 
     return (
@@ -232,17 +337,83 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             </div>
             
             {/* đánh giá sản phẩm  */}
-            <div className="container" style={{padding: 10}}>
-                <Box component="fieldset" mb={6} borderColor="transparent" style={{textAlign: 'start'}}>
-                    <Typography component="legend">Đánh Giá</Typography>
-                    <Rating
-                    name="simple-controlled"
-                    value={valueRating}
-                    onChange={(event, newValue) => {
-                        setValueRating(newValue);
-                    }}
-                    />
-                </Box>
+            <div className="container product-rating" style={{padding: 10}}>
+               <div>
+                   <h1>Đánh Giá Sản Phẩm</h1>
+                   <div className='rate'>
+                   <Button style={{maxWidth: 200}}  color="primary" onClick={handleClickOpen}>
+                        Gửi Đánh Giá Của Bạn
+                    </Button>
+                        {/* <Rating name="read-only"  readOnly /> */}
+                    </div>
+                   <div>
+                       {
+                           rating ? (
+                            rating && rating.map(val => (
+                                <div className="wraper-rating">
+                                <div className="percent-rating">
+                                    <div><p>4.3</p></div>
+                                    <div><i class="fas fa-star"></i></div>
+                                    <div> <span>{totalRating()} đánh giá</span></div>
+                                </div>
+                                <div className='detail-rating'>
+                                    <div className="items">
+                                        <div className='item'>
+                                            <p style={{marginRight: -40}}>5 <StarIcon style={{color: 'rgb(255, 196, 0)'}} ></StarIcon> </p> 
+                                            <div >
+                                            <BorderLinearProgress style={{marginTop: 10}} variant="determinate" value={calPercentRangting(val.fiveStar)} />
+                                            </div>
+                                            <p>{val.fiveStar} đánh giá</p>
+                                        </div>
+                                        <div className='item'>
+                                            <p style={{marginRight: -40}}>4 <StarIcon style={{color: 'rgb(255, 196, 0)'}} ></StarIcon> </p> 
+                                            <div >
+                                            <BorderLinearProgress style={{marginTop: 10}} variant="determinate" value={calPercentRangting(val.fourStar)} />
+                                            </div>
+                                            <p>{val.fourStar} đánh giá</p>
+                                        </div>
+                                        <div className='item'>
+                                            <p style={{marginRight: -40}}>3 <StarIcon style={{color: 'rgb(255, 196, 0)'}} ></StarIcon> </p> 
+                                            <div >
+                                            <BorderLinearProgress style={{marginTop: 10}} variant="determinate" value={calPercentRangting(val.threeStar)} />
+                                            </div>
+                                            <p>{val.threeStar} đánh giá</p>
+                                        </div>
+                                        <div className='item'>
+                                            <p style={{marginRight: -40}}>2 <StarIcon style={{color: 'rgb(255, 196, 0)'}} ></StarIcon> </p> 
+                                            <div >
+                                            <BorderLinearProgress style={{marginTop: 10}} variant="determinate" value={calPercentRangting(val.twoStar)} />
+                                            </div>
+                                            <p>{val.twoStar} đánh giá</p>
+                                        </div>
+                                        <div className='item'>
+                                            <p style={{marginRight: -40}}>1 <StarIcon style={{color: 'rgb(255, 196, 0)'}}></StarIcon> </p> 
+                                            <div >
+                                            <BorderLinearProgress style={{marginTop: 10}} variant="determinate" value={calPercentRangting(val.oneStar)} />
+                                            </div>
+                                            <p>{val.oneStar} đánh giá</p>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                               ))
+                           ) : (
+                               <>
+                                <p>Chưa có đánh giá nào</p>
+                                <div className='rate'>
+                                        <p>Gửi Đánh Giá Của Bạn</p>
+                                        <Rating name="read-only"  readOnly />
+                                    </div>
+                                </>
+                           )
+                       }
+                      
+                       {
+                           
+                       }
+
+                   </div>
+               </div>
             </div>
             <hr className="container"></hr>
             {/* bình luận sản phẩm */}
@@ -320,6 +491,48 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                 
                 
                 </List>
+            </div>
+
+            <div>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogTitle id="form-dialog-title">Đánh Giá Sản Phẩm</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                    <Box component="fieldset" mb={3} borderColor="transparent">
+                        <Rating
+                        name="simple-controlled"
+                        value={value}
+                        onChange={(event, newValue) => {
+                            setValue(newValue);
+                        }}
+                        />
+                    </Box>
+                    </DialogContentText>
+
+                    <TextField
+                        id="outlined-basic"
+                        label="Nội Dung"
+                        variant="outlined"
+                        multiline
+                        rows={5}
+                        fullWidth
+                        value = {contentRating}
+                        onChange={(e) => setContentRating(e.target.value)}
+                    />
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Trở Về
+                    </Button>
+                    <Button onClick={handleSubmit} color="primary">
+                        Gửi
+                    </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
             
             <TitleProducts title="Best Seller" 

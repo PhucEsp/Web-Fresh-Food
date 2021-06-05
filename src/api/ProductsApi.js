@@ -54,6 +54,18 @@ const productsApi = {
         const url = `/binhluan/sanpham/${id}`;
         return axiosClient.get(url);
     },
+    getInfoRating: (id) => {
+        const url = `/danhgia/sanpham/${id}`;
+        return axiosClient.get(url);
+    },
+    addRating: (data) => {
+        const url = `/danhgia`;
+        return axiosClient.post(url,data);
+    },
+    getStatistical: () => {
+        const url = `/thongkedoanhthu/2021`;
+        return axiosClient.get(url);
+    },
     
     
 }

@@ -9,11 +9,13 @@ import './Register.scss'
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Tooltip from '@material-ui/core/Tooltip';
 import { Alert } from '@material-ui/lab';
 
 import { ValidatorForm} from 'react-material-ui-form-validator';
 import accountApi from '../../../api/AccountApi'
 import axios from 'axios'
+import { Zoom } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -147,7 +149,11 @@ function Register() {
            <ValidatorForm className={classes.root}
            onSubmit={handleSubmit}
            >
-                    <TextField
+                   
+                    <Tooltip TransitionComponent={Zoom} 
+                    title="chấp nhận A-Z, a-z, 0-9, _ , Ít nhất 6 kí tự" 
+                    placement="right-start">
+                        <TextField
                         id="outlined-basic"
                         label="Tài Khoản"
                         variant="outlined"
@@ -155,7 +161,12 @@ function Register() {
                         required
                         onChange={(e) => {setUsername(e.target.value)}}
                         value={username}
-                    />
+                        />
+                     </Tooltip>
+
+                    <Tooltip TransitionComponent={Zoom} 
+                    title="Ít nhất 6 kí tự, Không chứa khoảng trắng" 
+                    placement="right-start">
                     <TextField
                         id="outlined-basic"
                         label="Mật Khẩu"
@@ -165,7 +176,12 @@ function Register() {
                         onChange={(e) => {setPassword(e.target.value)}}
                         value={password}
                     /> 
+                    </Tooltip>
 
+                    <Tooltip 
+                    ransitionComponent={Zoom} 
+                    title="Ít nhất 6 kí tự" 
+                    placement="right-start">
                     <TextField
                         id="outlined-basic"
                         label="Họ Tên"
@@ -175,7 +191,10 @@ function Register() {
                         onChange={(e) => {setName(e.target.value)}}
                         value={name}
                     />
+                    </Tooltip>
 
+                    <Tooltip TransitionComponent={Zoom} 
+                    title="9-11 số" placement="right-start">
                    <TextField
                         id="outlined-basic"
                         label="Số điện thoại"
@@ -186,6 +205,8 @@ function Register() {
                         onChange={(e) => {setPhoneNumber(e.target.value)}}
                         value={phoneNumber}
                     />
+                    </Tooltip>
+
                     <TextField
                         id="outlined-basic"
                         label="Email"
@@ -214,7 +235,7 @@ function Register() {
                     </div>
                 </ValidatorForm>
            </div>
-           <p>Quay lại <Link to='/home/dang-nhap'>Đăng nhập </Link> ngày</p>
+           <p>Quay lại <Link to='/home/dang-nhap'>Đăng nhập </Link></p>
                 <div className="alert">
                    <div>
                     <div className={classes.root} >

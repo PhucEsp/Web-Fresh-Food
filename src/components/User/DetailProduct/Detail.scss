@@ -102,6 +102,59 @@ textarea {
     border: none !important;
 }
 
+.product-rating {
+    max-width: 500px;
+    >div {
+        h1 {
+
+        }
+        .rate {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            text-align: start;
+            margin-bottom: 10px;
+            p {
+                color: rgb(0, 102, 255);
+                cursor: pointer;
+            }
+        }
+        >div {
+            max-width: 700px;
+            .wraper-rating {
+                display: grid;
+                grid-template-columns: 1fr 3fr 2fr;
+                .percent-rating {
+                    div {
+                        p {
+                            font-size: 18px;
+                            font-weight: 500;
+                            color: #777;
+                        }
+                        i {
+                            font-size: 70px;
+                            color: rgb(255, 196, 0);
+                            margin: 5px 0px;
+                        }
+                        span {
+                            color: #777;
+                            font-size: 16px;
+                        }
+                    }
+                }
+                .detail-rating {
+                    .items {
+                        .item {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr 1fr;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 .comment {
     display: flex;
     justify-content: start !important;

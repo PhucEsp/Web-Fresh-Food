@@ -38,6 +38,31 @@ function App() {
             <HeaderAdmin></HeaderAdmin>
             <MainControll></MainControll>
           </Route>
+          <Route exact path="/admin/products">
+            <HeaderAdmin></HeaderAdmin>
+            <MainControll>
+            <Redirect to="/admin/products" ></Redirect>
+            </MainControll>
+          </Route>
+          <Route exact path="/admin/management">
+            <HeaderAdmin></HeaderAdmin>
+            <MainControll>
+            <Redirect to="/admin/management" ></Redirect>
+            </MainControll>
+          </Route>
+          <Route exact path="/admin/order">
+            <HeaderAdmin></HeaderAdmin>
+            <MainControll>
+            <Redirect to="/admin/order" ></Redirect>
+            </MainControll>
+          </Route>
+
+          <Route exact path="/admin/statistical">
+            <HeaderAdmin></HeaderAdmin>
+            <MainControll>
+            <Redirect to="/admin/statistical" ></Redirect>
+            </MainControll>
+          </Route>
         
          
           <Route exact path ='/home' component={Home}></Route>

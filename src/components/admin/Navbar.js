@@ -28,7 +28,7 @@ const Navbar = () => {
             id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" 
             role="tab" aria-controls="v-pills-messages" aria-selected="false"
             >Đơn Hàng</Link>
-            <Link to="" class="nav-link" 
+            <Link to="/admin/statistical" class="nav-link" 
             id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" 
             role="tab" aria-controls="v-pills-messages" aria-selected="false"
             >Báo Cáo</Link>
