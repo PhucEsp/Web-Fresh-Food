@@ -6,12 +6,25 @@ $green-color: #BED747;
         display: grid !important;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 25px;
-
+        .item {
+            position: relative;
+            .outOf-product{
+                position: absolute;
+                z-index: 20;
+                top: 0;
+                right: 0;
+                background-color: #333;
+                color: white;
+                font-size: 18px;
+                font-weight: 500;
+                padding: 2px 8px;
+            }
+        }
         .card {
             position: relative;
             margin-bottom: 10px;
             border: 1px solid $green-color;
-
+            overflow: hidden;
             &:hover {
                 .card-img1 {
                     visibility: inherit;

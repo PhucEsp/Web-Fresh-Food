@@ -127,7 +127,7 @@ function Register() {
                 axios.post(url,UserAccount)
                 .then(res => {
                     // setSuccess("Tạo Tài Khoảng Thành Công")
-                    alert("Tạo Tài Khoảng Thành Công")
+                    alert("Tạo Tài Khoản Thành Công")
                 })
            } catch (error) {
             // setSuccess("Hệ thống gặp vấn đề. Tạo Tài Khoản thất bại. Vui lòng thử lại")
@@ -236,24 +236,7 @@ function Register() {
                 </ValidatorForm>
            </div>
            <p>Quay lại <Link to='/home/dang-nhap'>Đăng nhập </Link></p>
-                <div className="alert">
-                   <div>
-                    <div className={classes.root} >
-                            <Alert variant="outlined" severity="warning">
-                                Tài khoản,Mật khẩu, Họ tên ít nhất 6 kí tự 
-                               
-                            </Alert>
-                            <Alert variant="outlined" severity="warning">
-                            Tài Khoản không bao gồm kí tự đặc biệt  
-                            <br></br>
-                            Mật Khẩu không chứa khoảng trắng
-                            </Alert>
-                            <Alert variant="outlined" severity="warning">
-                                Số điện thoại ( 9-11 số )
-                            </Alert>
-                        </div>
-                   </div>
-                </div>
+                
            <SendGmail></SendGmail>
            <Footer></Footer>
        </div>

@@ -21,7 +21,7 @@ li.dropdown {
 
     >.dropdown-content {
         // position: absolute;
-        
+        z-index: 100;
         >a {
             padding: 8px 22px;
         }

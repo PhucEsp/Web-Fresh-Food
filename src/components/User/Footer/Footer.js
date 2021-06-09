@@ -7,10 +7,10 @@ function Footer() {
                 <div class="col-sm-4 mt-4">
                 <ul>
                     <h4>Hỗ trợ khách hàng</h4>
-                    <li><a href="introduce.html">Giới thiệu</a></li>
-                    <li><a href="chinh_sachDT.html">Chính sách đổi trả</a></li>
-                    <li><a href="chinhSachBM.html">Chính sách bảo mật</a></li>
-                    <li><a href="DieuKhoanDV.html">Điều khoản dịch vụ</a></li>
+                    <li><a href="/home/gioi-thieu">Giới thiệu</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Điều khoản dịch vụ</a></li>
                 </ul>
                 </div>
                 
@@ -36,7 +36,7 @@ function Footer() {
             </div>
 
             <div class="company">
-                <p>Copyright © 2021 <a href="home.html"> SUNI GREEN FARM.</a> <a href="https://www.haravan.com/"> Powered by Haravan</a></p>
+                <p>Copyright © 2021 <a href="/home"> SUNI GREEN FARM.</a> <a href="https://www.haravan.com/"> Powered by Haravan</a></p>
             </div>
         </div>
     )

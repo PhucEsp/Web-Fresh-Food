@@ -66,6 +66,7 @@ function Home({productsData, fetchProducts}) {
       MOTA: product.MOTA,
       HINHANH: product.HINHANH,
       SOLUONG: 1,
+      TONGSOLUONG: product.SOLUONG
     })
   }
   const setCloseModal = () => {

@@ -73,9 +73,8 @@
 }
 
 .form_feedback input:focus, textarea:focus{
-  border: 1px solid #BED747;
+  border: 1px solid #BED747 !important;
   outline: none;
-
 }
 
 .form_feedback input{
@@ -93,10 +92,9 @@
 
 .form_feedback textarea{
   border: 1px solid #BED747;
-  box-shadow: none;
   height: 100px;
   font-weight: 500;
-  padding: 0 20px;
+  padding: 5px 20px;
   background: transparent;
   color: #333333;
   width: 100%;

@@ -12,6 +12,11 @@ function RenderListProducts({listProducts, handleOnclick}) {
                     {
                         listProducts.map(product => (
                             <div className='item' key={product.ID}>
+                                {
+                                    product.SOLUONG == 0 ?
+                                    <span className="outOf-product">Hết Hàng</span> :
+                                    <> </>
+                                }
                                 <div className="card">
                                     <div className="card-img1 img">
                                         <a href={'/home/chi-tiet-san-pham/' + product.ID}>
@@ -31,10 +36,12 @@ function RenderListProducts({listProducts, handleOnclick}) {
                                     </div>
                                 </div>
                                 <div className="card-info">
-                                        <a href="product.html">{product.TENSP}</a>
-                                        <p>
-                                        <span className='price'><NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} /></span>
-                                        </p>
+                                    <a href={'/home/chi-tiet-san-pham/' + product.ID}>
+                                        {product.TENSP}
+                                    </a>
+                                    <p>
+                                    <span className='price'><NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} /></span>
+                                    </p>
                                 </div>
                             </div>
                         ))

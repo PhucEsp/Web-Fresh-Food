@@ -5,6 +5,7 @@ import { Link, Redirect, useHistory } from 'react-router-dom';
 import accountApi from '../../../api/AccountApi';
 import PersonIcon from '@material-ui/icons/Person';
 import productsApi from '../../../api/ProductsApi';
+import CheckIcon from '@material-ui/icons/Check';
 import './Header.scss'
 function Header(props) {
 
@@ -176,17 +177,28 @@ function Header(props) {
                         <div className="search-bar" href="#" alt="Tài khoản" onClick={showSearchBar}>
                             <i class="fas fa-search"></i>
                         </div>
-                        <div className="account" href="/home/login" alt="Tài khoản"  onClick={showInfoAccount} >
-                            <i className="fas fa-user"></i>
-                            <span className="account-name" >icon</span>
-                        </div>
+                        {
+                            account === null ? 
+                            <div className="account" href="/home/login" alt="Tài khoản"  >
+                            <a style={{textDecoration: "none"}} href="/home/dang-nhap">
+                                <i className="fas fa-user"></i>
+                                <span className="account-name" >
+                                    Đăng nhập
+                                </span>
+                            </a>
+                            </div> :
+                            <div className="account" href="/home/login" alt="Tài khoản"  onClick={showInfoAccount} >
+                                <i className="fas fa-user"></i>
+                                <span className="account-name" >
+                                    Tài Khoản
+                                </span>
+                            </div>
+                        }
                         <div className="addToCard" href="/home/cart" alt="Giỏ hàng" onClick={showInfoCart}>
                             <i className="fas fa-cart-plus"></i>
                             {
                                 listCartRender == undefined  ? <span className="total-card">0</span>
                                 : <span className="total-card">{listCartRender.length}</span>
-                            //   props.listCartRender.length == undefined ?  <span className="total-card">{props.listCartRender.length}</span>
-                            //   : <span className="total-card">0</span>
                             }
                             
                         </div>
@@ -248,13 +260,13 @@ function Header(props) {
                                                 {
                                                     account != null ?
                                                     <>
-                                                        <li><Link to="/home/tai-khoan">Thông Tin Tài Khoản</Link></li>
+                                                        <li><Link style={{textDecoration:"none"}} to="/home/tai-khoan">Thông Tin Tài Khoản</Link></li>
                                                         {/* <li><Link>Đơn Hàng Của Tôi</Link></li> */}
-                                                        <li onClick={handleLogout}><Link to="/home/dang-nhap">Đăng Xuất</Link></li>
+                                                        <li onClick={handleLogout}><Link style={{textDecoration:"none"}} to="/home/dang-nhap">Đăng Xuất</Link></li>
                                                     </> :
                                                     <>
                                                          <li>Bạn Chưa Đăng Nhập</li>
-                                                        <li onClick={handleLogout}>vui lòng <Link to="/home/dang-nhap">Đăng Nhập</Link></li>
+                                                        <li onClick={handleLogout}>vui lòng <Link style={{textDecoration:"none"}} to="/home/dang-nhap">Đăng Nhập</Link></li>
                                                     </> 
                                                 }
                                             </ul>
@@ -276,7 +288,7 @@ function Header(props) {
                                                             </div>
                                                             <div className="info-product">
                                                                 <p id="head-info"><a>{val.TENSP}</a> </p>
-                                                                <p>Trai</p>   
+                                                                <p>Trái</p>   
                                                                 <span className="quanty">{val.SOLUONG}</span>   
                                                                 <span className="price">
                                                                 <NumberFormat value={val.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} />

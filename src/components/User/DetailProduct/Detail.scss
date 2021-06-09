@@ -96,11 +96,13 @@ $green-color: #BED747;
 
 }
 
-
-textarea {
-    outline: none;
-    border: none !important;
+#form-comment {
+    textarea {
+        outline: none;
+        border: none !important;
+    }
 }
+
 
 .product-rating {
     max-width: 500px;

@@ -102,10 +102,9 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
        
     }, [ ])
 
-    const acc = localStorage.getItem('account')
     useEffect( async() => {
             try {
-                const respone = await accountApi.getUser(acc);
+                const respone = await accountApi.getUser(account);
                 setInfoUser(respone);
             } catch (error) {
                 console.log(error.message)
@@ -150,6 +149,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
         setFlag(!flag)
     }
 
+    console.log(`product`, product)
     const setOpenModal = (product) => {
     setFlag(!flag)
     setDetailProduct({
@@ -178,12 +178,11 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
 
     const handleAddToCart = async (event) => {
         event.preventDefault();
-        const account = localStorage.getItem("account")
         // if(account == null) return;
         if(account == null) {
             history.push("/home/dang-nhap")
             return;
-          }
+        }
         else {
             const data = {
                 MASP : product.ID,
@@ -201,8 +200,13 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
       }
 
       const onSubmitComment = async (e) => {
+        if(account == null) {
+            history.push("/home/dang-nhap")
+            return;
+        }
         if(comment === "")
         {
+        setSuccesAddComment(false)
           return
         }
 
@@ -227,8 +231,6 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             console.log(`error`, error.message)
         }
       }
-
-      console.log(`rating`, rating)
 
       const calPercentRangting = (numberRating) => {
          if(rating === null || rating.length === 0) {
@@ -272,13 +274,16 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
      }
 
     const handleClickOpen = () => {
+        if(account == null) {
+            history.push("/home/dang-nhap")
+            return;
+        }
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
     };
 
-    console.log(`infoUser`, infoUser)
     const handleSubmit = async () => {
         const data = {
             MAKH: infoUser.MAKH,
@@ -329,14 +334,21 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                             <h5>Giá: <NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ  '} /></h5>
                             <div className="choise">
                                 <div className="cre-number">
-                                <input type="number" id="quantity" name="quantity" min="1" value = {quanty}
+                                <input type="number" id="quantity" name="quantity" min="1" max={product.SOLUONG} value = {quanty}
                                 onChange={handleChangeQuanty}
                                 ></input>
                                 
                                 </div>
-                                <div className="add-to-card">
-                                    <button onClick={handleAddToCart}>THÊM VÀO GIỎ</button>
-                                </div>
+                                {
+                                    product.SOLUONG === 0 ?
+                                    <div className="add-to-card">
+                                        <button disabled={true} >HẾT HÀNG</button>
+                                    </div> :
+                                    <div className="add-to-card">
+                                        <button onClick={handleAddToCart}>THÊM VÀO GIỎ</button>
+                                    </div>
+                                }
+                                
                             </div>
                             <p>Mô tả: <span> {product.MOTA}</span> </p>
                         </div>
@@ -425,7 +437,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             <hr className="container"></hr>
             {/* bình luận sản phẩm */}
             <h2 style={{marginBottom : 40}}>Bình luận sản phẩm</h2>
-            <form className={classes.root} Validate autoComplete="off" >
+            <form id="form-comment" className={classes.root} Validate autoComplete="off" >
                 <div className="container comment">
                     <TextField
                     id="outlined-multiline-static"

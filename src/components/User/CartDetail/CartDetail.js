@@ -48,27 +48,24 @@ function CartDetail() {
         },0)
     }
 
-    const handleUpdateQuanty = (e,val) => {
-        setFlag(!flag)
+    const handleUpdateQuanty = async (e,val) => {
         try {
             const data = {
                 MASP: val.MASP,
                 MAKH: val.MAKH,
                 SOLUONG: e.target.value
             }
-            cartApi.update(val.ID,data)
+            await cartApi.update(val.ID,data)
             
         } catch (error) {
             alert('Hệ thống lỗi !!! Vui lòng thử lại')
         }
+        await setFlag(!flag)
     }
 
     return (
         <div className="Cart">
             <Header listCartRender={listCartRender}></Header>
-            {/* <TitleProducts title='Giỏ Hàng Của Bạn'
-            ></TitleProducts> */}
-
             <div class="content">
 
             <div class="container title mt-4">

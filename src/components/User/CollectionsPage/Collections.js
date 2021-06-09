@@ -24,6 +24,7 @@ function Collections({productsData, fetchProducts}) {
     const [listCartRender, setListCartRender] = useState([]);
     const [infoUser, setInfoUser] = useState({})
     const [flag,setFlag] = useState(false)
+    const [totalProductStored, setTotalProductStored] = useState(0)
 
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -76,6 +77,7 @@ function Collections({productsData, fetchProducts}) {
       MOTA: product.MOTA,
       HINHANH: product.HINHANH,
       SOLUONG: 1,
+      TONGSOLUONG: product.SOLUONG
         })
     }
     const handleChange = (e) => {
@@ -103,7 +105,7 @@ function Collections({productsData, fetchProducts}) {
             description='Mỗi ngày chúng tôi đều đưa đến cho bạn những sản phẩm tươi và sạch nhất' 
             ></TitleProducts>
 
-            <RenderListProducts listProducts={newList} handleOnclick={setOpenModal}  ></RenderListProducts>
+            <RenderListProducts listProducts={currentProductPage} handleOnclick={setOpenModal}  ></RenderListProducts>
             <Pagination
             productsPerPage={productsPerPage}
             totalProducts={newList.length}

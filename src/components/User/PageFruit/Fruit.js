@@ -79,6 +79,7 @@ function Fruit() {
       MOTA: product.MOTA,
       HINHANH: product.HINHANH,
       SOLUONG: 1,
+      TONGSOLUONG: product.SOLUONG
         })
     }
     const handleChange = (e) => {
@@ -89,10 +90,11 @@ function Fruit() {
     }
 
     const newList = listProducts.filter(val => val.MADM == 1); 
+
     const indexOfLastPost = currentPage * productsPerPage;
     const indexOfFirstPost = indexOfLastPost - productsPerPage;
     const currentProductPage = newList.slice(indexOfFirstPost, indexOfLastPost);
-    
+
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (

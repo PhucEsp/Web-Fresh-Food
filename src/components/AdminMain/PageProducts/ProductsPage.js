@@ -239,6 +239,7 @@ function ProductsPage() {
   //  console.log(listFruit)
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        setFlag(!flag)
     };
     const handleEdit = (product) => {
         setOpen(true);

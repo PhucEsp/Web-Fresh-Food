@@ -9,8 +9,8 @@ function ModalProduct({product, handleChange, changeFlag}) {
 
   const [infoUser, setInfoUser] = useState({})
   const [flag, setFlag] = useState(false)
-  const history = useHistory()
   const account = localStorage.getItem('account')
+  const history = useHistory()
   
   useEffect(() => {
     const fetchUserInfo = async (account) => {
@@ -27,9 +27,8 @@ function ModalProduct({product, handleChange, changeFlag}) {
  console.log(`infoUser`, infoUser)
   const handleAddToCart = async (event) => {
     event.preventDefault();
-    const account = localStorage.getItem("account")
     if(account == null) {
-      return;
+      history.push("/home/dang-nhap")
     }
     else {
       const data = {
@@ -45,7 +44,7 @@ function ModalProduct({product, handleChange, changeFlag}) {
      }
     }
   }
-
+  console.log(`product Modal`, product)
     return (
         <div className="modal fade" id="myModal">
           <div id="modal-log" className="modal-dialog modal-dialog-centered">
@@ -67,20 +66,28 @@ function ModalProduct({product, handleChange, changeFlag}) {
                   <div className="choise">
                     <div className="cre-number">
                       {/* <input type="number" min='1' name="quanty"></input> */}
-                      <input type="number" id="quantity" name="quantity" min="1" value ={product.SOLUONG }
+                      <input type="number" id="quantity" name="quantity" min="1" max={product.TONGSOLUONG} value ={product.SOLUONG }
                       onChange={handleChange}
                       ></input>
                      
                     </div>
                     <div className="add-to-card">
-                        <button 
+                       {
+                         product.TONGSOLUONG === 0 ?
+                         <button 
+                          disabled={false}
+                          style={{cursor: 'pointer'}}
+                        >
+                         HẾT HÀNG
+                         </button> :
+                          <button  data-dismiss="modal"
                           onClick={(e)=> {
                           handleAddToCart(e);
-                          changeFlag();
+                          changeFlag(); 
                         }}>
                           THÊM VÀO GIỎ
                           </button>
-                       
+                       }
                     </div>
                   </div>
                 </div>

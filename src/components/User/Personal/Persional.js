@@ -7,6 +7,7 @@ import HeaderCrumb from '../HeaderCrumb/HeaderCrumb';
 import Footer from '../Footer/Footer';
 import Moment from 'react-moment';
 import NumberFormat from 'react-number-format';
+import { Button } from '@material-ui/core';
 
 function Persional() {
 
@@ -55,9 +56,26 @@ function Persional() {
         localStorage.removeItem("account")
     }
 
+    const handleCancleOrder = async (e,id) => {
+        e.preventDefault()
+        const data = {
+            MADH: id,
+            TRANGTHAI: 5,
+            MANV: null
+          }
+        try {
+            await cartApi.cancelOrder(data);
+            await setFlag(!flag)
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
     const renderStateOrder = (value) => {
-        if(value.TRANGTHAI === 1 ||value.TRANGTHAI === 2 ) 
+        if(value.TRANGTHAI === 1) 
             return <td>Đang xử lí</td>
+        else if(value.TRANGTHAI === 2)
+            return  <td>Đã xác nhận</td>
         else if(value.TRANGTHAI === 3)
             return  <td>Đang giao hàng</td>
         else if(value.TRANGTHAI === 4)
@@ -86,8 +104,8 @@ function Persional() {
                             <div class="danh_muc_tk">
                                 <h3>Tài khoản</h3>
                                 <ul class="danh_muc_content mt-4">
-                                    <li><a href="edit_account.html">Sửa thông tin tài khoản</a></li>
-                                    <li><a href="order_status.html">Trạng thái đơn hàng</a></li>
+                                    <li><a href="/home/edit-account">Sửa thông tin tài khoản</a></li>
+                                    <li><a href="home/order/info">Trạng thái đơn hàng</a></li>
                                     <li ><a onClick={handleLogout} href="/home/dang-nhap">Đăng Xuất</a></li>
                                 </ul>
                             </div>
@@ -156,6 +174,14 @@ function Persional() {
                                                         </td>
                                                         {
                                                             renderStateOrder(val)
+                                                        }
+                                                        {
+                                                            val.TRANGTHAI == 1 ? 
+                                                            <Button 
+                                                            color="primary"
+                                                            onClick={(e) => {handleCancleOrder(e,val.ID)}}
+                                                            >Hủy</Button>
+                                                            : <Button disabled={true}>Hủy</Button>
                                                         }
                                                     </tr> 
                                             ))
