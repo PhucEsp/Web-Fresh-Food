@@ -41,14 +41,14 @@ function Carousel() {
                     <div class="card mb-3">
                       <div class="row g-0">
                         <div class="col-md-4">
-                          <a href="blog.html">
+                          <a href="#">
                             <img class="img-thumbnail" src="https://file.hstatic.net/200000240163/article/z2356601672618_6df9622ae67c94fc57ec0407f83bcbef_50e55bd305e04ae6a3818fbbe1b733c0.jpg"/>
                           </a>
                         </div>
                         <div class="col-md-8">
                           <div class="card-body news">
-                            <a href="blog.html"><h5 class="card-title">NHỮNG TÁC DỤNG DIỆU KỲ KHI UỐNG CHANH MẬT ONG MỖI BUỔI SÁNG</h5></a>
-                            <p class="card-text">Uống nước chanh mật ong vào buổi sáng là một....</p>
+                            <a href="#"><h5 class="card-title" style={{fontWeight: 600}}>NHỮNG TÁC DỤNG DIỆU KỲ KHI UỐNG CHANH MẬT ONG MỖI BUỔI SÁNG</h5></a>
+                            <p class="card-text" style={{fontWeight: 500, fontSize: 14}}>Uống nước chanh mật ong vào buổi sáng là một....</p>
                           </div>
                         </div>
                       </div>
@@ -59,14 +59,14 @@ function Carousel() {
                     <div class="card mb-3">
                       <div class="row g-0">
                         <div class="col-md-4 ">
-                          <a href="blog.html">
+                          <a href="#">
                             <img class="img-thumbnail" src="https://file.hstatic.net/200000240163/article/736c11ab8214724a2b05_0a7f1a53b0a0401aafaa200b9d903b01.jpg"/>
                           </a>
                         </div>
                         <div class="col-md-8">
                           <div class="card-body news">
-                            <a href="blog.html"><h5 class="card-title">CÁC HOẠT ĐỘNG TRUYỀN THỐNG DÂN GIAN NGÀY TẾT CỔ TRUYỀN VIỆT NAM</h5></a>
-                            <p class="card-text">Tết cổ truyền Việt Nam đa sắc màu với nhiều...</p>
+                            <a href="#"><h5 class="card-title" style={{fontWeight: 600}}>CÁC HOẠT ĐỘNG TRUYỀN THỐNG DÂN GIAN NGÀY TẾT CỔ TRUYỀN VIỆT NAM</h5></a>
+                            <p class="card-text" style={{fontWeight: 500, fontSize: 14}}>Tết cổ truyền Việt Nam đa sắc màu với nhiều...</p>
                           </div>
                         </div>
                       </div>
@@ -77,14 +77,14 @@ function Carousel() {
                     <div class="card mb-3">
                       <div class="row g-0">
                         <div class="col-md-4">
-                          <a class="" href="blog.html">
+                          <a class="" href="#">
                             <img class="img-thumbnail" src="https://file.hstatic.net/200000240163/article/eadaf4a5c91739496006_1b4726d02fb74922b5a3e504a598a21d.jpg"/>
                           </a>
                         </div>
                         <div class="col-md-8">
                           <div class="card-body news">
-                            <a href="blog.html"><h5 class="card-title">6 LOẠI BÁNH TRUYỀN THỐNG NGÀY TẾT</h5></a>
-                            <p class="card-text">Mỗi độ Tết đến xuân về, phong tục gói bánh...</p>
+                            <a href="#"><h5 class="card-title" style={{fontWeight: 600}}>6 LOẠI BÁNH TRUYỀN THỐNG NGÀY TẾT</h5></a>
+                            <p class="card-text" style={{fontWeight: 500, fontSize: 14}}>Mỗi độ Tết đến xuân về, phong tục gói bánh...</p>
                         </div>
                       </div>
                     </div>

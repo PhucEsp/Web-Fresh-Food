@@ -32,7 +32,8 @@ function App() {
 
       <Router>
         <Switch>
-          <Route  path="/admin/dangnhap" component={Login}></Route>
+          <Route  path="/admin/dangnhap" component={Login}>
+          </Route>
           <Route  path="/admin/dangki" component={Register}></Route>
           <Route exact path="/admin">
             <HeaderAdmin></HeaderAdmin>
@@ -41,7 +42,7 @@ function App() {
           <Route exact path="/admin/products">
             <HeaderAdmin></HeaderAdmin>
             <MainControll>
-            <Redirect to="/admin/products" ></Redirect>
+              <Redirect to="/admin/products" ></Redirect>
             </MainControll>
           </Route>
           <Route exact path="/admin/management">
@@ -63,8 +64,8 @@ function App() {
             <Redirect to="/admin/statistical" ></Redirect>
             </MainControll>
           </Route>
-        
-         
+
+
           <Route exact path ='/home' component={Home}></Route>
           <Route exact path ='/home/collections/rau-sach' component={Collections}></Route>
           <Route exact path ='/home/collections/trai-cay' component={Fruit}></Route>

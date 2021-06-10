@@ -27,6 +27,7 @@ import {  columnsOrder } from '../../../common/ColumnType';
 import cartApi from '../../../api/CartApi';
 
 import './orderManagement.scss'
+import { useHistory } from 'react-router';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -137,6 +138,8 @@ function OrderManagement() {
 
     const [open,setOpen] = useState(false)
 
+    const history = useHistory()
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -173,11 +176,12 @@ function OrderManagement() {
 
     const handleUpdate = async (e,id) => {
       const TRANGTHAI = e.target.value; 
+      const manv = localStorage.getItem("manv")
       if(TRANGTHAI  === 5) {
         const data = {
           MADH: id,
           TRANGTHAI: TRANGTHAI,
-          MANV: null
+          MANV: manv
         }
         await cartApi.cancelOrder(data);
         await setFlag(!flag)
@@ -185,11 +189,15 @@ function OrderManagement() {
       else {
         const data = {
           TRANGTHAI: TRANGTHAI,
-          MANV: null
+          MANV: manv
         }
         await cartApi.updateDetailOrder(id,data)
         await setFlag(!flag)
       }
+    }
+
+    if(localStorage.getItem("token") == null) {
+      history.push("/admin/dangnhap")
     }
 
     return (
@@ -205,7 +213,7 @@ function OrderManagement() {
                     scrollButtons="auto"
                     aria-label="scrollable auto tabs example"
                     >
-                    <Tab label="Khách Hàng" {...a11yProps(0)} />
+                    <Tab label="Đơn Hàng" {...a11yProps(0)} />
                     {/* <Tab label="Quản Lí" {...a11yProps(1)} />
                     <Tab label="Admin" {...a11yProps(2)} /> */}
                     </Tabs>

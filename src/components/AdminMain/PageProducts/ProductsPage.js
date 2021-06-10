@@ -27,6 +27,7 @@ import { columnsFruit } from '../../../common/ColumnType';
 import { Button, DialogContentText, Slide } from '@material-ui/core';
 import TableProducts from '../../admin/Table/TableProducts';
 import productsApi from '../../../api/ProductsApi';
+import { useHistory } from 'react-router';
 
   function TabPanel(props) {
       const { children, value, index, ...other } = props;
@@ -169,9 +170,9 @@ function ProductsPage() {
      const [hinhanh,SetHinhAnh] = useState('');
      const [hinhanh1,SetHinhAnh1] = useState('');
 
+     const history = useHistory()
     // state hỗ trợ
     const [open, setOpen] = React.useState(false);
-    const theme = useTheme();
 
     useEffect(() => {
       const fetchListFruit = async () => {
@@ -301,7 +302,11 @@ function ProductsPage() {
       setOpen(false)
     };
 
-    
+    // check authentication
+    if(localStorage.getItem("token") == null) {
+      history.push("/admin/dangnhap")
+    }
+
     return (
         <div className="productPage">
             <div className={classes.root}>

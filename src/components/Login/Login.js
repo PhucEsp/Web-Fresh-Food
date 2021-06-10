@@ -15,6 +15,7 @@ function Login() {
     const [isLogin,setIsLogin] = useState(false);
     const [checkSubmit, setCheckSubmit] = useState(false);
     const [role, setRole] = useState(0)
+    const [manv,setManv] = useState(null)
     const history = useHistory();
     const URL_Login = 'http://localhost:8081/dangnhap/admin'
 
@@ -28,6 +29,7 @@ function Login() {
             .then(res => {
                 setCheckLogin(res.data.message)
                 setRole(res.data.role)
+                setManv(res.data.MANV)
             })
             .catch(err => {
             setCheckLogin(err.message)
@@ -85,11 +87,10 @@ function Login() {
 
     const  submitForm = (e) => {
         e.preventDefault();
-        console.log(errMessage)
-        console.log(checkLogin)
         if(checkLogin === 'Valid'){
             localStorage.setItem('token',`admin`);
             localStorage.setItem('role',role )
+            localStorage.setItem('manv',manv )
             history.push("/admin");
         }
          if(checkLogin === 'Wrong Password') {
@@ -127,9 +128,9 @@ function Login() {
                     </div>
                     <button type="submit">Đăng Nhập </button>
                 </form>
-                <div className="link-Register">
+                {/* <div className="link-Register">
                     <Link className="to-Register"  to="/admin/dangki"><span>Đăng kí</span> </Link>
-                </div>   
+                </div>    */}
                 <div>
                     <h1>{errMessage}</h1>
                 </div>

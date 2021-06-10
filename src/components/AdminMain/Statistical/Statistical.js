@@ -9,16 +9,7 @@ import {
   Title,
 } from '@devexpress/dx-react-chart-material-ui';
 import { EventTracker } from '@devexpress/dx-react-chart';
-
-// const data = [
-//     { nam: "1", name: 2.525 },
-//     { nam: "2", population: 3.018 },
-//     { nam: "3", population: 3.682 },
-//     { nam: "4", population: 4.44 },
-//     { nam: "5", population: 5.31 },
-//     { nam: "2000", population: 5.127 },
-//     { nam: "2010", population: 5.93 }
-//   ];
+import { Redirect } from 'react-router';
 
 export default class Statistical extends React.PureComponent {
   constructor(props) {
@@ -45,29 +36,36 @@ export default class Statistical extends React.PureComponent {
         }
     )
   }
-
+  
   render() {
+    
+    if(localStorage.getItem("token") === null){
+      return(
+        <Redirect to="/admin/dangnhap"></Redirect>
+      )
+    }
+    
     const { data: chartData } = this.state;
-    console.log(`chartData`, chartData) 
+    console.log(`chartData`, chartData)
     return (
+      <>
         <Paper>
-        <Chart
-          data={chartData}
-        >
-          <ArgumentAxis />
-          <ValueAxis />
-
-          <BarSeries
-            valueField="DoanhThu"
-            argumentField="Thang"
-          />
-          <Title
-            text="Doanh Thu Năm 2021"
-          />
-          <EventTracker />
-          <Tooltip />
-        </Chart>
+          <Chart data={chartData}>
+            <ArgumentAxis />
+            <ValueAxis />
+            <BarSeries
+              valueField="DoanhThu"
+              argumentField="Thang"
+            />
+            <Title
+              text="Doanh Thu Năm 2021"
+            />
+            <EventTracker />
+            <Tooltip />
+          </Chart>
       </Paper>
+
+      </>
     );
   }
 }

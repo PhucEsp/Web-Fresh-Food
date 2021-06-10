@@ -27,6 +27,7 @@ import productsApi from '../../../api/ProductsApi';
 import accountApi from '../../../api/AccountApi';
 import TableUser from '../../admin/Table/TableUser';
 import loginAdminApi from '../../../api/LoginAdminApi';
+import { useHistory } from 'react-router';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -159,11 +160,11 @@ function UserManagement() {
     const [listAdmin, setListAdmim] = useState([])
   
      // set thong tin Nhan vien -> edit 
-     const [MANV,setMANV] = useState('')
-     const [HOTEN, setHOTEN] = useState('');
-     const [DIACHI, setDIACHI] = useState('');
-     const [open, setOpen] = React.useState(false);
-
+    const [MANV,setMANV] = useState('')
+    const [HOTEN, setHOTEN] = useState('');
+    const [DIACHI, setDIACHI] = useState('');
+    const [open, setOpen] = React.useState(false);
+    const history = useHistory()
     const handleChange = (event, newValue) => {
         setValue(newValue);
         setFlag(!flag)
@@ -255,6 +256,10 @@ function UserManagement() {
             }
           }
           
+      }
+
+      if(localStorage.getItem("token") == null) {
+        history.push("/admin/dangnhap")
       }
 
     return (

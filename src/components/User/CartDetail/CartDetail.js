@@ -16,6 +16,7 @@ function CartDetail() {
     const [flag,setFlag] = useState(false)
 
     const acc = localStorage.getItem('account')
+
     useEffect( async() => {
             try {
                 const respone = await accountApi.getUser(acc);
@@ -37,9 +38,10 @@ function CartDetail() {
       fetchListCart()
     },[flag])
 
-    const onDelete = (id) => {
-        setFlag(!flag)
-        cartApi.deleteItem(id);
+    const onDelete = async (e,id) => {
+        e.preventDefault();
+        await cartApi.deleteItem(id);
+        await setFlag(!flag)
     }
 
     const totalPrice = () => {
@@ -91,7 +93,7 @@ function CartDetail() {
                                         </div>
                                         <div class="item">
                                             <div class="info_item">
-                                                <h3>Bắp nếp</h3>
+                                                <h3>{val.TENSP}</h3>
                                                 <span class="variant_title">Trái</span>
                                                 <div class="quantity-area">
                                                     <input type="number" name="quantity" min="1" defaultValue={val.SOLUONG} onChange={(e)=>handleUpdateQuanty(e,val)} />
@@ -100,7 +102,7 @@ function CartDetail() {
                                             
                                             <p class="price-item">
                                             <span><NumberFormat value={val.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ  '} /></span>
-                                                <button class="remove_card" title="Xóa sản phẩm này" onClick={()=>{onDelete(val.ID)}}>
+                                                <button class="remove_card" title="Xóa sản phẩm này" onClick={(e)=>{onDelete(e,val.ID)}}>
                                                     <i class="fas fa-times-circle"></i>
                                                 </button>
                                             </p>

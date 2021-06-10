@@ -200,6 +200,8 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
       }
 
       const onSubmitComment = async (e) => {
+        e.preventDefault()
+        setSuccesAddComment(false)
         if(account == null) {
             history.push("/home/dang-nhap")
             return;
@@ -209,8 +211,6 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
         setSuccesAddComment(false)
           return
         }
-
-        e.preventDefault()
         const today = new Date(),
         date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
         const data = {
