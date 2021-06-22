@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       }
     },
   }));
-
+//   EditInfoPersonal
 function Register() {
     const classes = useStyles();
 

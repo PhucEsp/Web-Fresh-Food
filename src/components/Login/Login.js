@@ -16,6 +16,7 @@ function Login() {
     const [checkSubmit, setCheckSubmit] = useState(false);
     const [role, setRole] = useState(0)
     const [manv,setManv] = useState(null)
+    // const [taikhoan]
     const history = useHistory();
     const URL_Login = 'http://localhost:8081/dangnhap/admin'
 
@@ -91,6 +92,7 @@ function Login() {
             localStorage.setItem('token',`admin`);
             localStorage.setItem('role',role )
             localStorage.setItem('manv',manv )
+            localStorage.setItem('taikhoan',username )
             history.push("/admin");
         }
          if(checkLogin === 'Wrong Password') {

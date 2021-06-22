@@ -59,9 +59,11 @@ const StyledTableCell = withStyles((theme) => ({
 function TableProducts({columns,rows,handleEdit, handleDelete}) {
     const classes = useStyles();
 
+    
     const configProductDescription = (text) => {
-     if(text.length > 50) return text.slice(0,50).concat('...')
-     return text
+      if(text === null) return " "
+      else if(text.length > 50) return text.slice(0,50).concat('...')
+      else return text
     }
     return (
         <div>

@@ -1,5 +1,11 @@
 
 $green-color: #BED747;
+
+// .detail-product {
+//     textarea:focus {
+//         border: 1px solid #333 !important;
+//     }
+// }
 .product {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -156,6 +162,7 @@ $green-color: #BED747;
         }
     }
 }
+
 
 .comment {
     display: flex;

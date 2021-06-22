@@ -30,12 +30,9 @@ function Home({productsData, fetchProducts}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(10);
 
-    useEffect(() => {
-        fetchProducts()
-    }, [])
-
     const acc = localStorage.getItem('account')
     useEffect( async() => {
+      fetchProducts()
             try {
                 const respone = await accountApi.getUser(acc);
                 setInfoUser(respone);
@@ -49,7 +46,7 @@ function Home({productsData, fetchProducts}) {
       const fetchListCart = async () => {
           try {
               const respone = await cartApi.getCartUser(infoUser.MAKH);
-              setListCartRender(respone)
+              await setListCartRender(respone)
           } catch (error) {
                   console.log(error.message);
           }
@@ -69,9 +66,7 @@ function Home({productsData, fetchProducts}) {
       TONGSOLUONG: product.SOLUONG
     })
   }
-  const setCloseModal = () => {
-    setModalIsOpen(false);
-  }
+
   const changeFlag = () => {
     setFlag(!flag)
 }
@@ -111,7 +106,7 @@ function Home({productsData, fetchProducts}) {
           <RenderListProducts listProducts={listProducts} handleOnclick={setOpenModal}  ></RenderListProducts>
           
           {/* list sale products */}
-          <TitleProducts title='Sản phẩm' 
+          <TitleProducts title='Tất Cả Sản phẩm' 
           description='Bão Sale Nhà Suni' 
           ></TitleProducts>
           <RenderListProducts listProducts={currentProductPage} handleOnclick={setOpenModal}  ></RenderListProducts>

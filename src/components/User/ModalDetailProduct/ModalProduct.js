@@ -24,7 +24,6 @@ function ModalProduct({product, handleChange, changeFlag}) {
     fetchUserInfo(account);
  }, [flag]) 
   
- console.log(`infoUser`, infoUser)
   const handleAddToCart = async (event) => {
     event.preventDefault();
     if(account == null) {
@@ -37,14 +36,14 @@ function ModalProduct({product, handleChange, changeFlag}) {
         SOLUONG : product.SOLUONG,
      }
      try {
-       cartApi.addToCart(data);
+       await cartApi.addToCart(data);
        setFlag(!flag)
      } catch (error) {
        alert("Lỗi hệ thống. Vui lòng thử lại")
      }
     }
   }
-  console.log(`product Modal`, product)
+  
     return (
         <div className="modal fade" id="myModal">
           <div id="modal-log" className="modal-dialog modal-dialog-centered">

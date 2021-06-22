@@ -178,8 +178,10 @@ function ProductsPage() {
       const fetchListFruit = async () => {
           try {
                const responds = await productsApi.getAll();
-               const newList = responds.filter(val => val.MADM == 1)
-               setListFruit(newList);
+               setListFruit(responds.filter(val => val.MADM == 1));
+               setListVegetable(responds.filter(val => val.MADM == 2));
+               setListMushRoom(responds.filter(val => val.MADM == 3));
+               setListHealthy(responds.filter(val => val.MADM == 4));
               
           } catch (error) {
               console.log(error.message)
@@ -187,48 +189,6 @@ function ProductsPage() {
       }
       fetchListFruit();
    },[flag])
-
-   useEffect(() => {
-    const fetchListVetegable = async () => {
-        try {
-             const responds = await productsApi.getAll();
-             const newList = responds.filter(val => val.MADM == 2)
-             setListVegetable(newList);
-            
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-    fetchListVetegable();
-  },[flag])
-
-  useEffect(() => {
-    const fetchListMushRoom = async () => {
-        try {
-            const responds = await productsApi.getAll();
-            const newList = responds.filter(val => val.MADM == 3)
-            setListMushRoom(newList);
-            
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-    fetchListMushRoom();
-  },[flag])
-
-  useEffect(() => {
-    const fetchListHealthy = async () => {
-        try {
-            const responds = await productsApi.getAll();
-            const newList = responds.filter(val => val.MADM == 4)
-            setListHealthy(newList);
-            
-        } catch (error) {
-            console.log(error.message)
-        }
-    }
-    fetchListHealthy();
-  },[flag])
 
   const checkValidateEdit = () => {
     if(tensp === '' || loaisp ==='' || gia <= 0 || donvitinh ==='' || soluong <= 0 || mota ==='' || hinhanh ==='' || hinhanh1 ==='' || mota ==='' ) {

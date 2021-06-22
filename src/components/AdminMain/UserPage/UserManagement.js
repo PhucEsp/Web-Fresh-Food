@@ -221,16 +221,23 @@ function UserManagement() {
       }
 
     const handleDelete = (TAIKHOAN) => {
-        let agree = window.confirm(` Bạn có chắc chắn muốn xóa tài khoản?` );
-        if(!agree) return;
+        if(localStorage.getItem("manv") == TAIKHOAN)
+        {
+          alert("Không được xóa tài khoản đang đăng nhập !!!")
+          return
+        }
         else {
-            try {
-                accountApi.deleteNhanVien(TAIKHOAN);
-                loginAdminApi.delete(TAIKHOAN);
-                setFlag(!flag);
-            } catch (e) {
-                alert(`${e.message}`)
-            }
+          let agree = window.confirm(` Bạn có chắc chắn muốn xóa tài khoản?` );
+          if(!agree) return;
+          else {
+              try {
+                  accountApi.deleteNhanVien(TAIKHOAN);
+                  loginAdminApi.delete(TAIKHOAN);
+                  setFlag(!flag);
+              } catch (e) {
+                  alert(`${e.message}`)
+              }
+          }
         }
       }
 

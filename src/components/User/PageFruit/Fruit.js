@@ -44,14 +44,11 @@ function Fruit() {
               const respone = await cartApi.getCartUser(infoUser.MAKH);
               setListCartRender(respone)
           } catch (error) {
-                  console.log(error.message);
+                console.log(error.message);
           }
       }
       fetchListCart()
     }, [flag])
-
-    console.log(infoUser, 'info user')
-    console.log(listCartRender, ' --- from page ')
    
     useEffect(() => {
         const fetchProductsList = async () => {

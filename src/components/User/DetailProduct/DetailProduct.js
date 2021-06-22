@@ -79,6 +79,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
     const [listCommentForProduct,setListCommentForProduct] = useState([])
     const [SuccesAddComment,setSuccesAddComment] = useState(false)
     const [rating,setRating] = useState(null)
+    const [checkRated, setCheckRated] = useState(false)
 
     // for rating product
     const [open, setOpen] = React.useState(false);
@@ -99,23 +100,41 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             }
        }
        fetchDetailProduct();
-       
-    }, [ ])
-
-    useEffect( async() => {
-            try {
-                const respone = await accountApi.getUser(account);
-                setInfoUser(respone);
-            } catch (error) {
-                console.log(error.message)
-            }
-    }, [flag])
+    }, [])
 
     useEffect(() => {
+        const checkInfoRated = async () => {
+            try {
+                const data = {
+                    MAKH: infoUser.MAKH,
+                    MASP: ID
+                }
+                console.log(`data`, data)
+                const respone = await productsApi.checkInfoRated(data)
+                await setCheckRated(respone.data)
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        checkInfoRated()
+    }, )
+
+    useEffect(() => {
+      
+      const fetchInfoUser = async () => {
+        try {
+            const respone = await accountApi.getUser(account);
+            await setInfoUser(respone);
+            setFlag(!flag)
+        } catch (error) {
+            console.log(error.message)
+        }
+      }
+
       const fetchListCart = async () => {
           try {
               const respone = await cartApi.getCartUser(infoUser.MAKH);
-              setListCartRender(respone)
+              await setListCartRender(respone)
           } catch (error) {
                   console.log(error.message);
           }
@@ -124,7 +143,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
       const fetchListCommentForProduct = async () => {
             try {
                 const respone = await productsApi.getListCommentForProduct(ID);
-                setListCommentForProduct(respone)
+                await setListCommentForProduct(respone)
             } catch (error) {
                 console.log(error.message);
             }
@@ -133,23 +152,21 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
         const fetchInfoRating = async () => {
             try {
                 const respone = await productsApi.getInfoRating(ID)
-                setRating(respone)
-                console.log(`rating`, rating)
+                await setRating(respone)
             } catch (error) {
                 console.log(error.message);
             }
         }
+        
+        
         fetchListCart()
+        fetchInfoUser()
         fetchListCommentForProduct()
         fetchInfoRating()
+       
 
     }, [flag])
-    
-    const changeFlag = () => {
-        setFlag(!flag)
-    }
 
-    console.log(`product`, product)
     const setOpenModal = (product) => {
     setFlag(!flag)
     setDetailProduct({
@@ -257,7 +274,6 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
 
      const avegareRating = (rating) => {
         const propertyValues  = Object.values((rating[0]))
-        console.log(`propertyValues`, propertyValues)
         const number = 0
         const total = 0
         propertyValues.forEach((val, index) => {
@@ -284,7 +300,12 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
         setOpen(false);
     };
 
-    const handleSubmit = async () => {
+    const handleRating = async () => {
+        if(value === 0 || contentRating === "")
+        {
+            alert("Vui lòng điền thông tin !!! ")
+            return
+        }
         const data = {
             MAKH: infoUser.MAKH,
             MASP: ID,
@@ -313,8 +334,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
           backgroundColor: '#1a90ff',
         },
       }))(LinearProgress);
-
-
+      console.log(`checkRated`, checkRated)
     return (
         <div className="detail-product">
            <Header listCartRender={listCartRender}></Header>
@@ -358,12 +378,19 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             {/* đánh giá sản phẩm  */}
             <div className="container product-rating" style={{padding: 10}}>
                <div>
-                   <h1>Đánh Giá Sản Phẩm</h1>
+                   <h2 style={ {color: "#333", fontWeight: 400}}>Đánh Giá Sản Phẩm</h2>
                    <div className='rate'>
-                   <Button style={{maxWidth: 200}}  color="primary" onClick={handleClickOpen}>
-                        Gửi Đánh Giá Của Bạn
-                    </Button>
-                        {/* <Rating name="read-only"  readOnly /> */}
+                       {
+                           checkRated === false ?
+                           <>
+                           <p style={{marginLeft: 18, color: "#333"}}>Chưa có đánh giá nào</p>
+                           <Button style={{maxWidth: 200}}  color="primary" onClick={handleClickOpen}>
+                                Gửi Đánh Giá Của Bạn
+                            </Button> 
+                            </>:
+                            <> </>
+                       }
+                   
                     </div>
                    <div>
                        {
@@ -371,7 +398,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                             rating && rating.map(val => (
                                 <div className="wraper-rating">
                                 <div className="percent-rating">
-                                    <div><p>4.3</p></div>
+                                    {/* <div><p>4.3</p></div> */}
                                     <div><i class="fas fa-star"></i></div>
                                     <div> <span>{totalRating()} đánh giá</span></div>
                                 </div>
@@ -436,7 +463,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             </div>
             <hr className="container"></hr>
             {/* bình luận sản phẩm */}
-            <h2 style={{marginBottom : 40}}>Bình luận sản phẩm</h2>
+            <h2 style={{margin: "40px 0",color: "#333", fontWeight: 400}}>Bình luận sản phẩm</h2>
             <form id="form-comment" className={classes.root} Validate autoComplete="off" >
                 <div className="container comment">
                     <TextField
@@ -512,7 +539,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                 </List>
             </div>
 
-            <div>
+            <div >
                 <Dialog
                     open={open}
                     onClose={handleClose}
@@ -547,7 +574,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                     <Button onClick={handleClose} color="primary">
                         Trở Về
                     </Button>
-                    <Button onClick={handleSubmit} color="primary">
+                    <Button onClick={handleRating} color="primary">
                         Gửi
                     </Button>
                     </DialogActions>

@@ -56,6 +56,10 @@ const accountApi = {
     updateNV: (id,data) => {
         const url = `nhanvien/${id}`
         return axiosClient.put(url,data)
+    },
+    updateKH: (id,data) => {
+        const url = `khachhang/${id}`
+        return axiosClient.put(url,data)
     }
 }
 

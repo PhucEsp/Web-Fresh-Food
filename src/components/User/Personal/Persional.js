@@ -16,6 +16,7 @@ function Persional() {
     const [infoOrderForUser, setInfoOrderUser] = useState([])
     const [flag,setFlag] = useState(false)
     const acc = localStorage.getItem('account')
+    
     useEffect( async() => {
             try {
                 const respone = await accountApi.getUser(acc);
@@ -104,8 +105,7 @@ function Persional() {
                             <div class="danh_muc_tk">
                                 <h3>Tài khoản</h3>
                                 <ul class="danh_muc_content mt-4">
-                                    <li><a href="/home/edit-account">Sửa thông tin tài khoản</a></li>
-                                    <li><a href="home/order/info">Trạng thái đơn hàng</a></li>
+                                    <li><a href="/home/chinhsua/taikhoan">Chỉnh Sửa Thông Tin</a></li>
                                     <li ><a onClick={handleLogout} href="/home/dang-nhap">Đăng Xuất</a></li>
                                 </ul>
                             </div>
@@ -179,9 +179,10 @@ function Persional() {
                                                             val.TRANGTHAI == 1 ? 
                                                             <Button 
                                                             color="primary"
+                                                            style={{marginTop: 15}}
                                                             onClick={(e) => {handleCancleOrder(e,val.ID)}}
                                                             >Hủy</Button>
-                                                            : <Button disabled={true}>Hủy</Button>
+                                                            : <Button style={{marginTop: 15}} disabled={true}>Hủy</Button>
                                                         }
                                                     </tr> 
                                             ))

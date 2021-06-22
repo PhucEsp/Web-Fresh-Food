@@ -14,26 +14,30 @@ function Contact() {
     const [infoUser, setInfoUser] = useState({})
     const [flag,setFlag] = useState(false)
     const acc = localStorage.getItem('account')
+    
+
     useEffect( async() => {
-            try {
-                const respone = await accountApi.getUser(acc);
-                setInfoUser(respone);
-            } catch (error) {
-                console.log(error.message)
-            }
-    }, [flag])
+        try {
+            const respone = await accountApi.getUser(acc);
+            setInfoUser(respone);
+            setFlag(!flag)
+        } catch (error) {
+            console.log(error.message)
+        }
+    }, [])
 
     useEffect(() => {
-      const fetchListCart = async () => {
-          try {
-              const respone = await cartApi.getCartUser(infoUser.MAKH);
-              setListCartRender(respone)
-          } catch (error) {
-                  console.log(error.message);
-          }
-      }
-      fetchListCart()
+        const fetchListCart = async () => {
+            try {
+                const respone = await cartApi.getCartUser(infoUser.MAKH);
+                setListCartRender(respone)
+            } catch (error) {
+                    console.log(error.message);
+            }
+        }
+        fetchListCart()
     }, [flag])
+
     return (
         <div>
            <Header listCartRender={listCartRender}></Header>

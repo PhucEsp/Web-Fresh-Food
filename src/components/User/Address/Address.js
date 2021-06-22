@@ -13,14 +13,16 @@ function Address() {
     const [infoUser, setInfoUser] = useState({})
     const [flag,setFlag] = useState(false)
     const acc = localStorage.getItem('account')
+
     useEffect( async() => {
             try {
                 const respone = await accountApi.getUser(acc);
                 setInfoUser(respone);
+                setFlag(!flag)
             } catch (error) {
                 console.log(error.message)
             }
-    }, [flag])
+    }, [])
 
     useEffect(() => {
       const fetchListCart = async () => {

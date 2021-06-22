@@ -58,6 +58,10 @@ const productsApi = {
         const url = `/danhgia/sanpham/${id}`;
         return axiosClient.get(url);
     },
+    checkInfoRated: (data) => {
+        const url = `/danhgia/kiemtra`;
+        return axiosClient.post(url,data);
+    },
     addRating: (data) => {
         const url = `/danhgia`;
         return axiosClient.post(url,data);

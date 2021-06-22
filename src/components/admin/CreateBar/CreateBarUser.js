@@ -294,7 +294,7 @@ function CreatebarUser({ChangeFlag}) {
                     >
                       <MenuItem value='1'>Admin</MenuItem>
                       <MenuItem value='2'>Nhân Viên</MenuItem>
-                      <MenuItem value='3'>Khách Hàng</MenuItem>
+                      {/* <MenuItem value='3'>Khách Hàng</MenuItem> */}
                   </Select>
                 
                 
