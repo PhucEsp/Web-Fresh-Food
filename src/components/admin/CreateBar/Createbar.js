@@ -140,14 +140,14 @@ function Createbar() {
 
     const handleSubmit = async (e) => {
       const product = {
-        ID: id,
-        TENSP: tensp,
         MADM: loaisp,
+        TENSP: tensp,
         GIA: gia,
         DONVITINH: donvitinh,
         SOLUONG: soluong,
         MOTA: mota,
         HINHANH: hinhanh,
+        HINHANH1: hinhanh1,
       }
       if(checkValidateEdit() === true)
       {
