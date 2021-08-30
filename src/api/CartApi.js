@@ -49,6 +49,10 @@ const cartApi = {
         const url = `dathang/khachhang/${makh}`
         return axiosClient.get(url)
     },
+    getUserDetailOrder: (madh) => {
+        const url = `ctdh/khachhang/${madh}`
+        return axiosClient.get(url)
+    }
 }
 
 export default cartApi

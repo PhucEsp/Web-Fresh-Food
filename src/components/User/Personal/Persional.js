@@ -9,13 +9,18 @@ import Moment from 'react-moment';
 import NumberFormat from 'react-number-format';
 import { Button } from '@material-ui/core';
 
+import ModelDetailOrder from './modelDetailOrder';
+
 function Persional() {
 
     const [listCartRender, setListCartRender] = useState([]);
     const [infoUser, setInfoUser] = useState({})
     const [infoOrderForUser, setInfoOrderUser] = useState([])
     const [flag,setFlag] = useState(false)
+    const [listDetailOrder, setListDetailOrder] = useState([])
     const acc = localStorage.getItem('account')
+
+    const [openModel, setOpenModel] = useState(false)
     
     useEffect( async() => {
             try {
@@ -51,8 +56,6 @@ function Persional() {
         fetchInfoOrderForUser()
     }, [flag])
 
-    console.log(`infoOrderUser`, infoOrderForUser)
-
     const handleLogout = () => {
         localStorage.removeItem("account")
     }
@@ -72,6 +75,19 @@ function Persional() {
         }
     }
 
+    const handleShowDetail = async (e,id) => {
+        e.preventDefault()
+        try {
+            const data = await cartApi.getUserDetailOrder(id);
+            setListDetailOrder(data)
+            await setFlag(!flag)
+            await setOpenModel(true);
+        } catch (error) {
+            alert(error.message)
+        }
+
+    }
+
     const renderStateOrder = (value) => {
         if(value.TRANGTHAI === 1) 
             return <td>Đang xử lí</td>
@@ -84,6 +100,14 @@ function Persional() {
          else if(value.TRANGTHAI === 5)
             return  <td>Đã Hủy</td>
     }
+
+    const handleOpenModel = () => {
+        
+    };
+
+    const handleCloseModel = () => {
+      setOpenModel(false);
+    };
 
     return (
 
@@ -151,6 +175,7 @@ function Persional() {
                                            <th>Ngày đặt</th>
                                            <th>Thành tiền</th>
                                            <th>Trạng Thái</th>
+                                           <th>Chi Tiết</th>
                                        </tr>
                                    </thead>
 
@@ -172,18 +197,36 @@ function Persional() {
                                                         <td>
                                                         <NumberFormat value={val.TONGTIEN} displayType={'text' } thousandSeparator={true} /> vnđ
                                                         </td>
+                                                        
                                                         {
                                                             renderStateOrder(val)
                                                         }
+                                                        <td>
+                                                            {
+                                                                val.TRANGTHAI == 5 ? 
+                                                                <Button 
+                                                                    color="primary"
+                                                                    style={{marginTop: 15}}
+                                                                    disabled={true}
+                                                                >Chi Tiết</Button> :
+                                                                <Button 
+                                                                    color="primary"
+                                                                    style={{marginTop: 15}}
+                                                                    onClick={(e) => {handleShowDetail(e,val.ID)}}
+                                                                >Chi Tiết</Button>
+                                                            }
+                                                        </td>
                                                         {
                                                             val.TRANGTHAI == 1 ? 
                                                             <Button 
-                                                            color="primary"
-                                                            style={{marginTop: 15}}
-                                                            onClick={(e) => {handleCancleOrder(e,val.ID)}}
+                                                                color="primary"
+                                                                style={{marginTop: 15}}
+                                                                onClick={(e) => {handleCancleOrder(e,val.ID)}}
                                                             >Hủy</Button>
                                                             : <Button style={{marginTop: 15}} disabled={true}>Hủy</Button>
                                                         }
+                                                        
+                                                        
                                                     </tr> 
                                             ))
                                         }  
@@ -198,7 +241,13 @@ function Persional() {
           </div>
         </div>
             <Footer></Footer>
+            <ModelDetailOrder 
+                handleCloseModel={handleCloseModel}
+                openModel={openModel}
+                listDetailOrder={listDetailOrder}
+            /> 
         </div>
+       
     )
 }
 

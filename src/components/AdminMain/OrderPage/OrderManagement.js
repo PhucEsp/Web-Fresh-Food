@@ -168,7 +168,6 @@ function OrderManagement() {
           console.log(error.message)
         }
      }
-    
 
     const handleClose = () => {
       setOpen(false);

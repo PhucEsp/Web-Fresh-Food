@@ -13,9 +13,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import { InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import productsApi from '../../../api/ProductsApi';
+
+import { storage } from "../../../firebase";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +43,12 @@ const useStyles = makeStyles((theme) => ({
     right: 0 ,
     top: 0 ,
   },
+  label: {
+    margin: "0px 20px 0px 0px"
+  },
+  inputImg: {
+    margin: "10px 0px"
+  }
   
 }));
 
@@ -81,37 +89,38 @@ function Createbar() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-     // set thong tin san pham -> edit 
-     const [id, setID] = useState('');
-     const [tensp, setTenSp] = useState('');
-     const [loaisp, setLoaiSp] = useState('');
-     const [gia, setGia] = useState(0);
-     const [donvitinh, setDonViTinh] = useState('');
-     const [soluong, setSoLuong] = useState(0);
-     const [mota, setMoTa] = useState('');
-     const [hinhanh,SetHinhAnh] = useState('');
-     const [hinhanh1,SetHinhAnh1] = useState('');
+    // set thong tin san pham -> edit 
+    const [id, setID] = useState('');
+    const [tensp, setTenSp] = useState('');
+    const [loaisp, setLoaiSp] = useState('');
+    const [gia, setGia] = useState(0);
+    const [donvitinh, setDonViTinh] = useState('');
+    const [soluong, setSoLuong] = useState(0);
+    const [mota, setMoTa] = useState('');
+    const [hinhanh2,SetHinhAnh2] = useState("");
+    const [hinhanh1,SetHinhAnh1] = useState("");
 
-     const [isValidate, setIsValidate] = useState(false)
-     const [isSuccess, setIsSuccess] = useState(false)
+    const [url_hinhanh1,SetUrlHinhAnh1] = useState('');
+    const [url_hinhanh2,SetUrlHinhAnh2] = useState('');
+  
+    const [isValidate, setIsValidate] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [listCategories,setListCategories] = useState([]);
 
-     const [listCategories,setListCategories] = useState([]);
-
-
-     useEffect(() => {
-        const fetchCategories = async () => {
-          try {
-            const respone = await productsApi.getCategories();
-            setListCategories(respone)
-          } catch (error) {
-            console.log(error.message)
-          }
-        }
-        fetchCategories()
-     }, [])
+    useEffect(() => {
+       const fetchCategories = async () => {
+         try {
+           const respone = await productsApi.getCategories();
+           setListCategories(respone)
+         } catch (error) {
+           console.log(error.message)
+         }
+       }
+       fetchCategories()
+    }, [])
    
      const checkValidateEdit = () => {
-      if(tensp === '' || loaisp ==='' || gia <= 0 || donvitinh ==='' || soluong <= 0 || mota ==='' || hinhanh ==='' || hinhanh1 ==='' || mota ==='' ) {
+      if(tensp === '' || loaisp ==='' || gia <= 0 || donvitinh ==='' || soluong <= 0 || mota ==='' ||  mota ==='' || hinhanh1 === '' || hinhanh2 === '' ) {
         return false
       }
       else return true
@@ -125,8 +134,10 @@ function Createbar() {
       setSoLuong(0)
       setLoaiSp('')
       setMoTa('')
-      SetHinhAnh('')
-      SetHinhAnh1('')
+      SetHinhAnh2("")
+      SetHinhAnh1("")
+      SetUrlHinhAnh1("")
+      SetUrlHinhAnh2("")
     }
     
     const handleClickOpen = () => {
@@ -138,20 +149,87 @@ function Createbar() {
       resetState()
     };
 
-    const handleSubmit = async (e) => {
-      const product = {
-        MADM: loaisp,
-        TENSP: tensp,
-        GIA: gia,
-        DONVITINH: donvitinh,
-        SOLUONG: soluong,
-        MOTA: mota,
-        HINHANH: hinhanh,
-        HINHANH1: hinhanh1,
+    const handle_set_image_1 = (e) => {
+      if (e.target.files[0]) {
+        SetHinhAnh1(e.target.files[0]);
       }
+    }
+
+    const handle_set_image_2 = (e) => {
+      if (e.target.files[0]) {
+        SetHinhAnh2(e.target.files[0]);
+      }
+    }
+
+    const handle_save_image_1 = async () => {
+      if(hinhanh1 != '') {
+        const uploadTask = storage.ref(`images/${hinhanh1.name}`).put(hinhanh1);
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+          },
+          error => {
+            console.log(error);
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(hinhanh1.name)
+              .getDownloadURL()
+              .then(url => {
+                SetUrlHinhAnh1(url) 
+              });
+          }
+        );
+      }
+    }
+
+    const handle_save_image_2 = async () => {
+      if(hinhanh2 !=  '') {
+        const uploadTask = storage.ref(`images/${hinhanh2.name}`).put(hinhanh2);
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            // setProgress(progress);
+          },
+          error => {
+            console.log(error);
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(hinhanh2.name)
+              .getDownloadURL()
+              .then(url => {
+                SetUrlHinhAnh2(url) 
+              });
+          }
+        );
+      }
+    }
+
+    const handleSubmit = async (e) => {
+      await handle_save_image_1()
+      await handle_save_image_2()
       if(checkValidateEdit() === true)
       {
         try {
+          const product = {
+            MADM: loaisp,
+            TENSP: tensp,
+            GIA: gia,
+            DONVITINH: donvitinh,
+            SOLUONG: soluong,
+            MOTA: mota,
+            HINHANH: url_hinhanh1,
+            HINHANH1: url_hinhanh2,
+          }
           await productsApi.add(product);
           resetState()
           setIsSuccess(true)
@@ -169,7 +247,7 @@ function Createbar() {
         }, 3000);
       }
     }
-     
+
     return (
       <> 
         <div className='create-bar'>
@@ -241,9 +319,6 @@ function Createbar() {
                     onChange={(e) => {setGia(e.target.value)}}
                     name="numberformat"
                     id="formatted-numberformat-input"
-                    // InputProps={{
-                    //   inputComponent: NumberFormatCustom,
-                    // }}
                   />
                   
                   <TextField
@@ -267,29 +342,6 @@ function Createbar() {
                     onChange={(e) => {setSoLuong(e.target.value)}} 
                     name="numberformat"
                     id="formatted-numberformat-input"
-                    // InputProps={{
-                    //   inputComponent: NumberFormatCustom,
-                    // }}
-                  />
-                  <TextField
-                    required 
-                    className={classes.Input}
-                    id="outlined-basic"
-                    size='small'
-                    label="Hình Ảnh 1"
-                    variant="outlined"
-                    value={hinhanh1} name="hinhanh1" 
-                    onChange={(e) => {SetHinhAnh1(e.target.value)}}
-                  />
-                  <TextField
-                    required 
-                    className={classes.Input}
-                    id="outlined-basic"
-                    size='small'
-                    label="Hình Ảnh 2"
-                    variant="outlined"
-                    value={hinhanh} name="hinhanh" 
-                    onChange={(e) => {SetHinhAnh(e.target.value)}}
                   />
                   <TextField
                     required 
@@ -303,7 +355,23 @@ function Createbar() {
                     value={mota}
                     onChange={(e) => {setMoTa(e.target.value)}}
                   />
-                
+
+                  <div className={classes.inputImg}>
+                    <label className={classes.label}>Hình Ảnh 1</label>
+                    <TextField
+                    type="file"
+                    onChange={handle_set_image_1}
+                    className={classes.Input}
+                    />
+                  </div>
+                  <div className={classes.inputImg}>
+                    <label className={classes.label}>Hình Ảnh 2</label>
+                    <TextField
+                    type="file"
+                    onChange={handle_set_image_2}
+                    className={classes.Input}
+                    />
+                  </div>
                 </form>
 
                 {

@@ -16,8 +16,6 @@ import './Payment.scss'
 
 import { useHistory } from 'react-router';
 
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
@@ -35,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function Payment() {
-
     const history = useHistory();
     const classes = useStyles();
     const [value, setValue] = React.useState('female');
@@ -51,28 +48,27 @@ function Payment() {
 
     const acc = localStorage.getItem('account')
     useEffect( async() => {
-            try {
-                const respone = await accountApi.getUser(acc);
-                console.log(respone)
-                setInfoUser(respone);
-                setFlag(!flag)
-                setName(respone.HOTEN)
-                setMail(respone.MAIL)
-                setPhoneNumber(respone.SDT)
-                setAddress(respone.DIACHI)
-            } catch (error) {
-                console.log(error.message)
-            }
-            
+        try {
+            const respone = await accountApi.getUser(acc)
+            setInfoUser(respone)
+            setFlag(!flag)
+            setName(respone.HOTEN)
+            setMail(respone.MAIL)
+            setPhoneNumber(respone.SDT)
+            setAddress(respone.DIACHI)
+        } catch (error) {
+            console.log(error.message)
+        }
     }, [])
+
     useEffect(() => {
       const fetchListCart = async () => {
-          try {
-              const respone = await cartApi.getCartUser(infoUser.MAKH);
-              setListCartRender(respone)
-          } catch (error) {
-                  console.log(error.message);
-          }
+        try {
+          const respone = await cartApi.getCartUser(infoUser.MAKH)
+          setListCartRender(respone)
+        } catch (error) {
+          console.log(error.message)
+        }
       }
       fetchListCart()
     },[flag])
@@ -94,22 +90,19 @@ function Payment() {
             SDT: phoneNumber,
             MAIL: mail 
         }
-
         try {
             await cartApi.order(data)
             setIsOrderSuccess(true)
             history.push("/home/dat-hang-thanh-cong");
         } catch (error) {
             setIsOrderSuccess(false)
-            console.log(error.message)
         }
-        
-
     }
 
     const handleChange = (event) => {
         setValue(event.target.value);
-      };
+    };
+
     return (
         <div className="payment">
         <div class="container mt-5">
@@ -141,13 +134,11 @@ function Payment() {
                             <a href="login.html"> Đăng nhập</a>
                         </p>
                     </div>
-                    
                     <div class="content_info">
                     
                     <ValidatorForm className={classes.root}
                     onSubmit={(e) => handleSubmit(e)}
                     >
-
                         <TextField
                             className={classes.TextField}
                             id="outlined-basic"
@@ -158,7 +149,6 @@ function Payment() {
                             onChange={(e) => {setName(e.target.value)}}
                             value={name}
                         />
-
                         <TextField
                             className={classes.TextField}
                             id="outlined-basic"
@@ -190,9 +180,6 @@ function Payment() {
                             onChange={(e) => {setAddress(e.target.value)}}
                             value={address}
                         />
-
-                       
-
                         <FormLabel className="title-box" component="legend">Chọn Phương Thức Nhận Hàng</FormLabel>
                                     <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
                                         <FormControlLabel value="atHome" control={<Radio />} label="Giao hàng tận nơi" />
@@ -208,11 +195,8 @@ function Payment() {
                         </Button>
                         </div>
                     </ValidatorForm>
-                       
-                            </div>
-                               
-                            </div>
-
+                    </div>
+                </div>
             </div>
 
             <div class="col-sm-6 pay_cart_right">
