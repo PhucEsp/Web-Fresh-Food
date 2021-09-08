@@ -60,7 +60,15 @@ const accountApi = {
     updateKH: (id,data) => {
         const url = `khachhang/${id}`
         return axiosClient.put(url,data)
-    }
+    },
+    createAccountKH: (data) => {
+        const url = `taikhoan/khachhang`
+        return axiosClient.post(url,data)
+    },
+    verifyAccountKH: (data) => {
+        const url = `taikhoan/xacthuc`
+        return axiosClient.post(url,data)
+    }, 
 }
 
 export default accountApi;

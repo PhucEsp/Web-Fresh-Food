@@ -4,18 +4,21 @@ import Header from '../Header/Header'
 import SendGmail from '../SendGmail/SendGmail'
 import { Link, Redirect } from 'react-router-dom'
 import './Register.scss'
+import ModelVerify from './ModelVerify'
 
 // meterial UI
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Tooltip from '@material-ui/core/Tooltip';
-import { Alert } from '@material-ui/lab';
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 import { ValidatorForm} from 'react-material-ui-form-validator';
 import accountApi from '../../../api/AccountApi'
-import axios from 'axios'
 import { Zoom } from '@material-ui/core'
+import axios from 'axios'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,6 +41,10 @@ function Register() {
     const [Success,setSuccess] = useState('');
     const [listAccount, setListAccount] = useState(null);
     const [flag,setFlag] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const [userCreate, setUserCreate] = useState(null)
+
+    const [OpenModel, setOpenModel] = useState(false)
 
     useEffect(() => {
         const fetchListAccount = async () => {
@@ -62,7 +69,6 @@ function Register() {
 
     function ValidationPass(e){
         e.preventDefault();
-        let check = false;
         let txt = /[ ]/;
         if (password.trim() === '' || txt.test(password) || password.trim("").length < 6) {
             return false;
@@ -87,6 +93,10 @@ function Register() {
         setPhoneNumber('');
         setAdress('');
         setSuccess('')
+    }
+
+    const handleCloseModel = () => {
+        setOpenModel(false)
     }
 
     const handleSubmit = (e) => {
@@ -114,27 +124,32 @@ function Register() {
         }
 
         else {
-            const UserAccount = {
+            const account = {
+                TAIKHOAN: username,
+                MATKHAU : password,
+                MAIL: email,
+            }
+            const userInfo = {
+                TAIKHOAN: username,
                 HOTEN: name,
                 SDT: phoneNumber,
                 MAIL: email,
                 DIACHI: address,
-                TAIKHOAN: username,
-                MATKHAU : password
             }
            try {
-                const url = 'http://localhost:8081/taikhoan/khachhang';
-                axios.post(url,UserAccount)
-                .then(res => {
-                    // setSuccess("Tạo Tài Khoảng Thành Công")
-                    alert("Tạo Tài Khoản Thành Công")
-                })
+                setLoading(true)
+                const respone = accountApi.createAccountKH(account)
+                setUserCreate(userInfo)
+                setLoading(false)
+                setFlag(!flag)
            } catch (error) {
             // setSuccess("Hệ thống gặp vấn đề. Tạo Tài Khoản thất bại. Vui lòng thử lại")
             alert("Hệ thống gặp vấn đề. Tạo Tài Khoản thất bại. Vui lòng thử lại")
+            setFlag(!flag)
            }   
            setDefaultInput();
         }
+        setOpenModel(true)
     }
 
     if(localStorage.getItem('account') != null){
@@ -229,6 +244,13 @@ function Register() {
                         value={address}
                     />
                     <div>
+                    {
+                        loading && (
+                            <div>
+                                <CircularProgress />
+                            </div>
+                        )
+                    }
                     <Button variant="contained" color="primary" type='submit'>
                         Đăng Kí
                     </Button>
@@ -236,7 +258,11 @@ function Register() {
                 </ValidatorForm>
            </div>
            <p>Quay lại <Link to='/home/dang-nhap'>Đăng nhập </Link></p>
-                
+            <ModelVerify
+            isOpenModel={OpenModel}
+            handleCloseModel={handleCloseModel}
+            data = {userCreate}
+            />
            <SendGmail></SendGmail>
            <Footer></Footer>
        </div>

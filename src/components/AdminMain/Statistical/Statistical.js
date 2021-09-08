@@ -23,7 +23,7 @@ export default class Statistical extends React.PureComponent {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8081/thongkedoanhthu/2021")
+    fetch("http://localhost:8081/thongkedoanhthu")
       .then(res => res.json())
       .then(
         (result) => {
@@ -46,7 +46,6 @@ export default class Statistical extends React.PureComponent {
     }
     
     const { data: chartData } = this.state;
-    console.log(`chartData`, chartData)
     return (
       <>
         <Paper>
@@ -63,8 +62,7 @@ export default class Statistical extends React.PureComponent {
             <EventTracker />
             <Tooltip />
           </Chart>
-      </Paper>
-
+        </Paper>
       </>
     );
   }

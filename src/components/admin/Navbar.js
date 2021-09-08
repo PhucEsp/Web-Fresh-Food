@@ -31,7 +31,7 @@ const Navbar = () => {
             <Link to="/admin/statistical" class="nav-link" 
             id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" 
             role="tab" aria-controls="v-pills-messages" aria-selected="false"
-            >Báo Cáo</Link>
+            >Thống Kê Doanh Thu</Link>
           </div>
         
       </div>

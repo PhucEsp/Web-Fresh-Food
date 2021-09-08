@@ -10,6 +10,7 @@ import NumberFormat from 'react-number-format';
 import { Button } from '@material-ui/core';
 
 import ModelDetailOrder from './modelDetailOrder';
+import ModelChangePassword from './modelChangePassword';
 
 function Persional() {
 
@@ -19,8 +20,8 @@ function Persional() {
     const [flag,setFlag] = useState(false)
     const [listDetailOrder, setListDetailOrder] = useState([])
     const acc = localStorage.getItem('account')
-
     const [openModel, setOpenModel] = useState(false)
+    const [openChangePassword, setOpenChangePassword] = useState(false)
     
     useEffect( async() => {
             try {
@@ -101,13 +102,17 @@ function Persional() {
             return  <td>Đã Hủy</td>
     }
 
-    const handleOpenModel = () => {
-        
-    };
-
     const handleCloseModel = () => {
       setOpenModel(false);
     };
+
+    const handleOpenModelChangePassword = () => {
+        setOpenChangePassword(true)
+    }
+
+    const handlecloseModelChangePassword = () => {
+        setOpenChangePassword(false)
+    }
 
     return (
 
@@ -130,6 +135,7 @@ function Persional() {
                                 <h3>Tài khoản</h3>
                                 <ul class="danh_muc_content mt-4">
                                     <li><a href="/home/chinhsua/taikhoan">Chỉnh Sửa Thông Tin</a></li>
+                                    <li><a onClick={handleOpenModelChangePassword} href="#">Đổi mật khẩu</a></li>
                                     <li ><a onClick={handleLogout} href="/home/dang-nhap">Đăng Xuất</a></li>
                                 </ul>
                             </div>
@@ -246,6 +252,10 @@ function Persional() {
                 openModel={openModel}
                 listDetailOrder={listDetailOrder}
             /> 
+            <ModelChangePassword
+                open={openChangePassword}
+                handleClose={handlecloseModelChangePassword}
+            />
         </div>
        
     )

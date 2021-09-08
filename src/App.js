@@ -26,6 +26,7 @@ import Payment from './components/User/Payment/Payment';
 import Persional from './components/User/Personal/Persional';
 import OrderSuccess from './components/User/OrderSuccess/OrderSuccess';
 import EditInfoPersonal from './components/User/EditInfoPersonal/EditInfoPersonal';
+import Paypal from './components/User/Paypal/Paypal';
 
 function App() {  
   return (
@@ -84,6 +85,7 @@ function App() {
           <Route exact path ='/home/tai-khoan' component={Persional}></Route>
           <Route exact path ='/home/dat-hang-thanh-cong' component={OrderSuccess}></Route>
           <Route exact path ='/home/chinhsua/taikhoan' component={EditInfoPersonal}></Route>
+          {/* <Route exact path ='/home/thanh-toan/paypal' component={Paypal}></Route> */}
           <Route exact path="*">
           </Route>
         </Switch>

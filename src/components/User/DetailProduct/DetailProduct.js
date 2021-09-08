@@ -200,6 +200,9 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             history.push("/home/dang-nhap")
             return;
         }
+        else if (quanty > product.SOLUONG){
+            alert("Số lượng đặt quá số lượng sản phẩm còn lại trong cửa hàng")
+        }
         else {
             const data = {
                 MASP : product.ID,
@@ -351,6 +354,7 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
                         <div className="content-body">
                             <span className="id-product">ID: {product.ID}</span>
                             <span>{product.DONVITINH} <i class="fas fa-check-circle"></i></span>
+                            <span>Còn lại ({product.SOLUONG}) <i class="fas fa-check-circle"></i></span>
                             <h5>Giá: <NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ  '} /></h5>
                             <div className="choise">
                                 <div className="cre-number">
@@ -496,7 +500,6 @@ function DetailProduct({match: {params: {ID}},productsData, fetchProducts}) {
             </form>
 
             {/* danh sách các bình luận */}
-
             <div className="container">
             <List className={classes.list}>
                 { 

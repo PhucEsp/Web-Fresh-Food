@@ -39,8 +39,9 @@ const useStyles = makeStyles((theme) => ({
   },
   absolute: {
     position: 'absolute',
-    right: 0 ,
-    top: 0 ,
+    right:30,
+    top: 118,
+    zIndex:10
   },
   
 }));
@@ -78,7 +79,6 @@ NumberFormatCustom.propTypes = {
 ///////////////////////////////////////////////////////
 
 function CreatebarUser({ChangeFlag}) {
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -205,12 +205,15 @@ function CreatebarUser({ChangeFlag}) {
      
     return (
       <> 
-        <div className='create-bar'>
-                <Button variant="contained"
-                onClick={handleClickOpen}
-                >
-                Thêm Mới
-                </Button>
+        <div className={classes.relative}>
+          <div className='create-bar'>
+            <Button className={classes.absolute}
+            variant="contained"
+            onClick={handleClickOpen}
+            >
+            Thêm Mới
+            </Button>
+          </div>
         </div>
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
           <AppBar className={classes.appBar}>

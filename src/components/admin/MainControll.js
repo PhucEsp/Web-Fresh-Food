@@ -7,7 +7,8 @@ import Createbar from './CreateBar/Createbar';
 import CreatebarUser from './CreateBar/CreateBarUser';
 import UserManagement from '../AdminMain/UserPage/UserManagement';
 import OrderManagement from '../AdminMain/OrderPage/OrderManagement';
-import Statistical from '../AdminMain/Statistical/Statistical';
+// import Statistical from '../AdminMain/Statistical/Statistical';
+import RevenueStatistical from '../AdminMain/Statistical/RevenueStatistical';
 // import Statistical from '../User/Statistical/Statistical';
 
 
@@ -46,7 +47,8 @@ function MainControll() {
                         <Route exact path="/admin/statistical">
                             <div>
                                 {/* <Statistical></Statistical> */}
-                                <Statistical></Statistical>
+                                {/* <Statistical></Statistical> */}
+                                <RevenueStatistical></RevenueStatistical>
                             </div>
                         </Route>
                     </Switch>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import NumberFormat from 'react-number-format';
 
@@ -16,6 +16,13 @@ import { Button, ListItemIcon, MenuItem } from '@material-ui/core';
 import ListIcon from '@material-ui/icons/List';
 import Moment from 'react-moment';
 
+// search bar
+import InputBase from "@material-ui/core/InputBase";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+
   
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +32,30 @@ import Moment from 'react-moment';
     },
     table: {
         minWidth: 700
-      }
+    },
+    container: {
+      maxHeight: '70vh',
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1
+    },
+    iconButton: {
+        padding: 10
+    },
+    divider: {
+        height: 28,
+        margin: 4
+    },
+    searchBar: {
+        padding: "2px 4px",
+        display: "flex",
+        alignItems: "center",
+        width: 400,
+        marginBottom: 20,
+        border: "1px solid #999",
+        width: 500
+    },
 }));
 
 // table 
@@ -59,9 +89,44 @@ const StyledTableCell = withStyles((theme) => ({
 
 function TableOrder({columns,rows,handleDetail,handleUpdate}) {
     const classes = useStyles();
+    const [listOrder, setListOrdet] = useState(rows)
+
+    useEffect(() => {
+      setListOrdet(rows)
+    }, [rows])
+
+    const handleChange = (e) => {
+      if(e.target.value.trim() === ""){
+        setListOrdet(rows)
+      }
+      const newlistSearch = rows.filter(order => {
+          return  order.ID.toString().includes(e.target.value.toLocaleLowerCase().trim());
+      })
+      setListOrdet(newlistSearch)
+    }
+    console.log(`listOrder`, listOrder)
     return (
         <div>
-            <TableContainer component={Paper}>
+            <Paper component="form" className={classes.searchBar}>
+              <IconButton className={classes.iconButton} aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+              <InputBase
+                className={classes.input}
+                placeholder="Tìm kiếm theo ID đơn hàng"
+                inputProps={{ "aria-label": "Search" }}
+                onChange={handleChange}
+              />
+              <IconButton
+                // type="submit"
+                className={classes.iconButton}
+                aria-label="search"
+              >
+                <SearchIcon />
+              </IconButton>
+              <Divider className={classes.divider} orientation="vertical" />
+            </Paper>
+            <TableContainer className={classes.container} component={Paper}>
                         <Table className={classes.table} aria-label="customized table">
                             <TableHead>
                             <TableRow>
@@ -77,7 +142,7 @@ function TableOrder({columns,rows,handleDetail,handleUpdate}) {
                             </TableRow>
                             </TableHead>
                             <TableBody>
-                            {rows.map((row) => (
+                            {listOrder.map((row) => (
                                 <StyledTableRow key={row.ID}>
                                 
                                 <StyledTableCell component="th" scope="row">

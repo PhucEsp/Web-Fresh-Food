@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import NumberFormat from 'react-number-format';
+import { useHistory } from "react-router-dom";
+
 import './CartDetail.scss'
 
 import accountApi from '../../../api/AccountApi'
@@ -10,7 +12,7 @@ import SendGmail from '../SendGmail/SendGmail'
 
 
 function CartDetail() {
-
+    const history = useHistory()
     const [listCartRender, setListCartRender] = useState([]);
     const [infoUser, setInfoUser] = useState({})
     const [flag,setFlag] = useState(false)
@@ -51,18 +53,36 @@ function CartDetail() {
     }
 
     const handleUpdateQuanty = async (e,val) => {
-        try {
-            const data = {
-                MASP: val.MASP,
-                MAKH: val.MAKH,
-                SOLUONG: e.target.value
+        if(e.target.value !== ""){
+            try {
+                const data = {
+                    MASP: val.MASP,
+                    MAKH: val.MAKH,
+                    SOLUONG: e.target.value
+                }
+                await cartApi.update(val.ID,data)
+                
+            } catch (error) {
+                alert('Hệ thống lỗi !!! Vui lòng thử lại')
             }
-            await cartApi.update(val.ID,data)
-            
-        } catch (error) {
-            alert('Hệ thống lỗi !!! Vui lòng thử lại')
+            await setFlag(!flag)
         }
-        await setFlag(!flag)
+    }
+
+    // /home/thanh-toan
+    const onClickPayment = (e) => {
+        e.preventDefault()
+        let check = true;
+        console.log(`listCartRender`, listCartRender)
+        listCartRender.forEach(element => {
+            if(element.SOLUONG > element.TONG){
+                check = false
+            }
+        });
+        if(check){
+            history.push('/home/thanh-toan')
+        }
+        else alert("Số lượng đặt quá số lượng sản phẩm còn lại trong cửa hàng")
     }
 
     return (
@@ -94,7 +114,7 @@ function CartDetail() {
                                         <div class="item">
                                             <div class="info_item">
                                                 <h3>{val.TENSP}</h3>
-                                                <span class="variant_title">Trái</span>
+                                                <span class="variant_title">{val.DONVITINH} - Còn lại ({val.TONG})</span>
                                                 <div class="quantity-area">
                                                     <input type="number" name="quantity" min="1" defaultValue={val.SOLUONG} onChange={(e)=>handleUpdateQuanty(e,val)} />
                                                 </div>
@@ -147,7 +167,7 @@ function CartDetail() {
                                 Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.
                             </p>
                             <div class="order_action">
-                                <a href="/home/thanh-toan" >THANH TOÁN</a>
+                                <a href="#" onClick={onClickPayment} >THANH TOÁN</a>
                             </div>
                             <a className="countine_order" href="/home" >
                                 <i class="fa fa-reply"></i>

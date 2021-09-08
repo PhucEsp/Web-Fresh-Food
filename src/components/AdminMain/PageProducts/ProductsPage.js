@@ -12,22 +12,21 @@ import Box from "@material-ui/core/Box";
 
 // dialog UI
 import Dialog from "@material-ui/core/Dialog";
-import TextField from "@material-ui/core/TextField";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
+
 
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import { InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import Select from "@material-ui/core/Select";
 import { columnsFruit } from '../../../common/ColumnType';
 import { Button, DialogContentText, Slide } from '@material-ui/core';
 import TableProducts from '../../admin/Table/TableProducts';
 import productsApi from '../../../api/ProductsApi';
 import { useHistory } from 'react-router';
+import { storage } from '../../../firebase';
 
   function TabPanel(props) {
       const { children, value, index, ...other } = props;
@@ -79,6 +78,26 @@ import { useHistory } from 'react-router';
       flex: 1,
       color: "white",
     },
+    images: {
+      display: 'flex',
+      justifyContent: "space-between"
+    },
+    img: {
+      width: "100%",
+      height: "100%"
+    },
+    wrapImg: {
+      width: 150,
+      height: 150,
+      overflow: "hidden"
+    },
+    wrapInput: {
+      display: 'flex',
+      justifyContent: "space-between",
+    },
+    inputBase: {
+      marginLeft: theme.spacing(1),
+    }
   }));
 
 // table 
@@ -150,7 +169,6 @@ function ProductsPage() {
   // define column table
   const columnFruit = columnsFruit;
 
-
   // define state
     const [value, setValue] = React.useState(0);
     const [flag, setFlag] = useState(false);
@@ -160,38 +178,43 @@ function ProductsPage() {
     const [listHealthy, setListHealthy] = useState([])
   
      // set thong tin san pham -> edit 
-     const [id, setID] = useState('');
-     const [tensp, setTenSp] = useState('');
-     const [loaisp, setLoaiSp] = useState('');
-     const [gia, setGia] = useState(0);
-     const [donvitinh, setDonViTinh] = useState('');
-     const [soluong, setSoLuong] = useState(0);
-     const [mota, setMoTa] = useState('');
-     const [hinhanh,SetHinhAnh] = useState('');
-     const [hinhanh1,SetHinhAnh1] = useState('');
+    const [id, setID] = useState('');
+    const [tensp, setTenSp] = useState('');
+    const [loaisp, setLoaiSp] = useState('');
+    const [gia, setGia] = useState(0);
+    const [donvitinh, setDonViTinh] = useState('');
+    const [soluong, setSoLuong] = useState(0);
+    const [mota, setMoTa] = useState('');
 
-     const history = useHistory()
+    const [hinhanh2,SetHinhAnh2] = useState('');
+    const [hinhanh1,SetHinhAnh1] = useState('');
+  
+    const [url_image1,SetUrlImage1] = useState('');
+    const [url_image2,SetUrlImage2] = useState('');
+
+    const [test,setTest] = useState(null)
+
+    const history = useHistory()
     // state hỗ trợ
     const [open, setOpen] = React.useState(false);
 
     useEffect(() => {
       const fetchListFruit = async () => {
           try {
-               const responds = await productsApi.getAll();
-               setListFruit(responds.filter(val => val.MADM == 1));
-               setListVegetable(responds.filter(val => val.MADM == 2));
-               setListMushRoom(responds.filter(val => val.MADM == 3));
-               setListHealthy(responds.filter(val => val.MADM == 4));
-              
+              const responds = await productsApi.getAll();
+              setListFruit(responds.filter(val => val.MADM == 1));
+              setListVegetable(responds.filter(val => val.MADM == 2));
+              setListMushRoom(responds.filter(val => val.MADM == 3));
+              setListHealthy(responds.filter(val => val.MADM == 4));
           } catch (error) {
               console.log(error.message)
           }
       }
       fetchListFruit();
-   },[flag])
+    },[flag])
 
   const checkValidateEdit = () => {
-    if(tensp === '' || loaisp ==='' || gia <= 0 || donvitinh ==='' || soluong <= 0 || mota ==='' || hinhanh ==='' || hinhanh1 ==='' || mota ==='' ) {
+    if(tensp === '' || loaisp ==='' || gia <= 0 || donvitinh ==='' || soluong <= 0 || mota ==='' || url_image1 ==='' || url_image2 ==='' || mota ==='' ) {
       return false
     }
     else return true
@@ -202,6 +225,7 @@ function ProductsPage() {
         setValue(newValue);
         setFlag(!flag)
     };
+
     const handleEdit = (product) => {
         setOpen(true);
         setID(product.ID)
@@ -211,8 +235,10 @@ function ProductsPage() {
         setDonViTinh(product.DONVITINH)
         setSoLuong(product.SOLUONG)
         setMoTa(product.MOTA)
-        SetHinhAnh(product.HINHANH);
         SetHinhAnh1(product.HINHANH1);
+        SetHinhAnh2(product.HINHANH);
+        SetUrlImage1(product.HINHANH1)
+        SetUrlImage2(product.HINHANH)
     }
 
     const handleDelete = (id) => {
@@ -229,7 +255,6 @@ function ProductsPage() {
       }
     }
 
-
     const handleSubmit = async (e) => {
       e.preventDefault();
       const product = {
@@ -240,8 +265,8 @@ function ProductsPage() {
           DONVITINH: donvitinh,
           SOLUONG: soluong,
           MOTA: mota,
-          HINHANH: hinhanh,
-          HINHANH1: hinhanh1,
+          HINHANH1: url_image1,
+          HINHANH: url_image2,
       }
       if(checkValidateEdit() === true) {
         try {
@@ -261,6 +286,64 @@ function ProductsPage() {
     const handleClose = () => {
       setOpen(false)
     };
+
+    const handleChangeImage1 = (e) => {
+      const file = e.target.files[0]
+      if(file !== ''){
+        const uploadTask = storage.ref(`images/${file.name}`).put(file);
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+          },
+          error => {
+            console.log(error);
+            alert(error)
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(file.name)
+              .getDownloadURL()
+              .then(url => {
+                SetUrlImage1(url) 
+              });
+          }
+        );
+      }
+    }
+
+    const handleChangeImage2 = (e) => {
+      const file= e.target.files[0]
+      console.log(`value`, value)
+      if(file !== ''){
+        const uploadTask = storage.ref(`images/${file.name}`).put(file);
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+          },
+          error => {
+            console.log(error);
+            alert(error)
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(file.name)
+              .getDownloadURL()
+              .then(url => {
+                SetUrlImage2(url) 
+                console.log(`url_image2`, url_image2)
+              });
+          }
+        );
+      }
+    }
 
     // check authentication
     if(localStorage.getItem("token") == null) {
@@ -340,41 +423,109 @@ function ProductsPage() {
                     value={tensp}
                     onChange={(e) => {setTenSp(e.target.value)}}
                   />
-                  <TextField
+                  <div className={classes.wrapInput}>
+                    <TextField
+                      className={classes.Input}
+                      required 
+                      variant='outlined'
+                      label="Giá"
+                      value={gia}
+                      onChange={(e) => {setGia(e.target.value)
+                        console.log(`gia`, gia)
+                      }}
+                      name="numberformat"
+                      id="formatted-numberformat-input"
+                      InputProps={{
+                        inputComponent: NumberFormatCustom,
+                      }}
+                    />
+                    {/* <TextField
+                      required 
+                      className={classes.inputBase}
+                      id="outlined-basic"
+                      label="Đơn vị sản phẩm"
+                      variant="outlined"
+                      value={donvitinh} name="loaidonvi" 
+                      onChange={(e) => {setDonViTinh(e.target.value)}}
+                    /> */}
+                    
+                    <TextField
+                      className={classes.inputBase}
+                      required 
+                      variant='outlined'
+                      label="Số Lượng"
+                      value={soluong}
+                      onChange={(e) => {setSoLuong(e.target.value)}} 
+                      name="numberformat"
+                      id="formatted-numberformat-input"
+                      InputProps={{
+                        inputComponent: NumberFormatCustom,
+                      }}
+                    />  
+                  </div>
+                  <InputLabel id="demo-controlled-open-select-label">Đơn vị sản phẩm</InputLabel>
+                  <Select
                     required 
                     variant='outlined'
-                    label="Giá"
-                    value={gia}
-                    onChange={(e) => {setGia(e.target.value)}}
-                    name="numberformat"
-                    id="formatted-numberformat-input"
-                    InputProps={{
-                      inputComponent: NumberFormatCustom,
+                    className={classes.inputBase}
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={donvitinh}
+                    onChange={(e) => {setDonViTinh(e.target.value)
                     }}
-                  />
+                    label="Đơn vị sản phẩm"
+                    size='small'
+                  >
+                    <MenuItem value="">
+                      <em>none</em>
+                    </MenuItem>
+                    <MenuItem value="1Kg">
+                      <em>1Kg</em>
+                    </MenuItem>
+                    <MenuItem value="Chai">
+                      <em>Chai</em>
+                    </MenuItem>
+                  </Select>
                   
                   <TextField
                     required 
-                    className={classes.Input}
+                    className={classes.inputBase}
                     id="outlined-basic"
-                    label="Đơn Vị Tính"
+                    label="Mô Tả"
                     variant="outlined"
-                    value={donvitinh} name="donvitinh" 
-                    onChange={(e) => {setDonViTinh(e.target.value)}}
+                    multiline
+                    rows={7}
+                    value={mota}
+                    onChange={(e) => {setMoTa(e.target.value)}}
                   />
-                  <TextField
-                    required 
-                    variant='outlined'
-                    label="Số Lượng"
-                    value={soluong}
-                    onChange={(e) => {setSoLuong(e.target.value)}} 
-                    name="numberformat"
-                    id="formatted-numberformat-input"
-                    InputProps={{
-                      inputComponent: NumberFormatCustom,
-                    }}
-                  />
-                  <TextField
+
+                  <div className={classes.images}>
+                    <div>
+                      <div className={classes.wrapImg}>
+                        <img className={classes.img} src={url_image1}></img>
+                      </div>
+                      <input
+                        className={classes.Input}
+                        id="outlined-basic"
+                        type="file"
+                        onChange={handleChangeImage1}
+                      />
+                    </div>
+                    
+                    <div>
+                      <div className={classes.wrapImg}>
+                        <img className={classes.img} src={url_image2}></img>
+                      </div>
+                      <input
+                        className={classes.Input}
+                        id="outlined-basic"
+                        type="file"
+                        onChange={handleChangeImage2}
+                      />
+                    </div>
+                    
+                  </div>
+                  {/* <TextField
                     required 
                     className={classes.Input}
                     id="outlined-basic"
@@ -389,21 +540,9 @@ function ProductsPage() {
                     id="outlined-basic"
                     label="Hình Ảnh 2"
                     variant="outlined"
-                    value={hinhanh} name="hinhanh" 
-                    onChange={(e) => {SetHinhAnh(e.target.value)}}
-                  />
-                  <TextField
-                    required 
-                    className={classes.Input}
-                    id="outlined-basic"
-                    label="Mô Tả"
-                    variant="outlined"
-                    multiline
-                    rows={5}
-                    value={mota}
-                    onChange={(e) => {setMoTa(e.target.value)}}
-                  />
-                
+                    value={hinhanh2} name="hinhanh" 
+                    onChange={(e) => {SetHinhAnh2(e.target.value)}}
+                  /> */}
                 </form>
                 </div>
               </div>

@@ -29,6 +29,9 @@ function ModalProduct({product, handleChange, changeFlag}) {
     if(account == null) {
       history.push("/home/dang-nhap")
     }
+    if(product.SOLUONG > product.TONGSOLUONG){
+      alert("Số lượng đặt quá số lượng sản phẩm còn lại trong cửa hàng")
+    }
     else {
       const data = {
         MASP : product.ID,
@@ -59,6 +62,7 @@ function ModalProduct({product, handleChange, changeFlag}) {
                 {/* <br></br> */}
                 <div className="modal-body">
                   <span className="id-product">ID: {product.ID}</span>
+                  <span className="id-product">( Còn lại: {product.TONGSOLUONG} )</span>
                   <span>{product.DONVITINH}</span>
                   <h5 className='price'>Giá: <NumberFormat value={product.GIA} displayType={'text'} thousandSeparator={true} prefix={'vnđ '} /></h5>
                   <p>Tiêu Đề: <span> {product.MOTA}</span> </p>

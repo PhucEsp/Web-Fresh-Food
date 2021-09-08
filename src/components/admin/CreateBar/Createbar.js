@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import { Input, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import productsApi from '../../../api/ProductsApi';
 
@@ -35,20 +35,46 @@ const useStyles = makeStyles((theme) => ({
     // marginTop: theme.spacing(1),
     marginBottom: theme.spacing(2),
   },
-  relative: {
-    position: 'relative',
-  },
-  absolute: {
-    position: 'absolute',
-    right: 0 ,
-    top: 0 ,
-  },
   label: {
     margin: "0px 20px 0px 0px"
   },
   inputImg: {
     margin: "10px 0px"
-  }
+  },
+  relative: {
+    position: 'relative',
+  },
+  absolute: {
+    position: 'absolute',
+    right:30,
+    top: 118,
+    zIndex:10
+  },
+  wrapInput: {
+    display: 'flex',
+    justifyContent: "space-between",
+  },
+  inputBase: {
+    marginLeft: theme.spacing(1),
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+    color: "white",
+  },
+  images: {
+    display: 'flex',
+    justifyContent: "space-between"
+  },
+  img: {
+    width: "100%",
+    height: "100%"
+  },
+  wrapImg: {
+    width: 150,
+    height: 150,
+    overflow: "hidden"
+  },
   
 }));
 
@@ -90,16 +116,12 @@ function Createbar() {
   const [open, setOpen] = React.useState(false);
 
     // set thong tin san pham -> edit 
-    const [id, setID] = useState('');
     const [tensp, setTenSp] = useState('');
     const [loaisp, setLoaiSp] = useState('');
     const [gia, setGia] = useState(0);
     const [donvitinh, setDonViTinh] = useState('');
     const [soluong, setSoLuong] = useState(0);
     const [mota, setMoTa] = useState('');
-    const [hinhanh2,SetHinhAnh2] = useState("");
-    const [hinhanh1,SetHinhAnh1] = useState("");
-
     const [url_hinhanh1,SetUrlHinhAnh1] = useState('');
     const [url_hinhanh2,SetUrlHinhAnh2] = useState('');
   
@@ -120,7 +142,7 @@ function Createbar() {
     }, [])
    
      const checkValidateEdit = () => {
-      if(tensp === '' || loaisp ==='' || gia <= 0 || donvitinh ==='' || soluong <= 0 || mota ==='' ||  mota ==='' || hinhanh1 === '' || hinhanh2 === '' ) {
+      if(tensp === '' || loaisp ==='' || gia <= 0 || donvitinh ==='' || soluong <= 0 || mota ==='' ||  mota ==='' || url_hinhanh1 === '' || url_hinhanh2 === '' ) {
         return false
       }
       else return true
@@ -134,8 +156,6 @@ function Createbar() {
       setSoLuong(0)
       setLoaiSp('')
       setMoTa('')
-      SetHinhAnh2("")
-      SetHinhAnh1("")
       SetUrlHinhAnh1("")
       SetUrlHinhAnh2("")
     }
@@ -149,21 +169,12 @@ function Createbar() {
       resetState()
     };
 
-    const handle_set_image_1 = (e) => {
-      if (e.target.files[0]) {
-        SetHinhAnh1(e.target.files[0]);
-      }
-    }
+    // ===========================
 
-    const handle_set_image_2 = (e) => {
-      if (e.target.files[0]) {
-        SetHinhAnh2(e.target.files[0]);
-      }
-    }
-
-    const handle_save_image_1 = async () => {
-      if(hinhanh1 != '') {
-        const uploadTask = storage.ref(`images/${hinhanh1.name}`).put(hinhanh1);
+    const handleChangeImage1 = (e) => {
+      const file = e.target.files[0]
+      if(file !== ''){
+        const uploadTask = storage.ref(`images/${file.name}`).put(file);
         uploadTask.on(
           "state_changed",
           snapshot => {
@@ -173,11 +184,12 @@ function Createbar() {
           },
           error => {
             console.log(error);
+            alert(error)
           },
           () => {
             storage
               .ref("images")
-              .child(hinhanh1.name)
+              .child(file.name)
               .getDownloadURL()
               .then(url => {
                 SetUrlHinhAnh1(url) 
@@ -187,24 +199,26 @@ function Createbar() {
       }
     }
 
-    const handle_save_image_2 = async () => {
-      if(hinhanh2 !=  '') {
-        const uploadTask = storage.ref(`images/${hinhanh2.name}`).put(hinhanh2);
+    const handleChangeImage2 = (e) => {
+      const file= e.target.files[0]
+      console.log(`value`, file)
+      if(file !== ''){
+        const uploadTask = storage.ref(`images/${file.name}`).put(file);
         uploadTask.on(
           "state_changed",
           snapshot => {
             const progress = Math.round(
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
             );
-            // setProgress(progress);
           },
           error => {
             console.log(error);
+            alert(error)
           },
           () => {
             storage
               .ref("images")
-              .child(hinhanh2.name)
+              .child(file.name)
               .getDownloadURL()
               .then(url => {
                 SetUrlHinhAnh2(url) 
@@ -215,8 +229,6 @@ function Createbar() {
     }
 
     const handleSubmit = async (e) => {
-      await handle_save_image_1()
-      await handle_save_image_2()
       if(checkValidateEdit() === true)
       {
         try {
@@ -250,12 +262,15 @@ function Createbar() {
 
     return (
       <> 
-        <div className='create-bar'>
-                <Button variant="contained"
-                onClick={handleClickOpen}
-                >
-                Thêm Mới
-                </Button>
+        <div className={classes.relative}>
+          <div className='create-bar'>
+            <Button className={classes.absolute}
+            variant="contained"
+            onClick={handleClickOpen}
+            >
+            Thêm Mới
+            </Button>
+          </div>
         </div>
         <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
           <AppBar className={classes.appBar}>
@@ -287,7 +302,8 @@ function Createbar() {
                     required 
                     onChange={(e) => {setTenSp(e.target.value)}}
                   />
-                  <InputLabel id="demo-simple-select-outlined-label">Loại</InputLabel>
+
+                  <InputLabel id="demo-simple-select-outlined-label">Danh Mục</InputLabel>
                     <Select
                       required 
                       variant='outlined'
@@ -295,7 +311,9 @@ function Createbar() {
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
                       value={loaisp}
-                      onChange={(e) => {setLoaiSp(e.target.value)}}
+                      onChange={(e) => {setLoaiSp(e.target.value) 
+                        console.log(`loaisp`, loaisp)
+                      }}
                       label="Loại"
                       size='small'
                     >
@@ -308,41 +326,68 @@ function Createbar() {
                         ))
                       }
                   </Select>
-                  <TextField
+                  <div className={classes.wrapInput}>
+                    <TextField
+                      required 
+                      variant='outlined'
+                      type='number'
+                      className={classes.imputBase}
+                      label="Giá"
+                      size='small'
+                      value={gia}
+                      onChange={(e) => {setGia(e.target.value)}}
+                      name="numberformat"
+                      id="formatted-numberformat-input"
+                    />
+                    <TextField
+                      required 
+                      variant='outlined'
+                      type='number'
+                      className={classes.inputBase}
+                      label="Số Lượng"
+                      size='small'
+                      value={soluong}
+                      onChange={(e) => {setSoLuong(e.target.value)}} 
+                      name="numberformat"
+                      id="formatted-numberformat-input"
+                    />
+                  </div>
+                  
+                  <InputLabel id="demo-controlled-open-select-label">Đơn vị sản phẩm</InputLabel>
+                  <Select
                     required 
                     variant='outlined'
-                    type='number'
                     className={classes.Input}
-                    label="Giá"
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={donvitinh}
+                    onChange={(e) => {setDonViTinh(e.target.value)
+                    }}
+                    label="Đơn vị sản phẩm"
                     size='small'
-                    value={gia}
-                    onChange={(e) => {setGia(e.target.value)}}
-                    name="numberformat"
-                    id="formatted-numberformat-input"
-                  />
+                  >
+                    <MenuItem value="">
+                      <em>none</em>
+                    </MenuItem>
+                    <MenuItem value="1Kg">
+                      <em>1Kg</em>
+                    </MenuItem>
+                    <MenuItem value="Chai">
+                      <em>Chai</em>
+                    </MenuItem>
+                  </Select>
                   
-                  <TextField
+                  {/* <TextField
                     required 
                     className={classes.Input}
                     id="outlined-basic"
-                    label="Đơn Vị Tính"
+                    label="Loại Đơn Vị"
                     size='small'
                     variant="outlined"
                     value={donvitinh} name="donvitinh" 
                     onChange={(e) => {setDonViTinh(e.target.value)}}
-                  />
-                  <TextField
-                    required 
-                    variant='outlined'
-                    type='number'
-                    className={classes.Input}
-                    label="Số Lượng"
-                    size='small'
-                    value={soluong}
-                    onChange={(e) => {setSoLuong(e.target.value)}} 
-                    name="numberformat"
-                    id="formatted-numberformat-input"
-                  />
+                  /> */}
+                  
                   <TextField
                     required 
                     className={classes.Input}
@@ -356,7 +401,7 @@ function Createbar() {
                     onChange={(e) => {setMoTa(e.target.value)}}
                   />
 
-                  <div className={classes.inputImg}>
+                  {/* <div className={classes.inputImg}>
                     <label className={classes.label}>Hình Ảnh 1</label>
                     <TextField
                     type="file"
@@ -371,6 +416,34 @@ function Createbar() {
                     onChange={handle_set_image_2}
                     className={classes.Input}
                     />
+                  </div> */}
+
+                  <div className={classes.images}>
+                    <div>
+                      <div className={classes.wrapImg}>
+                        <img className={classes.img} src={url_hinhanh1}></img>
+                      </div>
+                      <label className={classes.label}>Hình Ảnh 1</label>
+                      <input
+                        className={classes.Input}
+                        id="outlined-basic"
+                        type="file"
+                        onChange={handleChangeImage1}
+                      />
+                    </div>
+                    
+                    <div>
+                      <div className={classes.wrapImg}>
+                        <img className={classes.img} src={url_hinhanh2}></img>
+                      </div>
+                      <label className={classes.label}>Hình Ảnh 2</label>
+                      <input
+                        className={classes.Input}
+                        id="outlined-basic"
+                        type="file"
+                        onChange={handleChangeImage2}
+                      />
+                    </div>
                   </div>
                 </form>
 
